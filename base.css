@@ -196,8 +196,9 @@ img { max-width: 100%; height: auto; }
 /* -- TRIPLE GRID -- */
 .home-tri {
   display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border);
+  align-items: stretch;
 }
-.tri-col { padding: 52px 40px; border-right: var(--border); }
+.tri-col { padding: 52px 40px; border-right: var(--border); display: flex; flex-direction: column; }
 .tri-col:last-child { border-right: none; }
 .tri-label {
   font-family: var(--font-display); font-size: 11px; letter-spacing: 0.28em;

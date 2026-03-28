@@ -155,10 +155,7 @@
       </a>
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
         <a href="/napalmsunrise-arcade/" class="nav-link">Home</a>
-        <a href="/napalmsunrise-arcade/play/" class="nav-link">Play</a>
-        <a href="/napalmsunrise-arcade/lab/" class="nav-link">Lab</a>
         <a href="/napalmsunrise-arcade/about/" class="nav-link active">About</a>
-        <a href="https://napalmsunrise.com/blogs/lab-notes" class="nav-link" target="_blank">Lab Notes</a>
         <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
       </nav>
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
@@ -184,6 +181,10 @@
             <p>Background in search engine optimization and answer engine optimization, with a particular interest in the places where organic traffic, AI citation, and content strategy collide. The lab runs experiments that most people would call inadvisable. The results speak for themselves, usually in riddles.</p>
             <p>The philosophy is simple: test everything, document the wreckage, share what works. No gatekeeping, no sanitized case studies. Just raw data from the front lines of a search landscape that changes faster than anyone can map it.</p>
             <p>When not running experiments or arguing with an 847-year-old orc about email marketing strategy, you can find the evidence scattered across lab notes, code repositories, and the occasional piece of merch that probably shouldn't exist.</p>
+          </div>
+          <!-- PIXEL ART PORTRAIT -->
+          <div class="gorthog-portrait">
+            <canvas id="atticus-canvas" width="192" height="192"></canvas>
           </div>
           <div class="person-links">
             <a href="https://github.com/ewitsatticus" target="_blank">GitHub</a>
@@ -256,6 +257,58 @@
         [0,0,0,2,7,1,1,1,1,1,1,7,2,0,0,0],
         [0,0,0,0,2,2,7,1,1,7,2,2,0,0,0,0],
         [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+      ];
+
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const v = sprite[y][x];
+          if (v === 0) continue;
+          ctx.fillStyle = C[v];
+          ctx.fillRect(x * S, y * S, S, S);
+        }
+      }
+    })();
+
+    // ========================================================
+    // ATTICUS PIXEL ART PORTRAIT
+    // ========================================================
+    (function() {
+      const canvas = document.getElementById('atticus-canvas');
+      const ctx = canvas.getContext('2d');
+      const S = 12; // scale factor (16x16 base, drawn at 192x192)
+
+      // Colors
+      const C = {
+        0: 'transparent',
+        1: '#e8c9a0', // skin base
+        2: '#0d0d0d', // black outline
+        3: '#d4a878', // skin shadow
+        4: '#5c3a1e', // dark brown hair
+        5: '#7a4e2a', // medium brown hair
+        6: '#6b4226', // mustache/stubble
+        7: '#1a1a1a', // shirt (dark)
+        8: '#f5dbb8', // skin highlight
+        9: '#3a2210', // darkest hair
+      };
+
+      // 16x16 Atticus portrait — wavy brown hair, mustache, dark shirt
+      const sprite = [
+        [0,0,0,0,9,4,4,4,4,4,4,9,0,0,0,0],
+        [0,0,0,9,4,5,4,5,4,5,4,5,9,0,0,0],
+        [0,0,9,4,5,4,5,4,4,5,4,5,4,9,0,0],
+        [0,9,4,5,4,4,5,5,5,4,4,5,4,4,9,0],
+        [0,9,4,2,1,1,1,1,1,1,1,1,2,4,9,0],
+        [0,0,2,1,1,8,1,1,1,8,1,1,1,2,0,0],
+        [0,0,2,1,2,2,1,1,1,2,2,1,1,2,0,0],
+        [0,0,2,3,1,1,1,3,1,1,1,3,1,2,0,0],
+        [0,0,2,3,1,1,1,1,1,1,1,1,3,2,0,0],
+        [0,0,2,1,1,6,6,6,6,6,1,1,1,2,0,0],
+        [0,0,2,3,1,1,1,1,1,1,1,1,3,2,0,0],
+        [0,0,2,3,1,1,6,1,1,6,1,1,3,2,0,0],
+        [0,0,0,2,3,1,1,1,1,1,1,3,2,0,0,0],
+        [0,0,0,0,2,7,7,7,7,7,7,2,0,0,0,0],
+        [0,0,0,2,7,7,7,7,7,7,7,7,2,0,0,0],
+        [0,0,2,7,7,7,7,7,7,7,7,7,7,2,0,0]
       ];
 
       for (let y = 0; y < 16; y++) {

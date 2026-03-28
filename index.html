@@ -465,11 +465,9 @@
   .cavern-canvas-wrap{width:100%;background:#2d2820;display:flex;justify-content:center;overflow:hidden;border-bottom:2px solid rgba(255,255,255,.06)}
   #cavern-canvas{width:100%;max-width:1440px;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;display:block}
   .cavern-footer-info{max-width:1440px;margin:0 auto;padding:28px 28px 0}
-  .cavern-footer-inner{display:grid;grid-template-columns:1fr 380px auto;gap:40px;align-items:start}
+  .cavern-footer-inner{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
   .cavern-footer-left{}
   .cavern-footer-chat{}
-  .cavern-footer-links{display:flex;flex-direction:column;gap:0;padding-top:4px}
-  .cavern-footer-links .footer-link{line-height:2.4}
   .cavern-footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;margin-top:20px;border-top:1px solid rgba(255,255,255,.06)}
   .cavern-footer-bottom p{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.15);text-transform:uppercase}
   .gt-cavern-label{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px}
@@ -484,8 +482,29 @@
   /* CAVERN MODE — hide the ask section, show footer cavern */
   .gorthog-ask.cavern-mode{display:none}
 
-  @media(max-width:1024px){.gt-ask-inner{grid-template-columns:1fr;gap:40px}.gt-title{font-size:56px}.cavern-footer-inner{grid-template-columns:1fr}}
-  @media(max-width:768px){.gt-title{font-size:44px}.gt-input-row,.gt-chat-input-row{flex-direction:column}.gt-feed-btn{width:100%}}
+  /* FLOATING CHAT WIDGET */
+  .gt-float{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-body,'Courier Prime',monospace)}
+  .gt-float-toggle{width:56px;height:56px;border-radius:50%;background:var(--red,#E8260A);border:3px solid var(--black,#0D0D0D);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .15s,box-shadow .15s}
+  .gt-float-toggle:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,0,0,.5)}
+  .gt-float-toggle canvas{image-rendering:pixelated;width:36px;height:36px;pointer-events:none}
+  .gt-float-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--acid,#C8FF00);border:2px solid var(--black,#0D0D0D);display:none}
+  .gt-float-panel{position:absolute;bottom:68px;right:0;width:380px;max-height:480px;background:#1a1610;border:2px solid rgba(255,255,255,.12);box-shadow:0 8px 40px rgba(0,0,0,.6);display:none;flex-direction:column;overflow:hidden}
+  .gt-float-panel.open{display:flex}
+  .gt-float-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2)}
+  .gt-float-header-title{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--red,#E8260A)}
+  .gt-float-close{background:none;border:none;color:rgba(255,255,255,.3);font-size:18px;cursor:pointer;padding:0 4px;line-height:1;transition:color .1s}
+  .gt-float-close:hover{color:var(--bg,#F3EDE0)}
+  .gt-float-log{flex:1;overflow-y:auto;padding:16px;font-size:13px;line-height:1.6;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent;min-height:120px;max-height:340px}
+  .gt-float-empty{color:rgba(255,255,255,.2);font-style:italic;font-size:13px;text-align:center;padding:40px 16px}
+  .gt-float-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.15)}
+  .gt-float-input{flex:1;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.12);color:var(--bg,#F3EDE0);font-family:var(--font-body,'Courier Prime',monospace);font-size:13px;font-style:italic;padding:8px 12px;outline:none;transition:border-color .15s}
+  .gt-float-input:focus{border-color:var(--red,#E8260A)}
+  .gt-float-input::placeholder{color:rgba(255,255,255,.2)}
+  .gt-float-send{background:var(--red,#E8260A);border:none;color:white;font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;cursor:pointer;transition:background .12s;white-space:nowrap}
+  .gt-float-send:hover{background:#c41e06}
+
+  @media(max-width:1024px){.gt-ask-inner{grid-template-columns:1fr;gap:40px}.gt-title{font-size:56px}.cavern-footer-inner{grid-template-columns:1fr}.gt-float-panel{width:320px;right:-12px}}
+  @media(max-width:768px){.gt-title{font-size:44px}.gt-input-row,.gt-chat-input-row{flex-direction:column}.gt-feed-btn{width:100%}.gt-float{bottom:16px;right:16px}.gt-float-panel{width:calc(100vw - 32px);right:-8px;max-height:60vh}}
 </style>
 
 <script>
@@ -1232,7 +1251,7 @@ function startCavern(){
   /* Scroll cavern into view */
   document.getElementById('cavern-footer').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function addCavernMsg(w,t,log){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function addCavernMsg(w,t,log){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;if(window._gtFloatAddMsg)window._gtFloatAddMsg(w,t);}
 
 function renderScene(){
   if(cavern.active){drawCavernScene();return;}
@@ -1293,7 +1312,7 @@ function tick(){
   frame++;renderScene();if(!cavern.active)render();requestAnimationFrame(tick);
 }
 
-function addMsg(w,t){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;el.chatLog.appendChild(d);el.chatLog.scrollTop=el.chatLog.scrollHeight;}
+function addMsg(w,t){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;el.chatLog.appendChild(d);el.chatLog.scrollTop=el.chatLog.scrollHeight;if(window._gtFloatAddMsg)window._gtFloatAddMsg(w,t);}
 /* ═══ DRAMATIC ZOOM EASTER EGG ═══ */
 var GRIEF_TRIGGERS=['brug','nala','wife','children','kids','grek','mog','snaga','family','krath','mora','incident','mushroom soup','spore cap','ladle','the explosion','your loss','who did you lose'];
 var dramaticState={active:false,phase:'none',timer:0,origActivity:null,savedFireColors:true};
@@ -1413,6 +1432,8 @@ function findAnswer(q){
   }
   return baseAnswer;
 }
+/* Expose findAnswer globally for floating chat widget */
+window._gtFindAnswer=findAnswer;
 function handleChat(){var q=el.chatInput.value.trim();if(!q)return;addMsg('user',q);el.chatInput.value='';
   var isDramatic=isDramaticQuestion(q)&&cavern.active;
   var a=findAnswer(q);
@@ -1477,15 +1498,6 @@ requestAnimationFrame(tick);
             <button class="btn btn-red gt-feed-btn" id="gt-cavern-send">Ask</button>
           </div>
         </div>
-        <div class="cavern-footer-links">
-          <a href="/napalmsunrise-arcade/about/" class="footer-link">About</a>
-          <a href="/napalmsunrise-arcade/lab/" class="footer-link">The Lab</a>
-          <a href="/napalmsunrise-arcade/about/" class="footer-link">About</a>
-          <a href="#gorthog" class="footer-link">Ask Gorthog</a>
-          <a href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" class="footer-link">Lab Notes</a>
-          <a href="https://napalmsunrise.com/collections/all" target="_blank" class="footer-link">Shop</a>
-          <a href="https://github.com/ewitsatticus" target="_blank" class="footer-link">GitHub</a>
-        </div>
       </div>
       <div class="cavern-footer-bottom">
         <p>&copy; 2026 Napalm Sunrise. All experiments conducted without supervision.</p>
@@ -1493,6 +1505,100 @@ requestAnimationFrame(tick);
       </div>
     </div>
   </footer>
+
+  <!-- FLOATING CHAT WIDGET -->
+  <div class="gt-float" id="gt-float">
+    <div class="gt-float-panel" id="gt-float-panel">
+      <div class="gt-float-header">
+        <span class="gt-float-header-title">Ask Gorthog</span>
+        <button class="gt-float-close" id="gt-float-close">&times;</button>
+      </div>
+      <div class="gt-float-log" id="gt-float-log">
+        <div class="gt-float-empty">Gorthog awaits your questions...</div>
+      </div>
+      <div class="gt-float-input-row">
+        <input class="gt-float-input" type="text" id="gt-float-input" placeholder="Ask Gorthog anything..." autocomplete="off">
+        <button class="gt-float-send" id="gt-float-send">Ask</button>
+      </div>
+    </div>
+    <button class="gt-float-toggle" id="gt-float-toggle">
+      <canvas id="gt-float-icon" width="16" height="16"></canvas>
+      <div class="gt-float-badge" id="gt-float-badge"></div>
+    </button>
+  </div>
+
+  <script>
+  (function(){
+    var floatEl={
+      wrap:document.getElementById('gt-float'),
+      panel:document.getElementById('gt-float-panel'),
+      toggle:document.getElementById('gt-float-toggle'),
+      close:document.getElementById('gt-float-close'),
+      log:document.getElementById('gt-float-log'),
+      input:document.getElementById('gt-float-input'),
+      send:document.getElementById('gt-float-send'),
+      badge:document.getElementById('gt-float-badge'),
+      icon:document.getElementById('gt-float-icon')
+    };
+    /* Draw mini Gorthog face on toggle button */
+    var ic=floatEl.icon.getContext('2d');
+    var P={0:'transparent',1:'#3a782f',2:'#0d0d0d',3:'#64aa4b',4:'#e8260a',5:'#dcc864'};
+    var art=[
+      [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+      [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+      [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+      [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+      [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+      [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+      [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+      [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+      [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+    ];
+    for(var y=0;y<16;y++)for(var x=0;x<16;x++){var v=art[y][x];if(v===0)continue;ic.fillStyle=P[v];ic.fillRect(x,y,1,1);}
+
+    var isOpen=false;
+    function togglePanel(){isOpen=!isOpen;floatEl.panel.classList.toggle('open',isOpen);floatEl.badge.style.display='none';if(isOpen)floatEl.input.focus();}
+    floatEl.toggle.addEventListener('click',togglePanel);
+    floatEl.close.addEventListener('click',function(){isOpen=false;floatEl.panel.classList.remove('open');});
+
+    function addFloatMsg(who,text){
+      /* Clear empty state */
+      var empty=floatEl.log.querySelector('.gt-float-empty');
+      if(empty)empty.remove();
+      var d=document.createElement('div');
+      d.className='gt-chat-msg '+who;
+      d.innerHTML='<div class="gt-chat-who">'+(who==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';
+      d.querySelector('.gt-chat-body').textContent=text;
+      floatEl.log.appendChild(d);
+      floatEl.log.scrollTop=floatEl.log.scrollHeight;
+      /* Show badge if panel is closed */
+      if(!isOpen&&who==='gorthog')floatEl.badge.style.display='block';
+    }
+    /* Expose globally so the main Gorthog script can mirror messages */
+    window._gtFloatAddMsg=addFloatMsg;
+
+    function handleFloatChat(){
+      var q=floatEl.input.value.trim();if(!q)return;
+      addFloatMsg('user',q);floatEl.input.value='';
+      /* Use the global findAnswer if available */
+      if(window._gtFindAnswer){
+        var a=window._gtFindAnswer(q);
+        setTimeout(function(){addFloatMsg('gorthog',a);},300+Math.random()*400);
+      }else{
+        setTimeout(function(){addFloatMsg('gorthog','Gorthog not yet awake. Feed him first.');},300);
+      }
+    }
+    floatEl.send.addEventListener('click',handleFloatChat);
+    floatEl.input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handleFloatChat();}});
+  })();
+  </script>
 
   <!-- FAVICON -->
   <script>
