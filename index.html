@@ -339,7 +339,7 @@
       <div class="home-tri">
         <div class="tri-col">
           <div class="tri-label">/ Active Tests</div>
-          <h2 class="tri-heading">EXPERI&shy;MENTS</h2>
+          <h2 class="tri-heading">SIDEQUESTS</h2>
           <div class="card">
             <span class="card-tag red">Live</span>
             <h4>AEO Schema Stacking</h4>
@@ -350,11 +350,11 @@
             <h4>Internal Link Velocity</h4>
             <p>Measuring crawl frequency changes when internal links are added in bursts vs. steady drip.</p>
           </div>
-          <a class="btn btn-outline" href="https://napalmsunrise.com" target="_blank" style="margin-top:8px;display:inline-block">View All Experiments &rarr;</a>
+          <a class="btn btn-outline" href="https://napalmsunrise.com" target="_blank" style="margin-top:8px;display:inline-block">View All Sidequests &rarr;</a>
         </div>
         <div class="tri-col">
           <div class="tri-label">/ Lab Notes</div>
-          <h2 class="tri-heading">RECENT<br>WRITES</h2>
+          <h2 class="tri-heading">CHRONICLES</h2>
           <div class="card">
             <span class="card-tag">Analysis</span>
             <h4>Content Decay Audit</h4>
@@ -365,7 +365,7 @@
             <h4>Wu-Tang vs Oregon Trail</h4>
             <p>Which 90s reference ranks faster in 2026? The answer will surprise absolutely no one.</p>
           </div>
-          <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" style="margin-top:8px;display:inline-block">All Lab Notes &rarr;</a>
+          <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" style="margin-top:8px;display:inline-block">All Chronicles &rarr;</a>
         </div>
       </div>
     </div>
@@ -785,12 +785,14 @@ function drawMemorialFinal(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,CW,CH);for
 /* ══════════════════════════════
    CAVERN MODE — Gorthog's Home
    ═════════════════════��════════ */
-var cavern={active:false,transitioning:false,transStart:0,CVW:180,CVH:60};
-var CGROUND=cavern.CVH-6;
+var cavern={active:false,transitioning:false,transStart:0,CVW:270,CVH:90};
+var CGROUND=cavern.CVH-9;
+var CS=2;/* cavern pixel scale (was 3 via S) */
 var ACTIVITIES=['sleep','fire','cook','work','eat','pace'];
 var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.'};
-var gAI={activity:'fire',targetX:90,timer:0,duration:600,walking:false,sitFrame:0,
-  zones:{sleep:{x:18,name:'sleep'},fire:{x:55,name:'fire'},cook:{x:100,name:'cook'},work:{x:135,name:'work'},eat:{x:110,name:'eat'},pace:{x:70,name:'pace'}}
+var gAI={activity:'fire',targetX:135,timer:0,duration:600,walking:false,sitFrame:0,
+  zones:{sleep:{x:27,name:'sleep'},fire:{x:82,name:'fire'},cook:{x:150,name:'cook'},work:{x:202,name:'work'},eat:{x:165,name:'eat'},pace:{x:105,name:'pace'}},
+  preSleep:{active:false,phase:'none',timer:0}
 };
 /* Sitting orc (used at fire, desk, eating) */
 var ORC_SIT=[
@@ -816,285 +818,313 @@ var ORC_SLEEP=[
   '...........',
 ];
 
-function cpx(x,y,color){if(!cavern.ctx)return;cavern.ctx.fillStyle=color;cavern.ctx.fillRect(Math.round(x)*S,Math.round(y)*S,S,S);}
+function cpx(x,y,color){if(!cavern.ctx)return;cavern.ctx.fillStyle=color;cavern.ctx.fillRect(Math.round(x)*CS,Math.round(y)*CS,CS,CS);}
 function cpxSprite(sprite,ox,oy){for(var r=0;r<sprite.length;r++){for(var c=0;c<sprite[r].length;c++){var ch=sprite[r][c];if(ch==='.'||!C[ch])continue;cpx(ox+c,oy+r,C[ch]);}}}
 
 function drawCavernBg(){
   var cc=cavern.ctx;
+  var CW=cavern.CVW,CH=cavern.CVH;
   /* Stone walls — layered with depth */
-  for(var x=0;x<cavern.CVW;x++){
-    for(var y=0;y<7;y++){
+  for(var x=0;x<CW;x++){
+    for(var y=0;y<11;y++){
       var shade;
-      if(y<2) shade=(x+y*3)%4===0?'#3a3428':'#332e22';
-      else if(y<4) shade=(x+y*5)%5===0?'#4a4438':'#3d3828';
+      if(y<3) shade=(x+y*3)%4===0?'#3a3428':'#332e22';
+      else if(y<6) shade=(x+y*5)%5===0?'#4a4438':'#3d3828';
       else shade=(x+y*7)%6===0?'#524c40':'#4a4438';
       cpx(x,y,shade);
     }
     /* Ceiling stalactites — varied lengths */
-    if(x%9===2){cpx(x,7,'#4a4438');cpx(x,8,'#3d3828');}
-    if(x%9===3){cpx(x,7,'#3d3828');cpx(x,8,'#3d3828');cpx(x,9,'#332e22');}
-    if(x%9===4){cpx(x,7,'#4a4438');}
-    if(x%15===7){cpx(x,7,'#4a4438');cpx(x,8,'#4a4438');cpx(x,9,'#3d3828');cpx(x,10,'#332e22');}
+    if(x%7===2){cpx(x,11,'#4a4438');cpx(x,12,'#3d3828');}
+    if(x%7===3){cpx(x,11,'#3d3828');cpx(x,12,'#3d3828');cpx(x,13,'#332e22');}
+    if(x%7===4){cpx(x,11,'#4a4438');}
+    if(x%11===7){cpx(x,11,'#4a4438');cpx(x,12,'#4a4438');cpx(x,13,'#3d3828');cpx(x,14,'#332e22');cpx(x,15,'#2d2820');}
     /* Wall moss/lichen patches */
-    if(x%17===5&&x<cavern.CVW-10){cpx(x,5,'#3a4a28');cpx(x+1,5,'#3a4a28');cpx(x,6,'#3a4a28');}
-    if(x%23===11){cpx(x,4,'#4a5a30');cpx(x+1,4,'#3a4a28');}
+    if(x%13===5&&x<CW-15){cpx(x,7,'#3a4a28');cpx(x+1,7,'#3a4a28');cpx(x,8,'#3a4a28');cpx(x+2,8,'#2d3a20');}
+    if(x%19===11){cpx(x,6,'#4a5a30');cpx(x+1,6,'#3a4a28');cpx(x+1,7,'#3a4a28');}
+    /* Dripping water stains */
+    if(x%31===17){for(var wy=8;wy<14;wy++)cpx(x,wy,(wy%2===0)?'#3a4438':'#3d3828');}
   }
   /* Stone floor — layered with cracks and pebbles */
-  for(var x=0;x<cavern.CVW;x++){
+  for(var x=0;x<CW;x++){
     cpx(x,CGROUND,'#4a4438');
     cpx(x,CGROUND+1,(x+1)%3===0?'#3d3828':'#4a4438');
-    for(var y=CGROUND+2;y<cavern.CVH;y++)cpx(x,y,'#2d2820');
+    cpx(x,CGROUND+2,(x+2)%4===0?'#3a3428':'#3d3828');
+    for(var y=CGROUND+3;y<CH;y++)cpx(x,y,'#2d2820');
     /* Floor detail — cracks */
-    if(x%7===0)cpx(x,CGROUND,'#555040');
-    if(x%11===3){cpx(x,CGROUND,'#3a3428');cpx(x+1,CGROUND,'#3a3428');}
+    if(x%5===0)cpx(x,CGROUND,'#555040');
+    if(x%9===3){cpx(x,CGROUND,'#3a3428');cpx(x+1,CGROUND,'#3a3428');}
     /* Pebbles */
-    if(x%19===8)cpx(x,CGROUND-1,'#555040');
-    if(x%23===15)cpx(x,CGROUND-1,'#4a4438');
+    if(x%13===8)cpx(x,CGROUND-1,'#555040');
+    if(x%17===12){cpx(x,CGROUND-1,'#4a4438');cpx(x+1,CGROUND-1,'#504a3e');}
   }
   /* Room dividers — thick stone pillars with texture */
-  var pillars=[42,75,125];
+  var pillars=[63,112,187];
   for(var pi=0;pi<pillars.length;pi++){
     var px2=pillars[pi];
-    for(var y=5;y<=CGROUND;y++){
+    for(var y=7;y<=CGROUND;y++){
+      cpx(px2-2,y,y%4===0?'#3d3828':'#332e22');
       cpx(px2-1,y,y%4===0?'#4a4438':'#3d3828');
       cpx(px2,y,y%3===0?'#5a5448':'#555040');
-      cpx(px2+1,y,y%5===0?'#555040':'#4a4438');
-      cpx(px2+2,y,y%4===1?'#4a4438':'#3d3828');
+      cpx(px2+1,y,y%3===1?'#5a5448':'#555040');
+      cpx(px2+2,y,y%5===0?'#555040':'#4a4438');
+      cpx(px2+3,y,y%4===1?'#3d3828':'#332e22');
     }
     /* Pillar caps */
-    cpx(px2-1,5,'#5a5448');cpx(px2,5,'#666058');cpx(px2+1,5,'#666058');cpx(px2+2,5,'#5a5448');
-    cpx(px2-1,CGROUND,'#5a5448');cpx(px2,CGROUND,'#5a5448');cpx(px2+1,CGROUND,'#5a5448');
+    for(var cx=px2-2;cx<=px2+3;cx++){cpx(cx,7,'#5a5448');cpx(cx,CGROUND,'#5a5448');}
+    cpx(px2,7,'#666058');cpx(px2+1,7,'#666058');
   }
   /* Wall-mounted torch brackets */
-  var torches=[20,65,110,155];
+  var torches=[30,98,165,240];
   for(var ti=0;ti<torches.length;ti++){
     var tx=torches[ti];
-    cpx(tx,8,'#6b4226');cpx(tx,9,'#6b4226');cpx(tx,10,'#6b4226');
-    cpx(tx-1,8,'#8b5e3c');cpx(tx+1,8,'#8b5e3c');
-    /* Flame */
+    cpx(tx,12,'#6b4226');cpx(tx,13,'#6b4226');cpx(tx,14,'#6b4226');cpx(tx,15,'#6b4226');
+    cpx(tx-1,12,'#8b5e3c');cpx(tx+1,12,'#8b5e3c');
+    cpx(tx-1,13,'#7a5230');cpx(tx+1,13,'#7a5230');
+    /* Flame — larger */
     var flicker=Math.sin(frame*0.3+ti*2)>0?1:0;
-    cpx(tx,7-flicker,'#ff8800');cpx(tx,6-flicker,'#ff6600');
-    if(frame%8<4+ti)cpx(tx-1+ti%2,6-flicker,'#ffaa00');
+    cpx(tx,11-flicker,'#ff8800');cpx(tx,10-flicker,'#ff6600');cpx(tx,9-flicker,'#ff4400');
+    cpx(tx-1,10-flicker,'#ffaa00');cpx(tx+1,10-flicker,'#ffaa00');
+    if(frame%8<4+ti){cpx(tx-1+ti%2,9-flicker,'#ffcc00');cpx(tx+1-ti%2,8-flicker,'#ff880060');}
     /* Light glow on wall */
-    cpx(tx-1,9,'#4a4030');cpx(tx+1,9,'#4a4030');
+    cpx(tx-1,14,'#4a4030');cpx(tx+1,14,'#4a4030');
+    cpx(tx-2,13,'#3a3020');cpx(tx+2,13,'#3a3020');
   }
 }
 
 function drawBed(){
+  var G=CGROUND;
   /* Bed frame — dark wood with grain */
-  for(var x=10;x<30;x++){
-    cpx(x,CGROUND-1,x%5===0?'#5a3618':'#6b4226');
-    cpx(x,CGROUND-2,x%4===2?'#5a3618':'#6b4226');
+  for(var x=15;x<45;x++){
+    cpx(x,G-1,x%5===0?'#5a3618':'#6b4226');
+    cpx(x,G-2,x%4===2?'#5a3618':'#6b4226');
+    cpx(x,G-3,x%3===0?'#5a3618':'#6b4226');
   }
-  /* Bed posts */
-  cpx(10,CGROUND-8,'#7a5230');cpx(10,CGROUND-7,'#6b4226');cpx(10,CGROUND-6,'#6b4226');cpx(10,CGROUND-5,'#6b4226');
-  cpx(29,CGROUND-5,'#6b4226');cpx(29,CGROUND-4,'#6b4226');cpx(29,CGROUND-3,'#6b4226');
-  /* Headboard detail */
-  for(var x=11;x<14;x++){cpx(x,CGROUND-7,'#7a5230');cpx(x,CGROUND-8,'#6b4226');}
+  /* Bed posts — taller */
+  for(var y=G-14;y<=G-1;y++){cpx(15,y,y%3===0?'#7a5230':'#6b4226');cpx(16,y,y%4===1?'#5a3618':'#6b4226');}
+  for(var y=G-10;y<=G-1;y++){cpx(44,y,y%3===0?'#7a5230':'#6b4226');cpx(43,y,y%4===1?'#5a3618':'#6b4226');}
+  /* Headboard — ornate */
+  for(var x=17;x<22;x++){cpx(x,G-12,'#7a5230');cpx(x,G-13,'#6b4226');cpx(x,G-14,'#5a3618');}
+  cpx(18,G-14,'#8b5e3c');cpx(19,G-14,'#8b5e3c');/* carved detail */
   /* Mattress — varied texture */
-  for(var x=11;x<29;x++){
-    cpx(x,CGROUND-3,x%6===0?'#7a6345':'#8b7355');
-    cpx(x,CGROUND-4,x%5===1?'#7a6345':'#8b7355');
+  for(var x=17;x<43;x++){
+    cpx(x,G-4,x%6===0?'#7a6345':'#8b7355');
+    cpx(x,G-5,x%5===1?'#7a6345':'#8b7355');
+    cpx(x,G-6,x%7===2?'#7a6345':'#8b7355');
   }
   /* Pillow — plump with shadow */
-  for(var x=11;x<17;x++){cpx(x,CGROUND-5,'#c5b89a');cpx(x,CGROUND-4,'#d5c8aa');}
-  cpx(11,CGROUND-6,'#c5b89a');cpx(12,CGROUND-6,'#d5c8aa');cpx(13,CGROUND-6,'#d5c8aa');cpx(14,CGROUND-6,'#d5c8aa');cpx(15,CGROUND-6,'#c5b89a');
-  cpx(16,CGROUND-5,'#b5a88a');/* pillow shadow */
+  for(var x=17;x<26;x++){cpx(x,G-7,'#c5b89a');cpx(x,G-8,'#d5c8aa');cpx(x,G-6,'#d5c8aa');}
+  cpx(17,G-9,'#c5b89a');cpx(18,G-9,'#d5c8aa');cpx(19,G-9,'#d5c8aa');cpx(20,G-9,'#d5c8aa');cpx(21,G-9,'#d5c8aa');cpx(22,G-9,'#c5b89a');
+  cpx(25,G-7,'#b5a88a');cpx(26,G-7,'#b5a88a');/* pillow shadow */
   /* Blanket — rumpled with pattern */
-  for(var x=17;x<29;x++){
-    cpx(x,CGROUND-5,x%3===0?'#4a5e2a':'#5a6e3a');
-    cpx(x,CGROUND-4,x%4===1?'#3a4e1a':'#4a5e2a');
-    cpx(x,CGROUND-6,x%5===2?'#5a6e3a':'#4a5e2a');/* rumpled top */
+  for(var x=26;x<43;x++){
+    cpx(x,G-7,x%3===0?'#4a5e2a':'#5a6e3a');
+    cpx(x,G-8,x%4===1?'#3a4e1a':'#4a5e2a');
+    cpx(x,G-6,x%5===2?'#5a6e3a':'#4a5e2a');
+    cpx(x,G-9,x%6===2?'#5a6e3a':'#4a5e2a');/* rumpled top */
   }
-  cpx(20,CGROUND-7,'#5a6e3a');cpx(21,CGROUND-7,'#4a5e2a');/* fold */
+  cpx(30,G-10,'#5a6e3a');cpx(31,G-10,'#4a5e2a');cpx(32,G-10,'#5a6e3a');/* fold */
   /* Nightstand with drawer */
-  for(var x=33;x<37;x++){
-    cpx(x,CGROUND-1,'#6b4226');cpx(x,CGROUND-2,'#6b4226');
-    cpx(x,CGROUND-3,'#7a5230');cpx(x,CGROUND-4,'#6b4226');
+  for(var x=50;x<56;x++){
+    cpx(x,G-1,'#6b4226');cpx(x,G-2,'#6b4226');cpx(x,G-3,'#7a5230');
+    cpx(x,G-4,'#6b4226');cpx(x,G-5,'#7a5230');cpx(x,G-6,'#6b4226');
   }
-  cpx(35,CGROUND-3,'#5a3618');/* drawer handle */
+  cpx(52,G-4,'#5a3618');cpx(53,G-4,'#5a3618');/* drawer handle */
   /* Candle on nightstand */
-  cpx(34,CGROUND-5,'#e8e0d0');cpx(34,CGROUND-6,'#e8e0d0');
-  cpx(34,CGROUND-7,'#ff8800');
-  if(frame%10<6)cpx(34,CGROUND-8,'#ffaa00');
-  /* Candle glow */
-  cpx(33,CGROUND-6,'#3a3020');cpx(35,CGROUND-6,'#3a3020');
+  cpx(52,G-7,'#e8e0d0');cpx(52,G-8,'#e8e0d0');cpx(52,G-9,'#e8e0d0');
+  cpx(52,G-10,'#ff8800');cpx(52,G-11,'#ff6600');
+  if(frame%10<6){cpx(52,G-12,'#ffaa00');cpx(51,G-11,'#ff880040');}
+  cpx(51,G-8,'#3a3020');cpx(53,G-8,'#3a3020');
   /* Small rug beside bed */
-  for(var x=12;x<28;x++){cpx(x,CGROUND,'#8b4a30');if(x%3===0)cpx(x,CGROUND,'#9a5a40');}
+  for(var x=18;x<42;x++){cpx(x,G,x%3===0?'#9a5a40':'#8b4a30');if(x%5===0)cpx(x,G,'#7a3a20');}
+  /* Armor stand next to bed (for undressing) */
+  cpx(48,G-1,'#555');cpx(48,G-2,'#555');cpx(48,G-3,'#555');cpx(48,G-4,'#555');
+  cpx(48,G-5,'#666');cpx(47,G-5,'#555');cpx(49,G-5,'#555');
+  cpx(48,G-6,'#777');/* hook */
 }
 
 function drawFireplace(){
+  var G=CGROUND;
   /* Stone frame — thick with texture */
-  for(var y=CGROUND-14;y<=CGROUND;y++){
-    cpx(48,y,y%3===0?'#5a5448':'#666');cpx(49,y,y%4===1?'#555':'#5a5448');
-    cpx(50,y,y%3===0?'#666':'#5a5448');cpx(51,y,'#555');
-    cpx(60,y,'#555');cpx(61,y,y%3===1?'#666':'#5a5448');
-    cpx(62,y,y%4===0?'#5a5448':'#555');cpx(63,y,y%3===2?'#5a5448':'#666');
+  for(var y=G-22;y<=G;y++){
+    cpx(72,y,y%3===0?'#5a5448':'#666');cpx(73,y,y%4===1?'#555':'#5a5448');
+    cpx(74,y,y%3===0?'#666':'#5a5448');cpx(75,y,'#555');cpx(76,y,y%3===1?'#5a5448':'#555');
+    cpx(93,y,'#555');cpx(94,y,y%3===1?'#666':'#5a5448');
+    cpx(95,y,y%4===0?'#5a5448':'#555');cpx(96,y,y%3===2?'#5a5448':'#666');cpx(97,y,y%3===0?'#555':'#5a5448');
   }
   /* Arch top */
-  for(var x=49;x<63;x++){cpx(x,CGROUND-14,x%2===0?'#777':'#666');cpx(x,CGROUND-15,x%3===0?'#666':'#777');}
+  for(var x=74;x<96;x++){cpx(x,G-22,x%2===0?'#777':'#666');cpx(x,G-23,x%3===0?'#666':'#777');}
   /* Mantle shelf — thick wood */
-  for(var x=47;x<65;x++){cpx(x,CGROUND-15,'#8b7355');cpx(x,CGROUND-16,x%4===0?'#7a6345':'#8b7355');cpx(x,CGROUND-17,'#6b5335');}
+  for(var x=70;x<100;x++){cpx(x,G-23,'#8b7355');cpx(x,G-24,x%4===0?'#7a6345':'#8b7355');cpx(x,G-25,'#6b5335');cpx(x,G-26,'#5a4225');}
   /* Inside - dark sooty walls */
-  for(var y=CGROUND-13;y<=CGROUND;y++){
-    for(var x=52;x<60;x++){
-      cpx(x,y,y<CGROUND-8?'#0d0804':'#1a1208');
+  for(var y=G-21;y<=G;y++){
+    for(var x=77;x<93;x++){
+      cpx(x,y,y<G-12?'#0d0804':'#1a1208');
     }
   }
-  /* Soot stains above fireplace */
-  cpx(54,CGROUND-15,'#3a3428');cpx(56,CGROUND-15,'#3a3428');cpx(57,CGROUND-16,'#332e22');
-  /* Fire — animated with more colors */
+  /* Soot stains above */
+  cpx(80,G-23,'#3a3428');cpx(84,G-24,'#3a3428');cpx(88,G-23,'#332e22');cpx(86,G-25,'#332e22');
+  /* Fire — animated with more colors, bigger */
   var fc=frame%20;
   var fireColors=['#ff8800','#ff4400','#cc3333','#ff6600','#ffaa00','#ffcc00'];
-  for(var i=0;i<7;i++){
-    var fx=52+i+Math.round(Math.sin(frame*0.3+i)*1);
-    var fh=2+Math.round(Math.sin(frame*0.12+i*1.7)*3);
+  for(var i=0;i<12;i++){
+    var fx=78+i+Math.round(Math.sin(frame*0.3+i)*1.5);
+    var fh=3+Math.round(Math.sin(frame*0.12+i*1.7)*5);
     if(fh<1)fh=1;
     for(var fy=0;fy<fh;fy++){
-      cpx(fx,CGROUND-1-fy,fireColors[(fy+fc+i)%fireColors.length]);
+      cpx(fx,G-1-fy,fireColors[(fy+fc+i)%fireColors.length]);
     }
   }
   /* Hot coals at base */
-  for(var x=53;x<59;x++){cpx(x,CGROUND,x%2===0?'#aa3300':'#cc4400');}
+  for(var x=79;x<91;x++){cpx(x,G,x%2===0?'#aa3300':'#cc4400');if(x%3===0)cpx(x,G-1,'#992200');}
   /* Embers floating up */
-  if(frame%6<3){
-    cpx(53+Math.floor(Math.random()*6),CGROUND-7-Math.floor(Math.random()*4),'#ffaa00');
-    cpx(54+Math.floor(Math.random()*4),CGROUND-8-Math.floor(Math.random()*3),'#ff880080');
+  for(var ei=0;ei<3;ei++){
+    if((frame+ei*7)%6<3){
+      cpx(79+Math.floor(Math.random()*10),G-10-Math.floor(Math.random()*8),'#ffaa00');
+      cpx(80+Math.floor(Math.random()*8),G-12-Math.floor(Math.random()*5),'#ff880060');
+    }
   }
-  /* Logs — crossed */
-  cpx(53,CGROUND-1,'#6b4226');cpx(54,CGROUND-1,'#5a3618');cpx(55,CGROUND,'#6b4226');
-  cpx(57,CGROUND-1,'#5a3618');cpx(58,CGROUND-1,'#6b4226');cpx(56,CGROUND,'#6b4226');
+  /* Logs — crossed, larger */
+  for(var lx=0;lx<6;lx++){cpx(79+lx,G-1,'#6b4226');cpx(84+lx,G-2,'#5a3618');}
+  cpx(80,G,'#6b4226');cpx(88,G,'#6b4226');
   /* Fire light cast on floor */
-  for(var x=50;x<62;x++){if(x%2===0)cpx(x,CGROUND+1,'#3a2818');}
+  for(var x=74;x<96;x++){if(x%2===0)cpx(x,G+1,'#3a2818');if(x%3===0)cpx(x,G+2,'#2a1810');}
   /* Mantle decorations */
-  /* Skull */
-  cpx(50,CGROUND-18,'#ddd');cpx(51,CGROUND-18,'#eee');cpx(52,CGROUND-18,'#ddd');
-  cpx(50,CGROUND-19,'#eee');cpx(51,CGROUND-19,'#eee');cpx(52,CGROUND-19,'#ddd');
-  cpx(50,CGROUND-18,'#333');cpx(52,CGROUND-18,'#333');/* eye sockets */
-  cpx(51,CGROUND-17,'#ccc');/* jaw */
+  /* Skull — detailed */
+  cpx(75,G-27,'#eee');cpx(76,G-27,'#eee');cpx(77,G-27,'#ddd');cpx(78,G-27,'#ddd');
+  cpx(75,G-28,'#eee');cpx(76,G-28,'#fff');cpx(77,G-28,'#fff');cpx(78,G-28,'#eee');
+  cpx(75,G-29,'#ddd');cpx(76,G-29,'#eee');cpx(77,G-29,'#eee');cpx(78,G-29,'#ddd');
+  cpx(75,G-28,'#333');cpx(77,G-28,'#333');/* eye sockets */
+  cpx(76,G-27,'#ccc');cpx(77,G-27,'#ccc');/* jaw teeth */
   /* Mug on mantle */
-  cpx(58,CGROUND-18,'#8b5e3c');cpx(59,CGROUND-18,'#8b5e3c');cpx(60,CGROUND-18,'#6b4226');
-  cpx(58,CGROUND-19,'#8b5e3c');cpx(59,CGROUND-19,'#7a5230');
+  cpx(90,G-27,'#8b5e3c');cpx(91,G-27,'#8b5e3c');cpx(92,G-27,'#6b4226');cpx(93,G-27,'#6b4226');
+  cpx(90,G-28,'#8b5e3c');cpx(91,G-28,'#7a5230');cpx(92,G-28,'#7a5230');
+  /* Steam from mug */
+  if(frame%20<12){var my=G-29-Math.floor((frame%20)/4);cpx(91,my,'#5a5340');}
   /* Sitting rug */
-  for(var x=50;x<62;x++){cpx(x,CGROUND,x%3===0?'#8b4a30':'#7a3a20');}
+  for(var x=74;x<96;x++){cpx(x,G,x%3===0?'#8b4a30':'#7a3a20');if(x%5===0)cpx(x,G,'#9a5a40');}
 }
 
 function drawKitchen(){
-  /* Cooking pot — bigger, more detailed */
-  for(var x=95;x<107;x++){cpx(x,CGROUND-1,'#444');cpx(x,CGROUND-2,'#555');}
-  for(var x=96;x<106;x++){cpx(x,CGROUND-3,'#3a3a3a');cpx(x,CGROUND-4,'#444');cpx(x,CGROUND-5,'#444');cpx(x,CGROUND-6,'#3a3a3a');}
+  var G=CGROUND;
+  /* Cooking pot — bigger */
+  for(var x=142;x<162;x++){cpx(x,G-1,'#444');cpx(x,G-2,'#555');}
+  for(var x=143;x<161;x++){cpx(x,G-3,'#3a3a3a');cpx(x,G-4,'#444');cpx(x,G-5,'#444');cpx(x,G-6,'#444');cpx(x,G-7,'#444');cpx(x,G-8,'#3a3a3a');}
   /* Pot rim with handles */
-  for(var x=95;x<107;x++)cpx(x,CGROUND-6,x%3===0?'#777':'#666');
-  cpx(94,CGROUND-5,'#666');cpx(94,CGROUND-4,'#555');/* left handle */
-  cpx(107,CGROUND-5,'#666');cpx(107,CGROUND-4,'#555');/* right handle */
+  for(var x=142;x<162;x++)cpx(x,G-8,x%3===0?'#777':'#666');
+  cpx(141,G-7,'#666');cpx(141,G-6,'#555');cpx(140,G-6,'#555');
+  cpx(162,G-7,'#666');cpx(162,G-6,'#555');cpx(163,G-6,'#555');
   /* Stew inside pot */
-  for(var x=97;x<105;x++){cpx(x,CGROUND-5,x%2===0?'#8b5530':'#7a4420');}
-  /* Steam — wavy animated */
-  var st=frame%30;
-  if(st<20){
-    var sy=CGROUND-7-Math.floor(st/4);
-    var sx1=98+Math.round(Math.sin(frame*0.2)*2);
-    var sx2=102+Math.round(Math.sin(frame*0.25+1)*2);
-    cpx(sx1,sy,'rgba(200,200,200,0.5)');cpx(sx2,sy-1,'rgba(180,180,180,0.4)');
-    if(st<12){cpx(sx1+1,sy-2,'rgba(160,160,160,0.3)');cpx(sx2-1,sy-3,'rgba(140,140,140,0.2)');}
+  for(var x=144;x<160;x++){cpx(x,G-7,x%2===0?'#8b5530':'#7a4420');cpx(x,G-6,x%3===0?'#6a3310':'#7a4420');}
+  /* Steam — wavy animated, more particles */
+  for(var si=0;si<3;si++){
+    var st=(frame+si*10)%30;
+    if(st<20){
+      var sy=G-9-Math.floor(st/3)-si*2;
+      var sx1=147+si*4+Math.round(Math.sin(frame*0.2+si)*3);
+      cpx(sx1,sy,'#5a5340');cpx(sx1+1,sy-1,'#4a4330');
+      if(st<12)cpx(sx1-1,sy-2,'#3a3320');
+    }
   }
   /* Tripod stand legs */
-  cpx(95,CGROUND,'#555');cpx(96,CGROUND,'#555');
-  cpx(105,CGROUND,'#555');cpx(106,CGROUND,'#555');
-  cpx(100,CGROUND,'#555');cpx(101,CGROUND,'#555');
+  cpx(142,G,'#555');cpx(143,G,'#555');cpx(151,G,'#555');cpx(152,G,'#555');cpx(160,G,'#555');cpx(161,G,'#555');
   /* Small fire under pot */
-  cpx(98,CGROUND,'#ff6600');cpx(99,CGROUND,'#ff8800');cpx(100,CGROUND,'#ffaa00');cpx(101,CGROUND,'#ff8800');cpx(102,CGROUND,'#ff6600');
-  if(frame%6<3){cpx(99,CGROUND-1,'#ff8800');cpx(101,CGROUND-1,'#ff6600');}
+  for(var fx=145;fx<159;fx++){
+    if(fx%2===0)cpx(fx,G,'#ff6600');
+    else cpx(fx,G,frame%4<2?'#ff8800':'#ffaa00');
+  }
+  if(frame%6<3){cpx(148,G-1,'#ff8800');cpx(152,G-1,'#ff6600');cpx(155,G-1,'#ffaa00');}
   /* Food shelves on wall — two levels */
-  for(var x=82;x<95;x++){
-    cpx(x,CGROUND-14,x%5===0?'#5a3618':'#6b4226');
-    cpx(x,CGROUND-21,x%4===1?'#5a3618':'#6b4226');
+  for(var x=122;x<142;x++){
+    cpx(x,G-22,x%5===0?'#5a3618':'#6b4226');cpx(x,G-23,x%7===0?'#5a3618':'#6b4226');
+    cpx(x,G-32,x%4===1?'#5a3618':'#6b4226');cpx(x,G-33,x%6===0?'#5a3618':'#6b4226');
   }
   /* Shelf brackets */
-  cpx(83,CGROUND-13,'#6b4226');cpx(83,CGROUND-12,'#6b4226');
-  cpx(93,CGROUND-13,'#6b4226');cpx(93,CGROUND-12,'#6b4226');
-  cpx(83,CGROUND-20,'#6b4226');cpx(83,CGROUND-19,'#6b4226');
-  cpx(93,CGROUND-20,'#6b4226');cpx(93,CGROUND-19,'#6b4226');
+  cpx(123,G-21,'#6b4226');cpx(123,G-20,'#6b4226');cpx(140,G-21,'#6b4226');cpx(140,G-20,'#6b4226');
+  cpx(123,G-31,'#6b4226');cpx(123,G-30,'#6b4226');cpx(140,G-31,'#6b4226');cpx(140,G-30,'#6b4226');
   /* Items on lower shelf */
-  cpx(84,CGROUND-15,'#cc3333');cpx(85,CGROUND-15,'#cc3333');cpx(84,CGROUND-16,'#aa2222');/* tall jar */
-  cpx(87,CGROUND-15,'#c9a227');cpx(88,CGROUND-15,'#c9a227');/* cheese wheel */
-  cpx(90,CGROUND-15,'#9966aa');cpx(91,CGROUND-15,'#9966aa');cpx(90,CGROUND-16,'#7744aa');/* potion bottle */
-  cpx(91,CGROUND-16,'#cc66ff');/* potion glow */
+  cpx(125,G-24,'#cc3333');cpx(126,G-24,'#cc3333');cpx(127,G-24,'#aa2222');cpx(125,G-25,'#aa2222');cpx(126,G-25,'#cc3333');
+  cpx(130,G-24,'#c9a227');cpx(131,G-24,'#c9a227');cpx(132,G-24,'#b89118');
+  cpx(135,G-24,'#9966aa');cpx(136,G-24,'#9966aa');cpx(135,G-25,'#7744aa');cpx(136,G-25,'#7744aa');
+  cpx(136,G-26,'#cc66ff');/* potion glow */
   /* Items on upper shelf */
-  cpx(84,CGROUND-22,'#aaa');cpx(85,CGROUND-22,'#aaa');cpx(85,CGROUND-23,'#888');/* bowl */
-  cpx(88,CGROUND-22,'#6b8e3a');cpx(89,CGROUND-22,'#5a7e2a');/* herbs */
-  cpx(91,CGROUND-22,'#cc8844');cpx(92,CGROUND-22,'#cc8844');cpx(91,CGROUND-23,'#aa6622');/* bread */
-  /* Hanging dried meat from ceiling */
-  cpx(86,CGROUND-25,'#6b4226');cpx(86,CGROUND-24,'#8b4a30');cpx(86,CGROUND-23,'#7a3a20');
-  cpx(90,CGROUND-26,'#6b4226');cpx(90,CGROUND-25,'#8b4a30');cpx(90,CGROUND-24,'#7a3a20');
-  /* Cutting board on ground */
-  cpx(108,CGROUND-1,'#8b7355');cpx(109,CGROUND-1,'#8b7355');cpx(110,CGROUND-1,'#8b7355');cpx(111,CGROUND-1,'#7a6345');
-  cpx(109,CGROUND-2,'#cc3333');/* food on board */
+  cpx(125,G-34,'#aaa');cpx(126,G-34,'#aaa');cpx(127,G-34,'#888');
+  cpx(131,G-34,'#6b8e3a');cpx(132,G-34,'#5a7e2a');cpx(133,G-34,'#6b8e3a');
+  cpx(137,G-34,'#cc8844');cpx(138,G-34,'#cc8844');cpx(137,G-35,'#aa6622');
+  /* Hanging dried meat */
+  for(var mi=0;mi<2;mi++){
+    var mx=128+mi*6;
+    cpx(mx,G-38,'#6b4226');cpx(mx,G-37,'#8b4a30');cpx(mx,G-36,'#7a3a20');cpx(mx,G-35,'#7a3a20');
+  }
+  /* Cutting board */
+  for(var x=164;x<170;x++){cpx(x,G-1,'#8b7355');cpx(x,G-2,'#7a6345');}
+  cpx(166,G-3,'#cc3333');cpx(167,G-3,'#cc8844');
 }
 
 function drawDesk(){
+  var G=CGROUND;
   /* Desk surface — wide, sturdy */
-  for(var x=128;x<150;x++){
-    cpx(x,CGROUND-6,x%6===0?'#7a5230':'#8b5e3c');
-    cpx(x,CGROUND-5,x%5===2?'#5a3618':'#6b4226');
+  for(var x=192;x<225;x++){
+    cpx(x,G-9,x%6===0?'#7a5230':'#8b5e3c');
+    cpx(x,G-8,x%5===2?'#5a3618':'#6b4226');
+    cpx(x,G-10,x%7===0?'#7a5230':'#8b5e3c');
   }
   /* Desk legs — thick */
-  for(var y=CGROUND-4;y<CGROUND;y++){
-    cpx(129,y,'#6b4226');cpx(130,y,'#5a3618');
-    cpx(147,y,'#6b4226');cpx(148,y,'#5a3618');
+  for(var y=G-7;y<G;y++){
+    cpx(193,y,'#6b4226');cpx(194,y,'#5a3618');cpx(195,y,'#5a3618');
+    cpx(222,y,'#6b4226');cpx(223,y,'#5a3618');cpx(224,y,'#5a3618');
   }
   /* Desk drawer */
-  for(var x=135;x<143;x++){cpx(x,CGROUND-4,'#7a5230');cpx(x,CGROUND-3,'#6b4226');}
-  cpx(139,CGROUND-4,'#5a3618');/* drawer handle */
-  /* Scroll/paper — larger, detailed */
-  for(var x=131;x<137;x++){
-    cpx(x,CGROUND-7,'#e8e0d0');cpx(x,CGROUND-8,'#e8e0d0');cpx(x,CGROUND-9,'#e8e0d0');
+  for(var x=204;x<215;x++){cpx(x,G-7,'#7a5230');cpx(x,G-6,'#6b4226');cpx(x,G-5,'#6b4226');}
+  cpx(209,G-6,'#5a3618');cpx(210,G-6,'#5a3618');
+  /* Scroll/paper */
+  for(var x=196;x<206;x++){
+    cpx(x,G-11,'#e8e0d0');cpx(x,G-12,'#e8e0d0');cpx(x,G-13,'#e8e0d0');cpx(x,G-14,'#e8e0d0');
   }
-  /* Rolled edge */
-  cpx(131,CGROUND-7,'#d4c9a8');cpx(131,CGROUND-8,'#d4c9a8');
+  cpx(196,G-11,'#d4c9a8');cpx(196,G-12,'#d4c9a8');cpx(196,G-13,'#d4c9a8');
   /* Ink lines on paper */
-  cpx(132,CGROUND-7,'#444');cpx(133,CGROUND-7,'#444');cpx(134,CGROUND-8,'#444');cpx(133,CGROUND-9,'#444');cpx(135,CGROUND-9,'#444');
+  for(var lx=198;lx<204;lx++){if(lx%2===0){cpx(lx,G-12,'#444');cpx(lx,G-13,'#444');}}
+  cpx(199,G-14,'#444');cpx(201,G-14,'#444');cpx(203,G-14,'#444');
   /* Quill — feathered */
-  cpx(138,CGROUND-7,'#d4c9a8');cpx(138,CGROUND-8,'#d4c9a8');cpx(138,CGROUND-9,'#c5b89a');cpx(138,CGROUND-10,'#b5a88a');
-  cpx(139,CGROUND-10,'#e8e0d0');cpx(137,CGROUND-10,'#e8e0d0');/* feather barbs */
-  cpx(139,CGROUND-11,'#d4c9a8');cpx(137,CGROUND-11,'#d4c9a8');
-  /* Ink pot — with drip */
-  cpx(140,CGROUND-7,'#1a1a1a');cpx(141,CGROUND-7,'#1a1a1a');cpx(140,CGROUND-8,'#222');cpx(141,CGROUND-8,'#222');
-  cpx(141,CGROUND-6,'#111');/* ink drip */
+  cpx(208,G-11,'#d4c9a8');cpx(208,G-12,'#d4c9a8');cpx(208,G-13,'#c5b89a');cpx(208,G-14,'#b5a88a');cpx(208,G-15,'#b5a88a');
+  cpx(209,G-15,'#e8e0d0');cpx(207,G-15,'#e8e0d0');cpx(209,G-16,'#d4c9a8');cpx(207,G-16,'#d4c9a8');
+  /* Ink pot */
+  cpx(211,G-11,'#1a1a1a');cpx(212,G-11,'#1a1a1a');cpx(213,G-11,'#1a1a1a');
+  cpx(211,G-12,'#222');cpx(212,G-12,'#222');cpx(213,G-12,'#222');
+  cpx(213,G-10,'#111');
   /* Candle on desk */
-  cpx(144,CGROUND-7,'#e8e0d0');cpx(144,CGROUND-8,'#e8e0d0');cpx(144,CGROUND-9,'#ff8800');
-  if(frame%8<5)cpx(144,CGROUND-10,'#ffaa00');
-  /* Chair */
-  for(var y=CGROUND-8;y<=CGROUND;y++){cpx(132,y,y%3===0?'#5a3618':'#6b4226');}
-  cpx(131,CGROUND-8,'#6b4226');cpx(133,CGROUND-8,'#6b4226');/* chair back */
-  cpx(131,CGROUND-3,'#6b4226');cpx(133,CGROUND-3,'#6b4226');/* seat */
-  cpx(132,CGROUND-3,'#7a5230');
+  cpx(218,G-11,'#e8e0d0');cpx(218,G-12,'#e8e0d0');cpx(218,G-13,'#e8e0d0');cpx(218,G-14,'#ff8800');
+  if(frame%8<5){cpx(218,G-15,'#ffaa00');cpx(217,G-14,'#ff880040');}
+  /* Chair — more detailed */
+  for(var y=G-14;y<=G;y++){cpx(198,y,y%3===0?'#5a3618':'#6b4226');cpx(199,y,y%4===1?'#5a3618':'#6b4226');}
+  cpx(197,G-14,'#6b4226');cpx(200,G-14,'#6b4226');cpx(197,G-13,'#7a5230');cpx(200,G-13,'#7a5230');
+  for(var x=197;x<201;x++){cpx(x,G-5,'#6b4226');cpx(x,G-6,'#7a5230');}
   /* Bookshelf behind desk — three levels */
-  for(var x=152;x<170;x++){
-    cpx(x,CGROUND-8,x%5===0?'#5a3618':'#6b4226');
-    cpx(x,CGROUND-15,x%5===2?'#5a3618':'#6b4226');
-    cpx(x,CGROUND-22,x%5===1?'#5a3618':'#6b4226');
+  for(var x=228;x<255;x++){
+    cpx(x,G-12,x%5===0?'#5a3618':'#6b4226');cpx(x,G-13,x%7===0?'#5a3618':'#6b4226');
+    cpx(x,G-23,x%5===2?'#5a3618':'#6b4226');cpx(x,G-24,x%6===0?'#5a3618':'#6b4226');
+    cpx(x,G-34,x%5===1?'#5a3618':'#6b4226');cpx(x,G-35,x%7===0?'#5a3618':'#6b4226');
   }
   /* Shelf sides */
-  for(var y=CGROUND-22;y<=CGROUND-8;y++){cpx(151,y,'#6b4226');cpx(170,y,'#5a3618');}
+  for(var y=G-35;y<=G-12;y++){cpx(227,y,'#6b4226');cpx(255,y,'#5a3618');}
   /* Books — varied sizes and colors */
-  var bookColors=['#cc3333','#336699','#6b8e3a','#9966aa','#c9a227','#cc8844','#4488aa','#aa4466'];
-  for(var bx=153;bx<169;bx+=2){
-    var bh=2+Math.floor(Math.abs(Math.sin(bx*1.3))*3);
+  var bookColors=['#cc3333','#336699','#6b8e3a','#9966aa','#c9a227','#cc8844','#4488aa','#aa4466','#885533','#448866'];
+  for(var bx=229;bx<254;bx+=2){
+    var bh=3+Math.floor(Math.abs(Math.sin(bx*1.3))*5);
     var bc=bookColors[(bx*3)%bookColors.length];
-    for(var by=0;by<bh;by++)cpx(bx,CGROUND-9-by,bc);
-    var bh2=2+Math.floor(Math.abs(Math.sin(bx*2.1))*3);
+    for(var by=0;by<bh;by++){cpx(bx,G-14-by,bc);cpx(bx+1,G-14-by,bc);}
+    var bh2=3+Math.floor(Math.abs(Math.sin(bx*2.1))*4);
     var bc2=bookColors[(bx*5+1)%bookColors.length];
-    for(var by=0;by<bh2;by++)cpx(bx,CGROUND-16-by,bc2);
-    if(bx%4===1){/* some books on top shelf */
-      var bh3=2+Math.floor(Math.abs(Math.sin(bx*0.7))*2);
+    for(var by=0;by<bh2;by++){cpx(bx,G-25-by,bc2);}
+    if(bx%3===1){
+      var bh3=2+Math.floor(Math.abs(Math.sin(bx*0.7))*3);
       var bc3=bookColors[(bx*7+2)%bookColors.length];
-      for(var by=0;by<bh3;by++)cpx(bx,CGROUND-23-by,bc3);
+      for(var by=0;by<bh3;by++)cpx(bx,G-36-by,bc3);
     }
   }
   /* Globe on bookshelf */
-  cpx(166,CGROUND-23,'#336699');cpx(167,CGROUND-23,'#4488aa');cpx(166,CGROUND-24,'#4488aa');cpx(167,CGROUND-24,'#336699');
-  cpx(166,CGROUND-25,'#6b4226');/* stand */
+  cpx(249,G-36,'#336699');cpx(250,G-36,'#4488aa');cpx(251,G-36,'#336699');
+  cpx(249,G-37,'#4488aa');cpx(250,G-37,'#336699');cpx(251,G-37,'#4488aa');
+  cpx(250,G-38,'#6b4226');
 }
 
 function drawCavernScene(){
@@ -1103,7 +1133,7 @@ function drawCavernScene(){
   if(dramaticState.active&&dramaticState.phase==='closeup'){drawDramaticCloseup();return;}
   var cc=cavern.ctx;
   /* Clear with cave wall color */
-  cc.fillStyle='#2d2820';cc.fillRect(0,0,cavern.CVW*S,cavern.CVH*S);
+  cc.fillStyle='#2d2820';cc.fillRect(0,0,cavern.CVW*CS,cavern.CVH*CS);
   drawCavernBg();
   drawBed();
   drawFireplace();
@@ -1114,76 +1144,180 @@ function drawCavernScene(){
   var gx=Math.round(orc.x);
   var gy=CGROUND-12;
 
-  if(gAI.activity==='sleep'){
+  function cText(str,x,y,col){for(var i=0;i<str.length;i++){var ch2=FONT3x5[str[i]];if(!ch2)continue;for(var r=0;r<ch2.length;r++){for(var c2=0;c2<ch2[r].length;c2++){if(ch2[r][c2]!=='.')cpx(x+i*4+c2,y+r,C[col]||col);}}}}
+
+  if(gAI.preSleep.active){
+    /* BEDTIME UNDRESSING SEQUENCE */
+    var ps=gAI.preSleep;
+    var bx=46;/* standing position near armor stand */
+    if(ps.phase==='walk-to-stand'){
+      /* Walking to armor stand */
+      var sprite2;
+      if(orc.dir===1)sprite2=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+      else sprite2=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+      cpxSprite(sprite2,gx,gy);
+    }else if(ps.phase==='remove-belt'){
+      /* Standing, belt removed — draw orc without belt detail */
+      cpxSprite(ORC_R1,bx,gy);
+      /* Belt on stand */
+      cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
+      /* Arm reaching animation */
+      if(ps.timer%20<10)cpx(bx+9,gy+5,'#64aa4b');
+    }else if(ps.phase==='remove-armor'){
+      /* Standing in undershirt */
+      cpxSprite(ORC_R1,bx,gy);
+      /* Armor on stand */
+      cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
+      cpx(47,CGROUND-10,'#666');cpx(48,CGROUND-10,'#555');cpx(49,CGROUND-10,'#666');
+      cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
+      /* Orc stretching */
+      if(ps.timer%30<15){cpx(bx+2,gy-1,'#64aa4b');cpx(bx+6,gy-1,'#64aa4b');}
+    }else if(ps.phase==='yawn'){
+      /* Yawning animation — mouth open wide */
+      cpxSprite(ORC_R1,bx,gy);
+      /* Override mouth with open yawn */
+      cpx(bx+3,gy+6,'#8b2010');cpx(bx+4,gy+6,'#8b2010');cpx(bx+5,gy+6,'#8b2010');
+      cpx(bx+3,gy+7,'#cc3333');cpx(bx+4,gy+7,'#cc3333');cpx(bx+5,gy+7,'#cc3333');
+      /* Arms up stretching */
+      cpx(bx+1,gy-1,'#64aa4b');cpx(bx+7,gy-1,'#64aa4b');
+      cpx(bx+1,gy-2,'#3a782f');cpx(bx+7,gy-2,'#3a782f');
+    }else if(ps.phase==='walk-to-bed'){
+      var sprite3;
+      if(orc.dir===1)sprite3=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+      else sprite3=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+      cpxSprite(sprite3,gx,gy);
+    }else if(ps.phase==='climb-in'){
+      /* Sitting on bed edge */
+      cpxSprite(ORC_SIT,27,CGROUND-16);
+    }
+    /* Armor/belt accumulating on stand */
+    if(ps.phase!=='walk-to-stand'){
+      cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
+    }
+  }else if(gAI.activity==='sleep'){
     /* Sleeping in bed */
-    cpxSprite(ORC_SLEEP,12,CGROUND-9);
-    /* ZZZ */
-    var zy=CGROUND-12-Math.floor((frame%40)/5);
-    var zx=24+Math.floor((frame%40)/8);
-    function cText(str,x,y,col){for(var i=0;i<str.length;i++){var ch=FONT3x5[str[i]];if(!ch)continue;for(var r=0;r<ch.length;r++){for(var c2=0;c2<ch[r].length;c2++){if(ch[r][c2]!=='.')cpx(x+i*4+c2,y+r,C[col]||col);}}}}
-    if(frame%40<12)cText('Z',zx,zy,'#ccc');
-    else if(frame%40<24){cText('Z',zx-1,zy-1,'#ccc');cText('Z',zx+3,zy,'#aaa');}
-    else cText('Z',zx+5,zy-2,'#aaa');
+    cpxSprite(ORC_SLEEP,18,CGROUND-13);
+    /* Blanket drawn over */
+    for(var bx2=26;bx2<43;bx2++){cpx(bx2,CGROUND-8,bx2%3===0?'#4a5e2a':'#5a6e3a');}
+    /* ZZZ — floating */
+    var zy=CGROUND-18-Math.floor((frame%50)/6);
+    var zx=36+Math.floor((frame%50)/10);
+    if(frame%50<15)cText('Z',zx,zy,'#ccc');
+    else if(frame%50<30){cText('Z',zx-1,zy-1,'#ccc');cText('Z',zx+4,zy,'#aaa');}
+    else{cText('Z',zx+7,zy-2,'#aaa');cText('Z',zx+2,zy-3,'#888');}
   }else if(gAI.walking){
-    var sprite;
-    if(orc.dir===1)sprite=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-    else sprite=(orc.walkFrame===0)?ORC_L1:ORC_L2;
-    cpxSprite(sprite,gx,gy);
+    var sprite4;
+    if(orc.dir===1)sprite4=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+    else sprite4=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    cpxSprite(sprite4,gx,gy);
   }else if(gAI.activity==='fire'){
-    cpxSprite(ORC_SIT,52,CGROUND-10);
+    cpxSprite(ORC_SIT,78,CGROUND-16);
     /* Warm glow on orc */
-    if(frame%6<3){cpx(56,CGROUND-8,'#4a3018');cpx(57,CGROUND-9,'#4a3018');}
+    if(frame%6<3){cpx(83,CGROUND-13,'#4a3018');cpx(84,CGROUND-14,'#4a3018');}
   }else if(gAI.activity==='cook'){
     var stir=Math.sin(frame*0.2)>0;
-    cpxSprite(stir?ORC_R1:ORC_R2,92,CGROUND-12);
+    cpxSprite(stir?ORC_R1:ORC_R2,138,CGROUND-18);
     /* Spoon */
-    cpx(100,CGROUND-7,'#c5b89a');cpx(100,CGROUND-8,'#c5b89a');cpx(100,CGROUND-9,'#c5b89a');
+    cpx(150,CGROUND-10,'#c5b89a');cpx(150,CGROUND-11,'#c5b89a');cpx(150,CGROUND-12,'#c5b89a');cpx(150,CGROUND-13,'#c5b89a');
   }else if(gAI.activity==='work'){
-    cpxSprite(ORC_SIT,134,CGROUND-10);
+    cpxSprite(ORC_SIT,200,CGROUND-16);
     /* Quill scratch animation */
-    if(frame%20<10){cpx(137,CGROUND-8,'#333');cpx(138,CGROUND-7,'#333');}
+    if(frame%20<10){cpx(206,CGROUND-13,'#333');cpx(207,CGROUND-12,'#333');}
   }else if(gAI.activity==='eat'){
-    cpxSprite(ORC_SIT,108,CGROUND-10);
+    cpxSprite(ORC_SIT,162,CGROUND-16);
     /* Food item in hand area */
-    if(frame%30<15){cpx(112,CGROUND-8,'#cc3333');cpx(113,CGROUND-9,'#cc8844');}
+    if(frame%30<15){cpx(167,CGROUND-13,'#cc3333');cpx(168,CGROUND-14,'#cc8844');}
   }else{
     /* Pacing */
-    var sprite;
-    if(orc.dir===1)sprite=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-    else sprite=(orc.walkFrame===0)?ORC_L1:ORC_L2;
-    cpxSprite(sprite,gx,gy);
+    var sprite5;
+    if(orc.dir===1)sprite5=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+    else sprite5=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    cpxSprite(sprite5,gx,gy);
   }
 
   /* Ambient particles — dust motes drifting */
-  if(frame%20===0){
+  if(frame%12===0){
     var dx=Math.floor(Math.random()*cavern.CVW);
-    var dy=10+Math.floor(Math.random()*30);
+    var dy=15+Math.floor(Math.random()*45);
     cpx(dx,dy,'#5a5340');
   }
-  if(frame%35===0){
+  if(frame%20===0){
     var dx2=Math.floor(Math.random()*cavern.CVW);
-    var dy2=12+Math.floor(Math.random()*20);
+    var dy2=18+Math.floor(Math.random()*30);
     cpx(dx2,dy2,'#4a4330');
   }
+  /* Cobwebs in corners */
+  cpx(2,12,'#4a4438');cpx(3,13,'#4a4438');cpx(4,14,'#3d3828');
+  cpx(267,12,'#4a4438');cpx(266,13,'#4a4438');cpx(265,14,'#3d3828');
 }
 
 function updateCavern(){
   if(!cavern.active)return;
 
+  /* Handle pre-sleep undressing sequence */
+  if(gAI.preSleep.active){
+    var ps=gAI.preSleep;
+    ps.timer++;
+    if(ps.phase==='walk-to-stand'){
+      var dx2=46-orc.x;
+      if(Math.abs(dx2)<1){orc.x=46;ps.phase='remove-belt';ps.timer=0;
+        var actEl2=document.getElementById('gt-cavern-activity');
+        if(actEl2)actEl2.textContent='Gorthog removes his belt. It has seen 400 years of war.';
+      }else{
+        orc.dir=dx2>0?1:-1;orc.x+=0.3*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+      }
+    }else if(ps.phase==='remove-belt'&&ps.timer>80){
+      ps.phase='remove-armor';ps.timer=0;
+      var actEl3=document.getElementById('gt-cavern-activity');
+      if(actEl3)actEl3.textContent='Gorthog hangs his armor. The stand groans under its weight.';
+    }else if(ps.phase==='remove-armor'&&ps.timer>90){
+      ps.phase='yawn';ps.timer=0;
+      var actEl4=document.getElementById('gt-cavern-activity');
+      if(actEl4)actEl4.textContent='Gorthog yawns. The cavern trembles slightly.';
+    }else if(ps.phase==='yawn'&&ps.timer>70){
+      ps.phase='walk-to-bed';ps.timer=0;
+    }else if(ps.phase==='walk-to-bed'){
+      var dx3=27-orc.x;
+      if(Math.abs(dx3)<1){orc.x=27;ps.phase='climb-in';ps.timer=0;
+        var actEl5=document.getElementById('gt-cavern-activity');
+        if(actEl5)actEl5.textContent='Gorthog climbs into bed. The frame protests audibly.';
+      }else{
+        orc.dir=dx3>0?1:-1;orc.x+=0.3*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+      }
+    }else if(ps.phase==='climb-in'&&ps.timer>60){
+      /* Done undressing — transition to sleep */
+      ps.active=false;ps.phase='none';ps.timer=0;
+      gAI.activity='sleep';gAI.walking=false;gAI.timer=0;
+      gAI.duration=400+Math.floor(Math.random()*300);
+      var actEl6=document.getElementById('gt-cavern-activity');
+      if(actEl6)actEl6.textContent=ACTIVITY_NAMES.sleep;
+    }
+    return;
+  }
+
   gAI.timer++;
 
   if(gAI.walking){
-    /* Move toward target */
-    var speed=0.25;
+    var speed=0.35;
     var dx=gAI.targetX-orc.x;
     if(Math.abs(dx)<1){
       orc.x=gAI.targetX;
       gAI.walking=false;
       gAI.timer=0;
-      gAI.duration=300+Math.floor(Math.random()*400);/* 5-12 seconds at 60fps */
-      /* Update activity text */
+      gAI.duration=300+Math.floor(Math.random()*400);
       var actEl=document.getElementById('gt-cavern-activity');
       if(actEl)actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
+      /* If arriving at sleep, start undressing sequence */
+      if(gAI.activity==='sleep'){
+        gAI.preSleep.active=true;
+        gAI.preSleep.phase='walk-to-stand';
+        gAI.preSleep.timer=0;
+        var actEl7=document.getElementById('gt-cavern-activity');
+        if(actEl7)actEl7.textContent='Gorthog heads to the armor stand. It is time for rest.';
+        return;
+      }
     }else{
       orc.dir=dx>0?1:-1;
       orc.x+=speed*orc.dir;
@@ -1191,23 +1325,19 @@ function updateCavern(){
       if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
     }
   }else{
-    /* Activity timer */
     if(gAI.timer>=gAI.duration){
-      /* Pick new activity */
       var newAct=ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
-      /* Avoid repeating */
       if(newAct===gAI.activity)newAct=ACTIVITIES[(ACTIVITIES.indexOf(newAct)+1)%ACTIVITIES.length];
       gAI.activity=newAct;
       gAI.targetX=gAI.zones[newAct].x;
       gAI.walking=true;
       gAI.timer=0;
     }
-    /* Pace activity has its own walking */
     if(gAI.activity==='pace'&&!gAI.walking){
-      orc.x+=orc.dir*0.15;
+      orc.x+=orc.dir*0.2;
       orc.walkTimer++;
       if(orc.walkTimer>10){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
-      if(orc.x>gAI.zones.pace.x+15||orc.x<gAI.zones.pace.x-15)orc.dir*=-1;
+      if(orc.x>gAI.zones.pace.x+22||orc.x<gAI.zones.pace.x-22)orc.dir*=-1;
     }
   }
 }
@@ -1217,13 +1347,13 @@ function startCavern(){
   /* Use the footer cavern canvas */
   var cavernCanvas=document.getElementById('cavern-canvas');
   cavern.ctx=cavernCanvas.getContext('2d');
-  cavernCanvas.width=cavern.CVW*S;/* 540 */
-  cavernCanvas.height=cavern.CVH*S;/* 180 */
+  cavernCanvas.width=cavern.CVW*CS;/* 540 */
+  cavernCanvas.height=cavern.CVH*CS;/* 180 */
   /* Hide ask section, show cavern footer */
   document.getElementById('gorthog-ask').classList.add('cavern-mode');
   document.getElementById('cavern-footer').classList.add('cavern-active');
   /* Init orc position at fireplace */
-  orc.x=55;orc.dir=1;orc.vx=0;
+  orc.x=82;orc.dir=1;orc.vx=0;
   gAI.activity='fire';gAI.walking=false;gAI.timer=0;gAI.duration=400;
   /* Show activity */
   var actEl=document.getElementById('gt-cavern-activity');
@@ -1348,7 +1478,7 @@ function drawDramaticCloseup(){
   var cc=cavern.ctx;
   var cw=cavern.CVW,ch=cavern.CVH;
   /* Dark background */
-  cc.fillStyle='#0a0806';cc.fillRect(0,0,cw*S,ch*S);
+  cc.fillStyle='#0a0806';cc.fillRect(0,0,cw*CS,ch*CS);
   /* Draw enlarged Gorthog face — scale up the orc sprite 4x centered */
   var FACE=['..dddd..', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.'];
   var scale=4;
@@ -1602,37 +1732,64 @@ requestAnimationFrame(tick);
 
   <!-- FAVICON -->
   <script>
-  (function() {
-    var c = document.createElement('canvas');
-    c.width = 16; c.height = 16;
-    var x = c.getContext('2d');
-    var P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
-    var art = [
-      [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
-      [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
-      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
-      [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
-      [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
-      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
-      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
-      [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
-      [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
-      [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
-      [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
-      [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
-      [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
-      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
-      [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
-      [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
-    ];
-    for (var y = 0; y < 16; y++) for (var i = 0; i < 16; i++) {
-      var v = art[y][i]; if (v === 0) continue;
-      x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
-    }
-    var link = document.createElement('link');
-    link.rel = 'icon'; link.type = 'image/png';
-    link.href = c.toDataURL('image/png');
+  (function(){
+    var c=document.createElement('canvas');c.width=16;c.height=16;
+    var x=c.getContext('2d');
+    var link=document.createElement('link');
+    link.rel='icon';link.type='image/png';
     document.head.appendChild(link);
+    var frame=0;
+    var particles=[];
+    var sunR=3.5;
+    function draw(){
+      x.clearRect(0,0,16,16);
+      var t=frame*0.15;
+      /* Sun core - pulsing */
+      var pulse=sunR+Math.sin(t*2)*0.5;
+      var grd=x.createRadialGradient(8,8,0,8,8,pulse+2);
+      grd.addColorStop(0,'#FFFBE0');
+      grd.addColorStop(0.4,'#FFD700');
+      grd.addColorStop(0.7,'#FF8C00');
+      grd.addColorStop(1,'#E8260A');
+      x.beginPath();x.arc(8,8,pulse+1,0,Math.PI*2);
+      x.fillStyle=grd;x.fill();
+      /* Rays rotating */
+      for(var r=0;r<8;r++){
+        var a=t*1.2+r*Math.PI/4;
+        var len=3+Math.sin(t*3+r)*1.5;
+        var rx=8+Math.cos(a)*(pulse+1);
+        var ry=8+Math.sin(a)*(pulse+1);
+        var ex=8+Math.cos(a)*(pulse+1+len);
+        var ey=8+Math.sin(a)*(pulse+1+len);
+        x.strokeStyle='rgba(255,200,0,'+(0.6+Math.sin(t*4+r)*0.3)+')';
+        x.lineWidth=1;
+        x.beginPath();x.moveTo(rx,ry);x.lineTo(ex,ey);x.stroke();
+      }
+      /* Explosion particles */
+      if(frame%3===0){
+        var pa=Math.random()*Math.PI*2;
+        var spd=0.3+Math.random()*0.6;
+        particles.push({x:8,y:8,vx:Math.cos(pa)*spd,vy:Math.sin(pa)*spd,
+          life:12+Math.random()*10,maxLife:12+Math.random()*10,
+          color:['#FF4500','#FF6600','#FFD700','#E8260A','#C8FF00'][Math.floor(Math.random()*5)]});
+      }
+      for(var i=particles.length-1;i>=0;i--){
+        var p=particles[i];
+        p.x+=p.vx;p.y+=p.vy;p.life--;
+        if(p.life<=0){particles.splice(i,1);continue;}
+        var alpha=p.life/p.maxLife;
+        x.globalAlpha=alpha;
+        x.fillStyle=p.color;
+        x.fillRect(Math.round(p.x),Math.round(p.y),1,1);
+      }
+      x.globalAlpha=1;
+      /* Hot white center */
+      x.fillStyle='#FFFFFF';
+      x.fillRect(7,7,2,2);
+      link.href=c.toDataURL('image/png');
+      frame++;
+    }
+    setInterval(draw,80);draw();
   })();
   </script>
 </body>
