@@ -62,9 +62,26 @@
       border-right: 2px solid rgba(232,38,10,0.2);
     }
 
+    .person-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .person-portrait canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border: 2px solid rgba(255,255,255,0.08);
+      width: 128px;
+      height: 128px;
+      flex-shrink: 0;
+    }
+    .person-header-text {
+      flex: 1;
+    }
     .person-name {
       font-family: var(--font-display);
-      font-size: 64px;
+      font-size: 56px;
       line-height: 0.9;
       letter-spacing: 0.03em;
       margin-bottom: 8px;
@@ -75,7 +92,6 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--red);
-      margin-bottom: 28px;
     }
     .person-bio p {
       font-family: var(--font-body);
@@ -91,6 +107,7 @@
       margin-top: 28px;
       display: flex;
       gap: 12px;
+      flex-wrap: wrap;
     }
     .person-links a {
       font-family: var(--font-ui);
@@ -106,17 +123,6 @@
     .person-links a:hover {
       border-color: var(--red);
       color: var(--bg);
-    }
-
-    /* -- GORTHOG PORTRAIT -- */
-    .gorthog-portrait {
-      margin-top: 32px;
-      display: flex;
-      justify-content: center;
-    }
-    .gorthog-portrait canvas {
-      image-rendering: pixelated;
-      border: 2px solid rgba(255,255,255,0.06);
     }
 
     /* -- FOOTER -- */
@@ -139,7 +145,9 @@
       .about-title { font-size: 72px; }
       .about-grid { grid-template-columns: 1fr; }
       .about-col:first-child { border-right: none; border-bottom: 2px solid rgba(232,38,10,0.2); }
-      .person-name { font-size: 48px; }
+      .person-name { font-size: 42px; }
+      .person-header { gap: 16px; }
+      .person-portrait canvas { width: 96px; height: 96px; }
       .about-hero { padding: 48px 0 32px; }
     }
   </style>
@@ -174,38 +182,44 @@
       <div class="about-grid">
         <!-- ATTICUS -->
         <div class="about-col">
-          <div class="person-name">ATTICUS EBY</div>
-          <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
+          <div class="person-header">
+            <div class="person-portrait">
+              <canvas id="atticus-canvas" width="192" height="192"></canvas>
+            </div>
+            <div class="person-header-text">
+              <div class="person-name">ATTICUS EBY</div>
+              <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
+            </div>
+          </div>
           <div class="person-bio">
             <p>Napalm Sunrise started as an experiment that refused to end. What began as a side project in SEO testing and digital tinkering evolved into something stranger and more interesting&mdash;a public laboratory where the results are posted whether they look good or not.</p>
             <p>Background in search engine optimization and answer engine optimization, with a particular interest in the places where organic traffic, AI citation, and content strategy collide. The lab runs experiments that most people would call inadvisable. The results speak for themselves, usually in riddles.</p>
             <p>The philosophy is simple: test everything, document the wreckage, share what works. No gatekeeping, no sanitized case studies. Just raw data from the front lines of a search landscape that changes faster than anyone can map it.</p>
             <p>When not running experiments or arguing with an 847-year-old orc about email marketing strategy, you can find the evidence scattered across lab notes, code repositories, and the occasional piece of merch that probably shouldn't exist.</p>
           </div>
-          <!-- PIXEL ART PORTRAIT -->
-          <div class="gorthog-portrait">
-            <canvas id="atticus-canvas" width="192" height="192"></canvas>
-          </div>
           <div class="person-links">
-            <a href="https://github.com/ewitsatticus" target="_blank">GitHub</a>
-            <a href="https://napalmsunrise.com" target="_blank">Website</a>
+            <a href="https://atticuseby.com" target="_blank">Website</a>
+            <a href="https://linkedin.com/in/atticuseby" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/ewitsatticus" target="_blank">Instagram</a>
           </div>
         </div>
 
         <!-- GORTHOG -->
         <div class="about-col">
-          <div class="person-name">GORTHOG</div>
-          <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
+          <div class="person-header">
+            <div class="person-portrait">
+              <canvas id="gorthog-canvas" width="192" height="192"></canvas>
+            </div>
+            <div class="person-header-text">
+              <div class="person-name">GORTHOG</div>
+              <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
+            </div>
+          </div>
           <div class="person-bio">
             <p>Born in the swamps of a place that no longer appears on any map. Raised among raiders. Survived things that would break lesser creatures&mdash;the wars, the raids, the long marches through territory that smelled like sulfur and bad decisions.</p>
             <p>There was a marriage once. A good one, by orc standards. And then a tragedy that Gorthog does not speak of in detail. The specifics are his to share, and he shares them only with those who ask properly. What came after was wandering. Centuries of it.</p>
             <p>How an 847-year-old orc ended up as the resident advisor of a digital marketing operation is a story best heard from Gorthog himself. He answers questions in the chatbot below. He gives advice on life, war, loss, and occasionally on email subject lines. His counsel is surprisingly sound.</p>
             <p>He eats emails. Literally. Don't ask.</p>
-          </div>
-
-          <!-- PIXEL ART PORTRAIT -->
-          <div class="gorthog-portrait">
-            <canvas id="gorthog-canvas" width="192" height="192"></canvas>
           </div>
         </div>
       </div>
@@ -220,102 +234,149 @@
 
   <script>
     // ========================================================
-    // GORTHOG PIXEL ART PORTRAIT — ORC_HAPPY
+    // GORTHOG 32x32 PIXEL ART PORTRAIT
     // ========================================================
     (function() {
       const canvas = document.getElementById('gorthog-canvas');
+      canvas.width = 192; canvas.height = 192;
       const ctx = canvas.getContext('2d');
-      const S = 12; // scale factor (16x16 base, drawn at 192x192)
+      const S = 6; // 32x32 * 6 = 192
 
-      // Colors
       const C = {
-        0: 'transparent',
-        1: '#3a782f', // dark green skin
-        2: '#0d0d0d', // black outline
-        3: '#64aa4b', // light green
-        4: '#e8260a', // red
-        5: '#dcc864', // tusk yellow
-        6: '#4a2810', // brown (hair/ears)
-        7: '#2d5a24', // shadow green
+        '.':'transparent',
+        'o':'#0d0d0d',  // outline
+        'g':'#3a782f',  // dark green
+        'G':'#64aa4b',  // light green
+        's':'#2d5a24',  // shadow green
+        'h':'#4e9638',  // mid green
+        'R':'#e8260a',  // red mouth
+        'T':'#dcc864',  // tusk
+        't':'#c4b050',  // tusk shadow
+        'e':'#4a2810',  // ear brown
+        'W':'#ffffff',  // eye white
+        'p':'#1a1a1a',  // pupil
+        'r':'#8b2010',  // dark red
+        'n':'#3d6e2a',  // nose shadow
       };
 
-      // 16x16 happy orc face
       const sprite = [
-        [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
-        [0,0,0,2,2,7,1,1,1,1,7,2,2,0,0,0],
-        [0,0,2,7,1,1,3,3,3,3,1,1,7,2,0,0],
-        [0,2,6,1,1,3,3,3,3,3,3,1,1,6,2,0],
-        [0,2,6,1,3,3,3,3,3,3,3,3,1,6,2,0],
-        [0,0,2,1,3,2,2,3,3,2,2,3,1,2,0,0],
-        [0,0,2,1,3,2,3,3,3,2,3,3,1,2,0,0],
-        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
-        [0,0,2,1,3,3,1,7,7,1,3,3,1,2,0,0],
-        [0,2,5,1,1,3,3,3,3,3,3,1,1,5,2,0],
-        [0,2,5,1,1,1,4,4,4,4,1,1,1,5,2,0],
-        [0,0,2,1,1,4,4,3,3,4,4,1,1,2,0,0],
-        [0,0,2,7,1,1,1,1,1,1,1,1,7,2,0,0],
-        [0,0,0,2,7,1,1,1,1,1,1,7,2,0,0,0],
-        [0,0,0,0,2,2,7,1,1,7,2,2,0,0,0,0],
-        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+        '................................',
+        '..........oooooooooooo..........',
+        '........oossggggggssooo.........',
+        '.......osgggGGGGGGgggso.........',
+        '......osggGGGGGGGGGGggso........',
+        '.....osgGGGGGGGGGGGGGgsoo.......',
+        '....osgGGGGGGGGGGGGGGGgso.......',
+        '...osgGGGGGGGGGGGGGGGGgso.......',
+        '..oesgGGGGGGGGGGGGGGGGgseo......',
+        '..oeeggGGGGGGGGGGGGGGggeeo......',
+        '.oeeeggGGGGGGGGGGGGGGggeeo......',
+        '.oeeegGGGGGGGGGGGGGGGGgeeo......',
+        '..oegGGGGooppGGGGooppGGgeo......',
+        '..oegGGGGoWWppGGGoWWppGgeo......',
+        '..oegGGGGoWWppGGGoWWppGgeo......',
+        '..oegGGGGooppGGGGooppGGgeo......',
+        '..oegGGGGGGGGGGGGGGGGGgeo.......',
+        '..oegGGGGGGGnnnnGGGGGGgeo.......',
+        '..oegGGhGGGGngggnGGGhGgeo.......',
+        '..oegGGGGGGGGGGGGGGGGGgeo.......',
+        '.oTggGGgGGGGGGGGGGGGgGGgTo......',
+        '.oTtgGGGgggGGGGGGgggGGgtTo......',
+        '.oTtggGGGGGRRRRRRGGGGGgtTo......',
+        '..otggGGGGRRRrrrRRGGGGgtoo......',
+        '..ooggGGGGGRRRRRRGGGGGgoo.......',
+        '...osgGGGGGGGGGGGGGGGgsoo.......',
+        '....osggGGGGGGGGGGGGggsoo.......',
+        '.....ossgGGGGGGGGGGgssooo.......',
+        '......oossgGGGGGGgssooo.........',
+        '.......ooosssggsssoo............',
+        '.........oooooooooo.............',
+        '................................',
       ];
 
-      for (let y = 0; y < 16; y++) {
-        for (let x = 0; x < 16; x++) {
-          const v = sprite[y][x];
-          if (v === 0) continue;
-          ctx.fillStyle = C[v];
+      for (let y = 0; y < 32; y++) {
+        for (let x = 0; x < 32; x++) {
+          const ch = sprite[y][x];
+          if (ch === '.' || !C[ch]) continue;
+          ctx.fillStyle = C[ch];
           ctx.fillRect(x * S, y * S, S, S);
         }
       }
     })();
 
     // ========================================================
-    // ATTICUS PIXEL ART PORTRAIT
+    // ATTICUS 32x32 PIXEL ART PORTRAIT
     // ========================================================
     (function() {
       const canvas = document.getElementById('atticus-canvas');
+      canvas.width = 192; canvas.height = 192;
       const ctx = canvas.getContext('2d');
-      const S = 12; // scale factor (16x16 base, drawn at 192x192)
+      const S = 6; // 32x32 * 6 = 192
 
-      // Colors
       const C = {
-        0: 'transparent',
-        1: '#e8c9a0', // skin base
-        2: '#0d0d0d', // black outline
-        3: '#d4a878', // skin shadow
-        4: '#5c3a1e', // dark brown hair
-        5: '#7a4e2a', // medium brown hair
-        6: '#6b4226', // mustache/stubble
-        7: '#1a1a1a', // shirt (dark)
-        8: '#f5dbb8', // skin highlight
-        9: '#3a2210', // darkest hair
+        '.':'transparent',
+        'o':'#0d0d0d',  // outline
+        'h':'#5c3a1e',  // dark brown hair
+        'H':'#7a4e2a',  // medium brown hair
+        'd':'#3a2210',  // darkest hair
+        's':'#e8c9a0',  // skin base
+        'S':'#f5dbb8',  // skin highlight
+        'w':'#d4a878',  // skin shadow
+        'c':'#c49468',  // skin deep shadow
+        'e':'#2a1a0a',  // eye dark
+        'W':'#e8ddd0',  // eye white
+        'p':'#1a1208',  // pupil
+        'm':'#6b4226',  // mustache
+        'M':'#55351c',  // mustache dark
+        'b':'#8a6040',  // stubble
+        'L':'#cc8877',  // lip
+        'l':'#aa6655',  // lip shadow
+        'T':'#1a1a1a',  // shirt dark
+        't':'#252525',  // shirt lighter
+        'n':'#d0a080',  // nose shadow
+        'E':'#3e2510',  // ear shadow
       };
 
-      // 16x16 Atticus portrait — wavy brown hair, mustache, dark shirt
       const sprite = [
-        [0,0,0,0,9,4,4,4,4,4,4,9,0,0,0,0],
-        [0,0,0,9,4,5,4,5,4,5,4,5,9,0,0,0],
-        [0,0,9,4,5,4,5,4,4,5,4,5,4,9,0,0],
-        [0,9,4,5,4,4,5,5,5,4,4,5,4,4,9,0],
-        [0,9,4,2,1,1,1,1,1,1,1,1,2,4,9,0],
-        [0,0,2,1,1,8,1,1,1,8,1,1,1,2,0,0],
-        [0,0,2,1,2,2,1,1,1,2,2,1,1,2,0,0],
-        [0,0,2,3,1,1,1,3,1,1,1,3,1,2,0,0],
-        [0,0,2,3,1,1,1,1,1,1,1,1,3,2,0,0],
-        [0,0,2,1,1,6,6,6,6,6,1,1,1,2,0,0],
-        [0,0,2,3,1,1,1,1,1,1,1,1,3,2,0,0],
-        [0,0,2,3,1,1,6,1,1,6,1,1,3,2,0,0],
-        [0,0,0,2,3,1,1,1,1,1,1,3,2,0,0,0],
-        [0,0,0,0,2,7,7,7,7,7,7,2,0,0,0,0],
-        [0,0,0,2,7,7,7,7,7,7,7,7,2,0,0,0],
-        [0,0,2,7,7,7,7,7,7,7,7,7,7,2,0,0]
+        '................................',
+        '..........ddhhhhhdd.............',
+        '.........dHhHhHhHhHd............',
+        '........dhHhHHhHHhHhd...........',
+        '.......dHhHhHHHHhHhHHd..........',
+        '......dhHHhHhHhHhHhHHhd.........',
+        '.....dhHHHhHhHHHHhHhHHhd........',
+        '.....dHhHHHHhHhHhHHHHhHd........',
+        '....dhHhHHHHHHHHHHHHHhHhd.......',
+        '....dHHhooooooooooooooHHd.......',
+        '....dhHosSSSSssssSSSSSoHd.......',
+        '.....dosSSSSSSssSSSSSSsod.......',
+        '.....osSSSSSSSSSSSSSSSSso.......',
+        '.....osSSeeoSSSSSoeeSSSo........',
+        '.....osSeWWeoSSSoeWWeSso........',
+        '.....osSeppeoSSSoeppeSso........',
+        '.....osSSeeoSSSSSoeeSSSo........',
+        '.....osSSSSSSSnSnSSSSSso........',
+        '.....osSSSSSSnnnnnSSSSso........',
+        '.....osSSSSSSSnSSnSSSSSo........',
+        '.....owSSSmMMmmmmmMMmSSo........',
+        '.....owSSSSmMMMMMMMmSSSo........',
+        '.....owSSSSSsssssssSSSSo........',
+        '.....owSSSSSSLLLLSSSSSSo........',
+        '.....ocSSSSSSlllLSSSSSSo........',
+        '.....owSSSbSSSSSSSbSSSSo........',
+        '......ocSSSSSSSSSSSSSSo.........',
+        '......owSSSSSSSSSSSSSSo.........',
+        '.......ocoTTTTTTTTToco..........',
+        '......ooTTtTTTTTTtTToo..........',
+        '.....oTTTtTTTTTTTTtTTTo.........',
+        '....oTTTTTTTTTTTTTTTTTTo........',
       ];
 
-      for (let y = 0; y < 16; y++) {
-        for (let x = 0; x < 16; x++) {
-          const v = sprite[y][x];
-          if (v === 0) continue;
-          ctx.fillStyle = C[v];
+      for (let y = 0; y < 32; y++) {
+        for (let x = 0; x < 32; x++) {
+          const ch = sprite[y][x];
+          if (ch === '.' || !C[ch]) continue;
+          ctx.fillStyle = C[ch];
           ctx.fillRect(x * S, y * S, S, S);
         }
       }
