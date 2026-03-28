@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0D0D0D">
+  <title>About — Napalm Sunrise</title>
+  <meta name="description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder and operator. Gorthog, 847-year-old orc and resident advisor.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About — Napalm Sunrise">
+  <meta property="og:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthog, 847-year-old orc.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napalmsunrise.com/about/">
+  <meta property="og:image" content="https://napalmsunrise.com/images/og-about.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About — Napalm Sunrise">
+  <meta name="twitter:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthog, 847-year-old orc.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../base.css">
+  <style>
+    body {
+      background: var(--black);
+      color: var(--bg);
+    }
+
+    /* -- PAGE LAYOUT -- */
+    .about-hero {
+      padding: 80px 0 48px;
+      border-bottom: 2px solid rgba(232,38,10,0.3);
+    }
+    .about-title {
+      font-family: var(--font-display);
+      font-size: 120px;
+      line-height: 0.88;
+      letter-spacing: 0.04em;
+      color: var(--bg);
+    }
+    .about-subtitle {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-style: italic;
+      color: rgba(243,237,224,0.45);
+      margin-top: 16px;
+    }
+
+    /* -- TWO COLUMN -- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 64px 0 80px;
+    }
+    .about-col {
+      padding: 40px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .about-col:first-child {
+      border-right: 2px solid rgba(232,38,10,0.2);
+    }
+
+    .person-name {
+      font-family: var(--font-display);
+      font-size: 64px;
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+    .person-role {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 28px;
+    }
+    .person-bio p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(243,237,224,0.6);
+      margin-bottom: 18px;
+    }
+    .person-bio p:last-child {
+      margin-bottom: 0;
+    }
+    .person-links {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+    }
+    .person-links a {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.4);
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: all 0.12s;
+    }
+    .person-links a:hover {
+      border-color: var(--red);
+      color: var(--bg);
+    }
+
+    /* -- GORTHOG PORTRAIT -- */
+    .gorthog-portrait {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .gorthog-portrait canvas {
+      image-rendering: pixelated;
+      border: 2px solid rgba(255,255,255,0.06);
+    }
+
+    /* -- FOOTER -- */
+    .about-footer {
+      background: #1a1610;
+      border-top: 4px solid var(--red);
+      padding: 28px;
+      text-align: center;
+    }
+    .about-footer p {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.15);
+      text-transform: uppercase;
+    }
+
+    /* -- RESPONSIVE -- */
+    @media (max-width: 768px) {
+      .about-title { font-size: 72px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-col:first-child { border-right: none; border-bottom: 2px solid rgba(232,38,10,0.2); }
+      .person-name { font-size: 48px; }
+      .about-hero { padding: 48px 0 32px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- HEADER -->
+  <header style="background:var(--black);border-bottom:4px solid var(--red);position:sticky;top:0;z-index:200;">
+    <div class="header-inner" style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;padding:0 28px;">
+      <a href="/napalmsunrise-arcade/" class="logo" style="font-family:var(--font-display);font-size:26px;letter-spacing:0.1em;color:var(--bg);padding:14px 0;text-decoration:none;user-select:none;display:flex;align-items:center;">
+        NAPALM<span style="color:var(--red);">SUNRISE</span>
+      </a>
+      <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
+        <a href="/napalmsunrise-arcade/" class="nav-link">Home</a>
+        <a href="/napalmsunrise-arcade/play/" class="nav-link">Play</a>
+        <a href="/napalmsunrise-arcade/lab/" class="nav-link">Lab</a>
+        <a href="/napalmsunrise-arcade/about/" class="nav-link active">About</a>
+        <a href="https://napalmsunrise.com/blogs/lab-notes" class="nav-link" target="_blank">Lab Notes</a>
+        <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
+        <a href="https://napalmsunrise.com/cart" class="nav-link" target="_blank" style="padding:7px 14px;border:1px solid rgba(255,255,255,0.15);">Cart</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" role="main">
+    <div class="wrap">
+      <section class="about-hero">
+        <div class="about-title">WHO WE ARE</div>
+        <p class="about-subtitle">One human. One orc. Zero oversight.</p>
+      </section>
+
+      <div class="about-grid">
+        <!-- ATTICUS -->
+        <div class="about-col">
+          <div class="person-name">ATTICUS EBY</div>
+          <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
+          <div class="person-bio">
+            <p>Napalm Sunrise started as an experiment that refused to end. What began as a side project in SEO testing and digital tinkering evolved into something stranger and more interesting&mdash;a public laboratory where the results are posted whether they look good or not.</p>
+            <p>Background in search engine optimization and answer engine optimization, with a particular interest in the places where organic traffic, AI citation, and content strategy collide. The lab runs experiments that most people would call inadvisable. The results speak for themselves, usually in riddles.</p>
+            <p>The philosophy is simple: test everything, document the wreckage, share what works. No gatekeeping, no sanitized case studies. Just raw data from the front lines of a search landscape that changes faster than anyone can map it.</p>
+            <p>When not running experiments or arguing with an 847-year-old orc about email marketing strategy, you can find the evidence scattered across lab notes, code repositories, and the occasional piece of merch that probably shouldn't exist.</p>
+          </div>
+          <div class="person-links">
+            <a href="https://github.com/ewitsatticus" target="_blank">GitHub</a>
+            <a href="https://napalmsunrise.com" target="_blank">Website</a>
+          </div>
+        </div>
+
+        <!-- GORTHOG -->
+        <div class="about-col">
+          <div class="person-name">GORTHOG</div>
+          <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
+          <div class="person-bio">
+            <p>Born in the swamps of a place that no longer appears on any map. Raised among raiders. Survived things that would break lesser creatures&mdash;the wars, the raids, the long marches through territory that smelled like sulfur and bad decisions.</p>
+            <p>There was a marriage once. A good one, by orc standards. And then a tragedy that Gorthog does not speak of in detail. The specifics are his to share, and he shares them only with those who ask properly. What came after was wandering. Centuries of it.</p>
+            <p>How an 847-year-old orc ended up as the resident advisor of a digital marketing operation is a story best heard from Gorthog himself. He answers questions in the chatbot below. He gives advice on life, war, loss, and occasionally on email subject lines. His counsel is surprisingly sound.</p>
+            <p>He eats emails. Literally. Don't ask.</p>
+          </div>
+
+          <!-- PIXEL ART PORTRAIT -->
+          <div class="gorthog-portrait">
+            <canvas id="gorthog-canvas" width="192" height="192"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="about-footer">
+    <p>&copy; 2026 Napalm Sunrise. All experiments conducted without supervision.</p>
+    <p style="margin-top:6px;">Built with Claude Code &middot; Hosted on GitHub Pages</p>
+  </footer>
+
+  <script>
+    // ========================================================
+    // GORTHOG PIXEL ART PORTRAIT — ORC_HAPPY
+    // ========================================================
+    (function() {
+      const canvas = document.getElementById('gorthog-canvas');
+      const ctx = canvas.getContext('2d');
+      const S = 12; // scale factor (16x16 base, drawn at 192x192)
+
+      // Colors
+      const C = {
+        0: 'transparent',
+        1: '#3a782f', // dark green skin
+        2: '#0d0d0d', // black outline
+        3: '#64aa4b', // light green
+        4: '#e8260a', // red
+        5: '#dcc864', // tusk yellow
+        6: '#4a2810', // brown (hair/ears)
+        7: '#2d5a24', // shadow green
+      };
+
+      // 16x16 happy orc face
+      const sprite = [
+        [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+        [0,0,0,2,2,7,1,1,1,1,7,2,2,0,0,0],
+        [0,0,2,7,1,1,3,3,3,3,1,1,7,2,0,0],
+        [0,2,6,1,1,3,3,3,3,3,3,1,1,6,2,0],
+        [0,2,6,1,3,3,3,3,3,3,3,3,1,6,2,0],
+        [0,0,2,1,3,2,2,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,3,2,3,3,3,2,3,3,1,2,0,0],
+        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+        [0,0,2,1,3,3,1,7,7,1,3,3,1,2,0,0],
+        [0,2,5,1,1,3,3,3,3,3,3,1,1,5,2,0],
+        [0,2,5,1,1,1,4,4,4,4,1,1,1,5,2,0],
+        [0,0,2,1,1,4,4,3,3,4,4,1,1,2,0,0],
+        [0,0,2,7,1,1,1,1,1,1,1,1,7,2,0,0],
+        [0,0,0,2,7,1,1,1,1,1,1,7,2,0,0,0],
+        [0,0,0,0,2,2,7,1,1,7,2,2,0,0,0,0],
+        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+      ];
+
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const v = sprite[y][x];
+          if (v === 0) continue;
+          ctx.fillStyle = C[v];
+          ctx.fillRect(x * S, y * S, S, S);
+        }
+      }
+    })();
+
+    // ========================================================
+    // FAVICON
+    // ========================================================
+    (function() {
+      const c = document.createElement('canvas');
+      c.width = 16; c.height = 16;
+      const x = c.getContext('2d');
+      const P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
+      const art = [
+        [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+        [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+        [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+        [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+        [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+        [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+        [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+        [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+        [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+      ];
+      for (let y = 0; y < 16; y++) for (let i = 0; i < 16; i++) {
+        const v = art[y][i]; if (v === 0) continue;
+        x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
+      }
+      const link = document.createElement('link');
+      link.rel = 'icon'; link.type = 'image/png';
+      link.href = c.toDataURL('image/png');
+      document.head.appendChild(link);
+    })();
+  </script>
+</body>
+</html>

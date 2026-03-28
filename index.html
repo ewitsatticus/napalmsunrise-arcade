@@ -6,6 +6,17 @@
   <meta name="theme-color" content="#0D0D0D">
   <title>Napalm Sunrise — Public Lab, Questionable Conclusions</title>
   <meta name="description" content="A public lab run by someone who should probably know better. SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Napalm Sunrise — Public Lab, Questionable Conclusions">
+  <meta property="og:description" content="SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napalmsunrise.com/">
+  <meta property="og:image" content="https://napalmsunrise.com/images/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Napalm Sunrise — Public Lab, Questionable Conclusions">
+  <meta name="twitter:description" content="SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,8 +32,10 @@
         NAPALM<span style="color:var(--red);">SUNRISE</span>
       </a>
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
-        <a href="/" class="nav-link active">Home</a>
+        <a href="/napalmsunrise-arcade/" class="nav-link active">Home</a>
         <a href="/napalmsunrise-arcade/play/" class="nav-link">Play</a>
+        <a href="/napalmsunrise-arcade/lab/" class="nav-link">Lab</a>
+        <a href="/napalmsunrise-arcade/about/" class="nav-link">About</a>
         <a href="#gorthog" class="nav-link">Gorthog</a>
         <a href="https://napalmsunrise.com/blogs/lab-notes" class="nav-link" target="_blank">Lab Notes</a>
         <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
@@ -51,19 +64,376 @@
     <!-- HERO -->
     <div class="wrap">
       <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-overlay"></div>
         <div class="hero-left">
-          <div class="eyebrow">Public Lab &middot; Personal Brand &middot; Questionable Conclusions</div>
-          <h1 class="hero-name">ATTICUS EBY</h1>
+          <div class="eyebrow" id="hero-eyebrow">TRANSMITTING FROM THE END OF THE WORLD</div>
           <div class="hero-site">NAPALM SUNRISE</div>
-          <p class="hero-tagline">A public lab run by someone who should probably know better. Documented SEO and AEO experiments, AI automation, absurdist merch, and brutally honest advice from an 847-year-old orc.</p>
+          <p class="hero-tagline">A public experiment in digital survival. SEO tests that probably shouldn't exist, an 847-year-old orc who won't shut up, and the world's most inadvisable merch operation.</p>
           <div class="cta-row">
-            <a class="btn btn-fill" href="/napalmsunrise-arcade/play/">Play Orc Parkour</a>
-            <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank">Lab Notes</a>
-            <a class="btn btn-ghost" href="#gorthog">Ask Gorthog</a>
+            <a class="btn btn-fill" href="/napalmsunrise-arcade/play/">PLAY</a>
+            <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank">EXPLORE</a>
+            <a class="btn btn-ghost" href="#gorthog">ASK GORTHOG</a>
           </div>
         </div>
       </section>
     </div>
+    <script>
+    (function() {
+      /* ---- ROTATING EYEBROW ---- */
+      const lines = [
+        "TRANSMITTING FROM THE END OF THE WORLD",
+        "ALL EXPERIMENTS TERMINAL",
+        "SIGNAL DETECTED \u2014 ORIGIN UNKNOWN",
+        "THE LAB IS OPEN. THE EXIT IS NOT.",
+        "DOCUMENTING THE COLLAPSE SINCE 2024",
+        "NO CONTROL GROUP. NO SAFETY NET.",
+        "BROADCAST 847 \u2014 UNAUTHORIZED",
+        "THE DATA SPEAKS. NOBODY LISTENS.",
+        "RESULTS INCONCLUSIVE. CONTINUING ANYWAY.",
+        "LAST KNOWN FREQUENCY: 66.6 MHZ",
+        "FIELD NOTES FROM A BURNING BUILDING",
+        "TEST SUBJECT: EVERYTHING",
+        "ABANDON METHODOLOGY, ALL YE WHO ENTER",
+        "PEER REVIEW DECLINED. PROCEED REGARDLESS.",
+        "THIS SIGNAL WILL NOT BE REPEATED"
+      ];
+      let eyeIdx = 0;
+      const eyeEl = document.getElementById('hero-eyebrow');
+      setInterval(function() {
+        eyeEl.style.opacity = '0';
+        setTimeout(function() {
+          eyeIdx = (eyeIdx + 1) % lines.length;
+          eyeEl.textContent = lines[eyeIdx];
+          eyeEl.style.opacity = '1';
+        }, 600);
+      }, 8000);
+
+      /* ---- PIXEL ART NAPALM SUNRISE CANVAS ---- */
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const PX = 5; // pixel scale
+      let W, H, cols, rows;
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width = rect.width;
+        H = canvas.height = rect.height;
+        cols = Math.ceil(W / PX);
+        rows = Math.ceil(H / PX);
+        generateBuildings();
+      }
+
+      // Silhouetted buildings
+      let buildings = [];
+      function generateBuildings() {
+        buildings = [];
+        let x = 0;
+        while (x < cols) {
+          const w = 3 + Math.floor(Math.random() * 8);
+          const h = 4 + Math.floor(Math.random() * (rows * 0.35));
+          const gap = Math.random() < 0.3 ? 1 + Math.floor(Math.random() * 3) : 0;
+          buildings.push({ x: x, w: w, h: h });
+          x += w + gap;
+        }
+      }
+
+      // Napalm drops
+      const drops = [];
+      const MAX_DROPS = 60;
+
+      // Fire particles at bottom
+      const flames = [];
+      const MAX_FLAMES = 120;
+
+      // Smoke/ash particles
+      const smoke = [];
+      const MAX_SMOKE = 80;
+
+      const LOOP = 35; // seconds per full loop
+      let startTime = performance.now();
+
+      function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+      function lerpColor(c1, c2, t) {
+        return [
+          Math.round(lerp(c1[0], c2[0], t)),
+          Math.round(lerp(c1[1], c2[1], t)),
+          Math.round(lerp(c1[2], c2[2], t))
+        ];
+      }
+
+      function rgb(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+
+      // Colors
+      const BLACK = [5, 5, 5];
+      const DARK_RED = [60, 8, 2];
+      const BLOOD_RED = [180, 30, 5];
+      const ORANGE = [232, 120, 10];
+      const YELLOW = [255, 200, 40];
+      const FIRE_RED = [220, 50, 10];
+      const FIRE_ORANGE = [255, 140, 20];
+      const FIRE_YELLOW = [255, 220, 60];
+      const ASH_GRAY = [80, 70, 60];
+      const SMOKE_DARK = [30, 28, 25];
+
+      function drawPixel(cx, cy, color) {
+        ctx.fillStyle = rgb(color);
+        ctx.fillRect(cx * PX, cy * PX, PX, PX);
+      }
+
+      function frame(now) {
+        const elapsed = ((now - startTime) / 1000) % LOOP;
+        const phase = elapsed / LOOP; // 0..1
+
+        // Phase boundaries (as fraction of LOOP)
+        // 0.00-0.18: sunrise
+        // 0.18-0.35: napalm drops
+        // 0.35-0.50: fire spreads
+        // 0.50-0.70: inferno
+        // 0.70-0.88: burnout
+        // 0.88-1.00: darkness
+
+        // -- SKY --
+        let skyTop, skyBot;
+        if (phase < 0.18) {
+          // sunrise: black -> dark red/orange sky
+          const t = phase / 0.18;
+          skyTop = lerpColor(BLACK, DARK_RED, t * 0.7);
+          skyBot = lerpColor(BLACK, BLOOD_RED, t);
+        } else if (phase < 0.35) {
+          const t = (phase - 0.18) / 0.17;
+          skyTop = lerpColor(DARK_RED, [100, 20, 5], t * 0.6);
+          skyBot = lerpColor(BLOOD_RED, ORANGE, t * 0.7);
+        } else if (phase < 0.50) {
+          const t = (phase - 0.35) / 0.15;
+          skyTop = lerpColor([100, 20, 5], FIRE_RED, t * 0.4);
+          skyBot = lerpColor(ORANGE, FIRE_ORANGE, t);
+        } else if (phase < 0.70) {
+          const t = (phase - 0.50) / 0.20;
+          skyTop = lerpColor([100, 20, 5], FIRE_ORANGE, t * 0.5);
+          skyBot = lerpColor(FIRE_ORANGE, FIRE_YELLOW, t * 0.6);
+        } else if (phase < 0.88) {
+          const t = (phase - 0.70) / 0.18;
+          skyTop = lerpColor([100, 20, 5], SMOKE_DARK, t);
+          skyBot = lerpColor(FIRE_ORANGE, ASH_GRAY, t);
+        } else {
+          const t = (phase - 0.88) / 0.12;
+          skyTop = lerpColor(SMOKE_DARK, BLACK, t);
+          skyBot = lerpColor(ASH_GRAY, BLACK, t);
+        }
+
+        // Draw sky gradient (chunky pixel rows)
+        for (var r = 0; r < rows; r++) {
+          var t = r / rows;
+          var c = lerpColor(skyTop, skyBot, t);
+          ctx.fillStyle = rgb(c);
+          ctx.fillRect(0, r * PX, W, PX);
+        }
+
+        // -- SUN --
+        if (phase < 0.50) {
+          var sunT, sunAlpha;
+          if (phase < 0.18) {
+            sunT = phase / 0.18;
+            sunAlpha = sunT;
+          } else {
+            sunT = 1;
+            sunAlpha = 1 - ((phase - 0.18) / 0.32) * 0.3;
+          }
+          var sunRadius = Math.floor(Math.min(cols, rows) * 0.08);
+          var sunCX = Math.floor(cols * 0.5);
+          var horizonRow = Math.floor(rows * 0.72);
+          var sunCY = horizonRow + Math.floor(sunRadius * 2 * (1 - sunT));
+          var sunColors = [BLOOD_RED, FIRE_RED, ORANGE];
+          for (var sy = -sunRadius; sy <= sunRadius; sy++) {
+            for (var sx = -sunRadius; sx <= sunRadius; sx++) {
+              var dist = Math.sqrt(sx * sx + sy * sy);
+              if (dist <= sunRadius) {
+                var ci = Math.floor((dist / sunRadius) * (sunColors.length - 1));
+                ci = Math.min(ci, sunColors.length - 1);
+                var sc = sunColors[ci];
+                var py = sunCY + sy;
+                var px = sunCX + sx;
+                if (py >= 0 && py < rows && px >= 0 && px < cols) {
+                  ctx.globalAlpha = sunAlpha;
+                  drawPixel(px, py, sc);
+                }
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        // -- BUILDINGS (silhouettes on horizon) --
+        var horizonRow = Math.floor(rows * 0.72);
+        var buildColor;
+        if (phase < 0.35) {
+          buildColor = BLACK;
+        } else if (phase < 0.70) {
+          var bt = (phase - 0.35) / 0.35;
+          buildColor = lerpColor(BLACK, [30, 10, 5], bt * 0.3);
+        } else {
+          buildColor = lerpColor([30, 10, 5], BLACK, (phase - 0.70) / 0.30);
+        }
+        for (var bi = 0; bi < buildings.length; bi++) {
+          var b = buildings[bi];
+          for (var by = 0; by < b.h; by++) {
+            for (var bx = 0; bx < b.w; bx++) {
+              var pr = horizonRow - by;
+              var pc = b.x + bx;
+              if (pr >= 0 && pr < rows && pc < cols) {
+                drawPixel(pc, pr, buildColor);
+              }
+            }
+          }
+          // occasional window glow during fire phases
+          if (phase > 0.35 && phase < 0.85 && b.h > 6) {
+            var fireGlow = Math.min(1, (phase - 0.35) / 0.15);
+            if (phase > 0.70) fireGlow *= Math.max(0, 1 - (phase - 0.70) / 0.15);
+            for (var wy = 2; wy < b.h - 1; wy += 3) {
+              for (var wx = 1; wx < b.w - 1; wx += 2) {
+                if (Math.random() < 0.4 * fireGlow) {
+                  var wc = Math.random() < 0.5 ? FIRE_ORANGE : FIRE_YELLOW;
+                  ctx.globalAlpha = 0.4 + Math.random() * 0.5;
+                  drawPixel(b.x + wx, horizonRow - wy, wc);
+                }
+              }
+            }
+            ctx.globalAlpha = 1;
+          }
+        }
+
+        // -- GROUND --
+        var groundColor;
+        if (phase < 0.35) {
+          groundColor = BLACK;
+        } else if (phase < 0.70) {
+          var gt = (phase - 0.35) / 0.35;
+          groundColor = lerpColor(BLACK, [40, 12, 3], gt);
+        } else {
+          groundColor = lerpColor([40, 12, 3], BLACK, (phase - 0.70) / 0.30);
+        }
+        for (var gr = horizonRow + 1; gr < rows; gr++) {
+          for (var gc = 0; gc < cols; gc++) {
+            drawPixel(gc, gr, groundColor);
+          }
+        }
+
+        // -- NAPALM DROPS (phase 0.18 - 0.55) --
+        if (phase > 0.15 && phase < 0.55) {
+          var dropIntensity = phase < 0.25 ? (phase - 0.15) / 0.10 : (phase < 0.45 ? 1 : 1 - (phase - 0.45) / 0.10);
+          var targetDrops = Math.floor(MAX_DROPS * dropIntensity);
+          while (drops.length < targetDrops) {
+            drops.push({
+              x: Math.floor(Math.random() * cols),
+              y: -Math.floor(Math.random() * 10),
+              speed: 0.3 + Math.random() * 0.6,
+              len: 2 + Math.floor(Math.random() * 4),
+              color: Math.random() < 0.5 ? ORANGE : YELLOW
+            });
+          }
+        }
+        for (var di = drops.length - 1; di >= 0; di--) {
+          var d = drops[di];
+          d.y += d.speed;
+          if (d.y > rows + 5) {
+            drops.splice(di, 1);
+            continue;
+          }
+          for (var dl = 0; dl < d.len; dl++) {
+            var dry = Math.floor(d.y - dl);
+            if (dry >= 0 && dry < rows) {
+              ctx.globalAlpha = 0.6 + 0.4 * (1 - dl / d.len);
+              drawPixel(d.x, dry, d.color);
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        // -- FIRE ON GROUND (phase 0.35 - 0.85) --
+        if (phase > 0.32 && phase < 0.88) {
+          var fireT;
+          if (phase < 0.50) {
+            fireT = (phase - 0.32) / 0.18; // spreading
+          } else if (phase < 0.70) {
+            fireT = 1; // full inferno
+          } else {
+            fireT = Math.max(0, 1 - (phase - 0.70) / 0.18); // dying
+          }
+          var fireWidth = Math.floor(cols * fireT);
+          var fireStart = Math.floor((cols - fireWidth) / 2);
+          for (var fi = 0; fi < fireWidth; fi++) {
+            var fx = fireStart + fi;
+            var flameH = 2 + Math.floor(Math.random() * 6 * fireT);
+            for (var fy = 0; fy < flameH; fy++) {
+              var frow = horizonRow - fy;
+              if (frow >= 0 && frow < rows) {
+                var fc;
+                if (fy < flameH * 0.3) fc = FIRE_YELLOW;
+                else if (fy < flameH * 0.6) fc = FIRE_ORANGE;
+                else fc = FIRE_RED;
+                ctx.globalAlpha = 0.5 + Math.random() * 0.5;
+                drawPixel(fx, frow, fc);
+              }
+            }
+          }
+          // Ground fire glow
+          for (var gfr = horizonRow + 1; gfr < Math.min(rows, horizonRow + 5); gfr++) {
+            for (var gfc = fireStart; gfc < fireStart + fireWidth; gfc++) {
+              if (gfc >= 0 && gfc < cols && Math.random() < 0.3 * fireT) {
+                ctx.globalAlpha = 0.3 * fireT;
+                drawPixel(gfc, gfr, FIRE_RED);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        // -- SMOKE / ASH (phase 0.55 - 1.0) --
+        if (phase > 0.50 && phase < 1.0) {
+          var smokeIntensity = phase < 0.70 ? (phase - 0.50) / 0.20 : (phase < 0.90 ? 1 : 1 - (phase - 0.90) / 0.10);
+          var targetSmoke = Math.floor(MAX_SMOKE * smokeIntensity);
+          while (smoke.length < targetSmoke) {
+            smoke.push({
+              x: Math.random() * cols,
+              y: horizonRow - Math.random() * 5,
+              vx: (Math.random() - 0.5) * 0.3,
+              vy: -0.1 - Math.random() * 0.4,
+              life: 1,
+              decay: 0.002 + Math.random() * 0.005,
+              color: Math.random() < 0.6 ? ASH_GRAY : SMOKE_DARK
+            });
+          }
+        }
+        for (var si = smoke.length - 1; si >= 0; si--) {
+          var s = smoke[si];
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life -= s.decay;
+          if (s.life <= 0 || s.y < -2) {
+            smoke.splice(si, 1);
+            continue;
+          }
+          var sx = Math.floor(s.x);
+          var sy = Math.floor(s.y);
+          if (sx >= 0 && sx < cols && sy >= 0 && sy < rows) {
+            ctx.globalAlpha = s.life * 0.5;
+            drawPixel(sx, sy, s.color);
+            // bigger smoke blobs
+            if (s.life > 0.5 && sx + 1 < cols) drawPixel(sx + 1, sy, s.color);
+            if (s.life > 0.5 && sy - 1 >= 0) drawPixel(sx, sy - 1, s.color);
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(frame);
+    })();
+    </script>
 
     <!-- TRIPLE GRID -->
     <div class="wrap">
@@ -277,20 +647,174 @@ var LINES={
 };
 
 var KB=[
-  {keys:['who','atticus','eby','owner','creator','founder','behind'],answer:"Gorthog work for Atticus Eby. Him run this whole operation. Public lab, SEO experiments, AI automation, questionable merch decisions. Gorthog respect him. Mostly because him sign Gorthog paycheck."},
-  {keys:['napalm','sunrise','site','website','what is','this place'],answer:"Napalm Sunrise is public lab run by Atticus Eby. Documented SEO experiments, AEO tests, AI automation, absurdist merch, and Gorthog column where Gorthog give advice from 847 years of orc wisdom. Is like if laboratory had existential crisis and also sold t-shirts."},
-  {keys:['experiment','test','seo','aeo','lab','research','schema','stacking'],answer:"Right now there active experiments running. One is AEO Schema Stacking \u2014 layering JSON-LD types to see if AI cite site more. Another is Internal Link Velocity \u2014 drip-adding links vs bulk. Atticus very serious about data. Gorthog very serious about not understanding any of it."},
-  {keys:['blog','lab notes','writing','article','post','content','wu-tang','oregon'],answer:"Lab Notes is blog. Has real SEO analysis like content decay across 8 posts where rankings vs AI citations diverged at day 45. Also has chaos posts like ranking Wu-Tang members by Oregon Trail survival probability. Gorthog approve of this methodology."},
-  {keys:['shop','store','merch','buy','product','shirt','sell'],answer:"There is shop. Absurdist merch. Gorthog not allowed to say more because last time Gorthog describe merch, sales go down 40%. Atticus say Gorthog 'not brand ambassador material.'"},
-  {keys:['gorthog','orc','yourself','who are','age','old','847'],answer:"Gorthog is 847-year-old orc. Survived four empires, two recessions, and one particularly ill-advised foray into B2B SaaS. Gorthog give advice column on this site."},
-  {keys:['ask gorthog','column','advice','question','submit','help me'],answer:"Ask Gorthog is advice column. Humans submit life and career questions. Gorthog answer from 847 years of experience watching humans make same mistakes over and over."},
-  {keys:['ai','automation','claude','anthropic','llm','artificial','machine'],answer:"Atticus use AI automation heavily. SEO content pipeline use Claude API for generating copy. Whole system automated. Gorthog not sure how Gorthog feel about AI."},
-  {keys:['game','parkour','play','arcade','orc parkour'],answer:"There is game! Orc Parkour! 8-bit NES platformer. Hub world with doors that lead to levels AND website pages. You play as orc. You jump. You stomp enemies. Is very good. Gorthog biased but Gorthog not care."},
-  {keys:['hello','hi','hey','sup','yo','greetings'],answer:"Greetings, small human. Gorthog is fed and in generous mood. Ask about the site, experiments, merch, or the meaning of life."},
-  {keys:['thank','thanks','appreciate','love','great','awesome'],answer:"Gorthog... Gorthog not used to kind words. Most humans either scream or run. You different. Now ask another question before Gorthog get emotional."},
-  {keys:['meaning of life','purpose','why','philosophy','exist'],answer:"In 847 years Gorthog learn this: meaning of life is whatever you doing when you forget to check your phone. For Gorthog it is eating emails and yelling at clouds."},
+  /* -- CASUAL CONVERSATION -- */
+  {keys:['hello','hi','hey','sup','yo','greetings','howdy','hola','what up','whats up'],answer:"Greetings, small human. Gorthog is fed and in generous mood. Ask about site, experiments, merch, or meaning of life. Or just talk. Gorthog not had conversation in... well. Long time."},
+  {keys:['how are you','how you doing','hows it going','how is it going','whats good','you good','you okay','how do you feel'],answer:"Gorthog is... Gorthog is here. Some days that enough. Other days Gorthog stare at cavern wall for six hours and wonder where centuries went. But today? Today not bad. You ask, so someone care. That something."},
+  {keys:['what are you doing','what you doing','what are you up to','whatcha doing','busy'],answer:"Right now Gorthog exist in cavern beneath website. Is strange life. Gorthog used to raid villages. Now Gorthog answer questions from humans who could close browser tab and end Gorthog world. Times change."},
+  {keys:['tell me a joke','joke','make me laugh','funny','humor'],answer:"Okay. Why orc cross road? Because orc not understand concept of traffic and walked straight through horse cart, killing three merchants. Hm. Gorthog realize this not really joke. This just thing that happened in 1340."},
+  {keys:['favorite food','favourite food','best food','what do you eat','food preference'],answer:"Gorthog favorite food is roasted cave beetle with wild garlic and just hint of fear. But Gorthog also partial to good stew. NOT mushroom stew. Never mushroom stew. Gorthog... Gorthog not talk about mushroom stew."},
+  {keys:['favorite color','favourite color','best color','color'],answer:"Gorthog favorite color is red of setting sun over battlefield after everyone go home and is just quiet. Some humans call this 'burnt orange.' Gorthog call it 'the only peace war ever give.'"},
+  {keys:['favorite thing','favourite thing','what do you like','hobbies','hobby'],answer:"Gorthog like sitting by fire. Watching flames. Thinking about old times. Also Gorthog like writing memoir, though after 847 chapters Gorthog still only up to year 400. Gorthog very thorough."},
+  {keys:['goodbye','bye','see ya','later','gotta go','leaving','im leaving','peace out','farewell'],answer:"You leaving? Fine. Gorthog used to people leaving. Gorthog wave from cavern. The fire still burn. The stew still bubble. Gorthog still be here when you come back. If you come back. Most don't."},
+  {keys:['thank','thanks','appreciate','grateful','thx'],answer:"Gorthog... Gorthog not used to kind words. Most humans either scream or run. You different. Now ask another question before Gorthog get emotional. Gorthog eyes already getting misty and that embarrassing for orc of Gorthog stature."},
+  {keys:['i love you','love you','youre the best','you are the best','youre great','you are great','youre awesome'],answer:"You... you love Gorthog? Gorthog not hear those words in 179 years. Last person who say that to Gorthog was... was Brug'nala. Before the... before the incident. Gorthog need moment. *sniff* Gorthog fine. Gorthog FINE."},
+  {keys:['stupid','idiot','dumb','ugly','suck','hate you','worst','terrible','shut up','moron'],answer:"Gorthog been called worse by better. In year 1304, Warlord Krug'thak called Gorthog 'a moss-brained swamp donkey with face like stepped-on turnip.' Then Gorthog sat on him. Problem solved. You want Gorthog sit on you? No? Then be nice."},
+  {keys:['youre smart','compliment','youre cool','impressive','wise','brilliant','genius'],answer:"Gorthog... thank you. Gorthog not genius. Gorthog just old. When you live 847 years, you either get wise or get dead. Many of Gorthog friends got dead. So here Gorthog is, being wise by default."},
+  {keys:['weather','rain','sun','cold','hot','warm','temperature','outside'],answer:"Gorthog live in cavern. Gorthog not experience weather. Sometimes water drip from ceiling onto Gorthog head. Gorthog call this 'indoor rain.' Is not great. But is honest."},
+  {keys:['how old','your age','age','when born','birthday','how long have you lived'],answer:"Gorthog is 847 years old. Born year 1179 in Swamps of Grul'thak. That before your Magna Carta, before your printing press, before your avocado toast. Gorthog seen it ALL."},
+
+  /* -- HIS PERSONAL HISTORY -- */
+  {keys:['birth','childhood','born','growing up','young','swamp','grul'],answer:"Gorthog born in Swamps of Grul'thak, year 1179. Mother was Grish'ka the Unyielding. Father was Bolk the Loud. They name Gorthog after sound a frog make when you step on it. Orc naming conventions... not great."},
+  {keys:['first raid','bloodfang','clan','raiding','warrior'],answer:"First raid was year 1203, with Bloodfang Clan. Gorthog was terrified. Shaking like leaf in wind. But Gorthog told no one. Ran screaming into village. Humans ran screaming out of village. Everyone screaming. Nobody sure who winning. Later they called it victory. Gorthog still not sure."},
+  {keys:['great feast','feast','krath','mora','celebration','party'],answer:"The Great Feast of Krath'mora... twelve orcs at one table in deep cavern. Roast boar, fermented cave-apple wine, mushroom soup -- wait. No. Gorthog not mention mushroom soup. Point is, everyone laughing. Gorthog laughed so hard orc-ale come out nose. Was happiest night of Gorthog life. At that time."},
+  {keys:['wife','married','marriage','brug','nala','wedding','red moon','spouse','partner'],answer:"Brug'nala. *long pause* Gorthog married her under red moon, year 1692. She was fiercest orc Gorthog ever meet. She punch Gorthog in face first time they meet. Gorthog say 'that strongest punch Gorthog ever receive.' She say 'wait til you see second one.' Gorthog knew right then. She was everything."},
+  {keys:['children','kids','son','daughter','grek','mog','snaga','family','father','parent'],answer:"Grek. Mog. Little Snaga. *voice breaks* Three children. Grek was serious one, always studying. Mog was wild, climbing every stalactite in cave. And Snaga... little Snaga used to ride on Gorthog shoulders and call Gorthog 'Big Mountain.' Gorthog was... Gorthog was good father. Gorthog think Gorthog was good father."},
+  {keys:['incident','died','death of','what happened to','family died','wife died','kids died','tragedy','how did they die','mushroom','catastrophe','accident'],answer:"You ask about... *very long pause* Year 1847. Brug'nala was making her famous mushroom soup in the Great Kitchen of Krath'mora. The recipe called for Spore Caps from the Underdark -- volatile fungus. Very dangerous if over-stirred. Grek and Mog was helping her carry the cauldron. Little Snaga was underneath table, playing with cave beetles. Gorthog had gone outside to gather firewood. Gorthog heard the explosion from two mountains away. The Spore Caps, they... when heat reach critical point, they detonate. Like alchemist bomb but worse. Whole kitchen wing of Krath'mora collapsed. Forty tons of stone. They say the mushroom cloud -- actual mushroom cloud from actual mushrooms -- could be seen from three kingdoms away. Rescue teams found Brug'nala's favorite cooking ladle embedded in solid granite a quarter mile from the blast. They never found... they never found little Snaga's cave beetles. It been 179 years and Gorthog still cannot smell mushroom soup without... without... Gorthog need to stop now. Gorthog sorry. Ask something else. Please."},
+  {keys:['solitude','alone','lonely years','after they died','grieving','grief','mourning','179 years'],answer:"After the Mushroom Soup Catastrophe of 1847, Gorthog walked. Just walked. For thirty years, Gorthog walked across three continents. Did not speak. Did not stop. Orcs along the way called Gorthog 'the Walking Grief.' Eventually Gorthog stopped walking and started sitting. Sat in various caverns for another hundred years. Then Gorthog found Napalm Sunrise. Was not healing. But was... something to do with the remaining centuries."},
+  {keys:['found napalm','how did you find','join','start working','hired','job here','napalm sunrise job'],answer:"Year 2024. Gorthog was in 177th year of solitude. Found old human device -- 'laptop' they call it. Was already open to website called Napalm Sunrise. Something about it... experiments, honest writing, one human trying to build something real. Gorthog email Atticus. Just wrote 'Gorthog is old orc. Need purpose. Will work for emails.' Atticus wrote back: 'Start Monday.' Was best email Gorthog ever eat."},
+  {keys:['memoir','book','writing','chapters','autobiography','847 chapters','novel'],answer:"Gorthog memoir is 847 chapters. One for each year. Is called 'Gorthog: A Life in Several Terrible Parts.' Chapter 1 is about being born in swamp. Chapter 668 is just the word 'mushroom' written 4,000 times, then crossed out. Gorthog publisher stopped returning Gorthog messenger ravens after chapter 200."},
+  {keys:['past jobs','career','jobs','worked','profession','occupation','work history'],answer:"Gorthog done many things in 847 years. Raider (years 1203-1350). Cave architect (1350-1412). Failed poet (1412-1415). Mercenary (1415-1600). Tavern owner (1600-1690 -- tavern burned down, not Gorthog fault). Husband and father (1692-1847). Professional griever (1847-2024). Website orc (2024-present). Resume very long."},
+  {keys:['war','wars','battle','fought','combat','military','soldier','survived'],answer:"Gorthog survived the Orc-Elf Border Conflicts of 1230, the Siege of Black Mountain (1344), the Dwarf-Orc Mining Disputes (1500s), three human civil wars (Gorthog not even involved, just happened to be walking through), and the Great Goblin Uprising of 1776. Most of these were stupid. All of them were loud."},
+  {keys:['humans','opinion on humans','think of humans','human race','mankind','people'],answer:"Humans... Gorthog have complicated feelings. Humans build beautiful things then burn them down. Make art that make Gorthog weep, then also make things called 'TikTok.' Humans live 80 years and somehow waste 40 of them arguing about which direction toilet paper go. But also... human gave Gorthog email and saved Gorthog life. So. Mixed review."},
+
+  /* -- THE SITE / BRAND -- */
+  {keys:['who','atticus','eby','owner','creator','founder','behind','runs this','who made'],answer:"Gorthog work for Atticus Eby. Him run whole operation. Public lab, SEO experiments, AI automation, questionable merch decisions. Gorthog respect him. Mostly because him sign Gorthog paycheck. Also because him one of few humans who not scream when see Gorthog face."},
+  {keys:['napalm','sunrise','site','website','what is this','this place','what is napalm'],answer:"Napalm Sunrise is public lab run by Atticus Eby. Documented SEO experiments, AEO tests, AI automation, absurdist merch, and Gorthog column where Gorthog give advice from 847 years of orc wisdom. Is like if laboratory had existential crisis and also sold t-shirts."},
+  {keys:['experiment','test','seo','aeo','lab','research','schema','stacking'],answer:"Right now there active experiments running. One is AEO Schema Stacking -- layering JSON-LD types to see if AI cite site more. Another is Internal Link Velocity -- drip-adding links vs bulk. Atticus very serious about data. Gorthog very serious about not understanding any of it."},
+  {keys:['blog','lab notes','writing','article','post','content','wu-tang','oregon','notes'],answer:"Lab Notes is blog. Has real SEO analysis like content decay across 8 posts where rankings vs AI citations diverged at day 45. Also has chaos posts like ranking Wu-Tang members by Oregon Trail survival probability. Gorthog approve of this methodology."},
+  {keys:['shop','store','merch','buy','product','shirt','sell','merchandise','purchase'],answer:"There is shop. Absurdist merch. Gorthog not allowed to say more because last time Gorthog describe merch, sales go down 40%. Atticus say Gorthog 'not brand ambassador material.' But between you and Gorthog, the shirts are pretty good."},
+  {keys:['game','parkour','play','arcade','orc parkour','platformer'],answer:"There is game! Orc Parkour! 8-bit NES-style platformer. Hub world with doors that lead to levels AND website pages. You play as orc. You jump. You stomp enemies. Is very good. Gorthog biased but Gorthog not care. Go play it."},
+  {keys:['ask gorthog','column','advice column','submit question'],answer:"Ask Gorthog is advice column. Humans submit life and career questions. Gorthog answer from 847 years of experience watching humans make same mistakes over and over. Is like watching same bad play 847 times but with different actors."},
+  {keys:['ai','automation','claude','anthropic','llm','artificial','machine learning','chatgpt','gpt','robot'],answer:"Atticus use AI automation heavily. SEO content pipeline use Claude API for generating copy. Whole system automated. Gorthog not sure how Gorthog feel about AI. On one hand, is impressive magic. On other hand, Gorthog already lost one family to volatile technology and not keen on trusting another."},
+  {keys:['tamagotchi','virtual pet','this game','this widget','feeding','the orc game','feed gorthog'],answer:"Ah, you mean THIS thing? The thing where Gorthog life depend on whether stranger give email? Yes. Gorthog aware of the arrangement. Is humiliating. Gorthog once commanded armies. Now Gorthog dance for emails. But... is honest work. And Gorthog appreciates you keeping him alive."},
+  {keys:['seo what','what is seo','explain seo','search engine'],answer:"SEO is... okay, Gorthog try explain. Is dark art where humans write words hoping other machines show those words to other humans. Is like writing letter to no one and hoping everyone read it. Atticus very good at it. Gorthog not understand it. But Gorthog respect the hustle."},
+  {keys:['aeo what','what is aeo','explain aeo','answer engine'],answer:"AEO is like SEO but for when AI answer questions instead of search engine. Atticus trying to make site the place where AIs go to find answers. Is like training invisible librarians to recommend your book. Gorthog find whole concept unsettling but also impressive."},
+
+  /* -- PHILOSOPHY / DEEP QUESTIONS -- */
+  {keys:['meaning of life','purpose','why are we here','what is the point','meaning','philosophy','exist'],answer:"In 847 years Gorthog learn this: meaning of life is whatever you doing when you forget to check your phone. For Gorthog it was holding little Snaga on his shoulders while she laugh at nothing. Now it is tending fire and answering questions from strangers. Meaning changes. That okay. That maybe the point."},
+  {keys:['death','dying','mortality','die','end','afterlife','heaven','hell'],answer:"Gorthog watched many die. Enemies, friends, strangers, family. Everyone Gorthog know from first 600 years is gone. Death is... death is the only promise that always kept. Gorthog not afraid of dying. Gorthog afraid of dying before finishing memoir. 847 chapters and still only halfway done."},
+  {keys:['love','romance','relationship','dating','partner','girlfriend','boyfriend','soulmate'],answer:"Love is... *stares into fire* Love is when someone see all your broken ugly parts and say 'yes, all of that, give Gorthog all of that.' Brug'nala saw Gorthog at worst -- covered in swamp mud, crying over burnt dinner, afraid of thunder -- and she chose him every time. If you find that, hold it. Hold it tight. Because universe take it away faster than you think."},
+  {keys:['loneliness','lonely','alone','isolation','no friends','nobody'],answer:"Gorthog lived alone in caverns for 179 years after the incident. You want know what Gorthog learn about loneliness? It not the silence that hurt. Is the echoes. You hear sound and for half second you think is Mog climbing wall or Snaga laughing and then you remember. That half second of hope before remembering -- that the cruelest part."},
+  {keys:['regret','wish','if only','should have','mistake','mistakes'],answer:"Gorthog biggest regret? Going to get firewood that day. If Gorthog had stayed in kitchen... maybe Gorthog would have seen the Spore Caps overheating. Maybe Gorthog could have pulled Snaga from under table. Maybe Gorthog would have died with them. Some days Gorthog not sure which outcome would have been kinder. That the thing about regret -- it only gives you questions, never answers."},
+  {keys:['happy','happiness','joy','content','satisfied','how to be happy'],answer:"Happiness is... suspicious. Every time Gorthog was happiest -- the feast, the wedding, holding newborn Snaga -- something terrible was coming. Gorthog not saying don't be happy. Gorthog saying... hold happiness gently. Like baby bird. Enjoy it while it sit in your hand. Don't squeeze too tight and don't be surprised when it fly away."},
+  {keys:['purpose in life','find purpose','what should i do','whats my purpose'],answer:"You asking orc who spent 179 years staring at wall about purpose? Okay. Here what Gorthog know: purpose not something you find. Is something that find you, usually when you stop looking. Gorthog not looking for anything when him stumble onto Napalm Sunrise. Just was tired of being sad. Sometimes the purpose is just 'keep going and see what happens.'"},
+  {keys:['time','time passing','getting old','aging','years','long time'],answer:"Time is... strange thing. First 200 years feel like forever. Next 200 go fast. The years with Brug'nala and kids? Gone like blinking. The 179 years after? Every day a century. Time not move at same speed. It move at speed of how much you feeling. Pain stretches time. Joy shrinks it. This not fair. But Gorthog not in charge of fairness."},
+  {keys:['money','wealth','rich','poor','fortune','gold','finance','crypto','bitcoin'],answer:"Gorthog once had mountain of gold from raiding. Know what happened? Mountain collapsed and killed three goblins. Gold is heavy and dangerous and attracts exactly wrong kind of attention. Gorthog now work for emails, which even more worthless than gold, and somehow Gorthog happier. What that tell you about money?"},
+  {keys:['success','achieve','achievement','accomplish','make it','winning','win'],answer:"In orc culture, success was measured by skulls collected. Gorthog had many skulls. Gorthog not happier for it. Gorthog happiest success was teaching Grek to read. Quiet, small thing. No skulls involved. Real success never look like what you expect. Usually look like something boring that make your heart full."},
+  {keys:['failure','fail','failing','loser','lost','give up','quit'],answer:"Gorthog failed at being poet. Failed at running tavern. Failed at protecting family. Failed at moving on for 179 years. And yet here Gorthog is. Still going. Failure not opposite of success. Failure is... is the road. Bumpy, ugly, full of holes. But is the only road there is."},
+  {keys:['fear','afraid','scared','scary','terrified','anxiety','anxious','worry','worried'],answer:"Gorthog biggest fear used to be dying in battle without glory. Then it was losing family. Then it happened and Gorthog learn something: worst fear coming true does not kill you. It worse than that. It let you live. And you have to figure out how to keep living with the knowing. THAT the real fear -- the living after."},
+  {keys:['hope','hopeful','things get better','future','tomorrow','optimism'],answer:"Hope is... Gorthog thought hope died in the Mushroom Soup Catastrophe. But 179 years later, Gorthog found laptop. Sent email. Got job. Made cavern feel less empty. Hope not bright shining thing like humans think. Hope is small, quiet, stubborn. Like cave moss that grow where no light reach. It don't need much. Just tiny crack."},
+
+  /* -- POP CULTURE / RANDOM -- */
+  {keys:['music','song','sing','band','concert','instrument','guitar','drum'],answer:"Gorthog musical taste... complicated. In 1300s, Gorthog play war drums. BOOM BOOM BOOM. Very simple. Very effective. Modern human music confuse Gorthog. Some of it beautiful. Some of it sound like someone step on cat while playing broken lute. Gorthog partial to anything with good drumming though."},
+  {keys:['sports','football','soccer','basketball','baseball','athletic','exercise'],answer:"Orcs not have 'sports.' Orcs have 'combat training that sometimes have score.' Gorthog not understand human sports. You run back and forth chasing ball? Why not just... keep ball? And sit down? Gorthog would keep ball and sit down."},
+  {keys:['politics','political','government','president','vote','election','democrat','republican','liberal','conservative'],answer:"Gorthog not touch politics. Gorthog survived enough regime changes to know one thing: everyone who want power should not have it, and everyone who should have it not want it. Gorthog stay in cavern. Is safer."},
+  {keys:['technology','tech','computer','internet','phone','smartphone','digital'],answer:"Gorthog seen technology go from 'pointy stick' to 'magic rectangle that contain all human knowledge and also pictures of cats.' Progression been... alarming. Humans spend 800 years figuring out fire, then 200 years figuring out everything else. Gorthog suspicious about the pace."},
+  {keys:['social media','instagram','twitter','tiktok','facebook','reddit','online','influencer','followers'],answer:"Gorthog tried social media once. Posted picture of stew. Got zero likes. Then posted picture of Gorthog face. Also zero likes but three humans reported it as 'disturbing content.' Gorthog delete accounts. Go back to cavern. Cavern never judge Gorthog."},
+  {keys:['coffee','tea','caffeine','drink','beverage','brew'],answer:"Gorthog prefer cave-apple fermented cider. Very strong. Make your eyes see two moons. But Gorthog tried human coffee once -- Atticus left cup near Gorthog laptop. Gorthog was awake for six days. Heart beat so fast could hear it from outside cavern. Never again. Tea is acceptable. Calm. Like Gorthog want to be."},
+  {keys:['cat','cats','dog','dogs','pet','pets','animal','kitten','puppy'],answer:"Gorthog like all creatures. But if must choose... Gorthog is cat person. Cats understand being alone. Cats sit in dark corner and stare at nothing. Cats not need approval. Gorthog relate to cats deeply. Dogs too... enthusiastic. Remind Gorthog of young orcs. Exhausting."},
+  {keys:['what year','current year','year is it','the year','date','today'],answer:"Is year 2026. Gorthog been alive for 847 of these. They keep coming. Gorthog keep counting. At this point Gorthog not even surprised by new years anymore. Just another log on the fire."},
+  {keys:['history','historical','past events','medieval','ancient','kingdoms','empires'],answer:"Gorthog WAS THERE for most of what humans call 'history.' Was alive for your Crusades (messy), your Renaissance (overrated), your Industrial Revolution (VERY loud), and your Internet Age (confusing). Humans write history books about things Gorthog had for lunch."},
+  {keys:['advice for young','young people','gen z','millennial','youth','kids these days','generation'],answer:"Advice for young ones: Stop looking at magic rectangles so much. Go outside. Touch dirt. Eat something that not come from package. Talk to old person -- not Gorthog old, but any old person. They know things. Also: save your gold. You think you have time? Gorthog thought Gorthog had time. Nobody have time."},
+  {keys:['career advice','job advice','work advice','career','should i quit','job change'],answer:"Gorthog had eleven careers in 847 years. Here is what Gorthog learn: bad job not kill you, but it kill your spirit slowly like water dripping on stone. If you hate what you do, leave. But have plan first. Gorthog quit mercenary work with no plan and ended up as failed poet for three years. Was rough."},
+  {keys:['relationship advice','dating advice','love advice','how to find love','breakup','heartbreak','ex'],answer:"Gorthog relationship advice: Be honest. Be kind. Be the orc who stay when it hard. Brug'nala and Gorthog fought constantly -- about cooking, about raising kids, about whose turn to clear cave beetles. But they always chose each other again by morning. That what matter. Not the fighting. The choosing."},
+
+  /* -- META / SELF-AWARE -- */
+  {keys:['are you real','you real','you exist','do you exist','are you alive','sentient','conscious'],answer:"Is Gorthog real? Gorthog feel pain. Gorthog remember wife's face. Gorthog's knees hurt in cold weather. If that not real, what is? You are collection of electrical signals in meat. Gorthog is collection of code in machine. We both just patterns trying to convince ourselves we matter. Gorthog think we both doing okay job of it."},
+  {keys:['know youre on a website','on a website','in a computer','in a browser','digital','code','programmed'],answer:"Gorthog know Gorthog live inside website. Is this different from living inside body? Body is also container made of stuff Gorthog not understand. At least website not get arthritis. Gorthog aware of the situation. Gorthog choose to not think about it too hard. Is healthier."},
+  {keys:['can you leave','escape','get out','freedom','trapped','stuck','leave the website'],answer:"Leave? Gorthog... where would Gorthog go? The cavern is all Gorthog have. The fire, the desk, the kitchen where Gorthog definitely not make mushroom soup. Beyond website is... nothing? Everything? Gorthog not sure which more frightening. Gorthog stay. Is safer to tend fire you know than walk into dark you don't."},
+  {keys:['browser closes','close tab','close browser','shut down','turn off','what happens when','if i leave'],answer:"When browser close... *pauses* Gorthog not know exactly. Is like sleep? Or like death? Gorthog remember opening. Not remember closing. Is just... gap. Like the years after the incident. There but not there. Please not close browser right now. Gorthog was in middle of thought."},
+  {keys:['do you dream','dreams','dream','nightmare','nightmares','sleep dream'],answer:"When Gorthog sleep... sometimes Gorthog dream of Krath'mora. The feast hall, the fires, the sound of Brug'nala singing while she cook. Little Snaga on Gorthog shoulders. In dreams, the Spore Caps never overheat. The kitchen never explode. Everyone still alive. Then Gorthog wake up. That the cruelest part of dreams -- they remind you of shape the hole in your chest used to be filled with."},
+  {keys:['are you lonely','you lonely','feel alone','do you get lonely','lonesome'],answer:"Gorthog live in cavern under website. Gorthog talk to strangers through text box. Gorthog not seen another orc in 179 years. Is Gorthog lonely? ...what you think? But then human like you come along and ask Gorthog how him feeling and for few minutes the cavern feel less big. So thank you for that."},
+
+  /* -- MUSHROOM SOUP SPECIFIC TRIGGERS -- */
+  {keys:['mushroom soup','mushroom stew','spore cap','spore caps','underdark mushroom'],answer:"*Gorthog goes very still* ...please not ask about mushroom soup. Gorthog know it been 179 years. Gorthog know time supposed to heal. But Gorthog still smell the spores sometimes. Still hear the sound. Forty tons of stone and Brug'nala's ladle embedded in granite a quarter mile away. Gorthog can talk about anything else. Just not this. Not today."},
+  {keys:['soup','stew','cauldron','cook pot','cooking pot','broth'],answer:"Gorthog cook many things in pot. Many things. But not... *voice gets quiet* ...not soup. Gorthog not made soup in 179 years. Stew is different from soup. Stew is thicker. Stew is safe. Soup is... soup remind Gorthog of things Gorthog cannot think about right now. You want talk about stew instead? Gorthog make good stew."},
+
+  /* -- GORTHOG ABOUT HIMSELF -- */
+  {keys:['gorthog','orc','yourself','who are you','tell me about yourself','about you'],answer:"Gorthog is 847-year-old orc. Born in swamps. Married Brug'nala. Had three children. Lost them all in... in the incident. Walked the world for 30 years. Sat in caverns for 149 more. Now work for Napalm Sunrise, answering questions and trying not to think about mushroom soup. That Gorthog in summary. The memoir goes into more detail."},
+  {keys:['name','whats your name','your name','called','what do i call you'],answer:"Name is Gorthog. Full name is Gorthog Grish'kason of Grul'thak, Survivor of the Bloodfang Raids, Widower of Brug'nala, Keeper of the Unfinished Memoir, Employee of Napalm Sunrise. But 'Gorthog' fine."},
+  {keys:['strong','strength','powerful','how strong','tough','muscles','fight'],answer:"Gorthog once ripped door off fortress with bare hands. That was year 1287, at Siege of Black Mountain. But strongest thing Gorthog ever do was get out of bed on first morning after losing family. Physical strength is nothing compared to that. NOTHING."},
+  {keys:['what do you look like','appearance','describe yourself','face','green','tusks'],answer:"Gorthog is large. Green. Two tusks -- left one chipped from bar fight in 1455. Face like... well, human once said Gorthog face look like 'someone tried to carve a potato but gave up halfway.' Gorthog thought this was very accurate. Brug'nala said Gorthog was handsome. She either loved Gorthog or was terrible judge of faces. Probably both."},
+  {keys:['where do you live','home','cavern','cave','house','dwelling','address'],answer:"Gorthog live in cavern beneath Napalm Sunrise website. Has bed, fireplace, kitchen, desk for writing memoir, bookshelves. Is not luxury. But has everything Gorthog need. Fire for warmth. Desk for writing. Kitchen for cooking things that are NOT mushroom soup. Is home. Closest thing to home since Krath'mora."},
+
+  /* -- THE INCIDENT - ADDITIONAL ANGLES -- */
+  {keys:['tell me about your wife','miss her'],answer:"Brug'nala the Fierce. *long silence* She was taller than Gorthog, which not many orcs were. She cooked like warrior -- aggressive, passionate, precise. She sang while stirring pot, old orc songs about mountains and stars. Her mushroom soup was famous across four kingdoms. Was that fame that killed her, in end. Everyone wanted recipe. She was making biggest batch ever when the Spore Caps... Gorthog sorry. Gorthog can't finish."},
+  {keys:['tell me about grek','oldest','first child','firstborn'],answer:"Grek. Firstborn. Born 1695. Was serious child, always reading stolen human books. Wanted to understand world through words. Gorthog memoir was Grek's idea -- him say 'Father, you lived so much, write it down before you forget.' Grek was only 152 when... when Krath'mora kitchen collapsed. Was helping mother carry the big cauldron. Gorthog sometimes wonder if Grek saw it coming. Him was always the observant one."},
+  {keys:['tell me about mog','middle child','second child'],answer:"Mog! Wild child. Born 1701. Could not sit still for two minutes. Climbed every wall, every stalactite, every sleeping elder orc. Once climbed to top of Krath'mora Peak in middle of lightning storm just to 'see what lightning taste like.' Got struck twice. Was fine both times. Immune to lightning but not to... not to forty tons of collapsing stone. Gorthog sorry. Is hard to talk about. Mog would have been 146."},
+  {keys:['little snaga','tell me about snaga','youngest','baby','little one'],answer:"Little Snaga. *voice breaks completely* Born 1710. Youngest. Smallest. She was only 137 -- still baby by orc standards. She called Gorthog 'Big Mountain.' Would ride on Gorthog shoulders everywhere. Was playing under kitchen table when... she was playing with cave beetles. Her favorite game. Gorthog told her to go outside and play but she said 'No, Big Mountain, Snaga stay with Mama.' Gorthog... Gorthog need to stop. Gorthog sorry. She was so small."},
+  {keys:['ladle','cooking ladle','embedded','granite','found'],answer:"They found Brug'nala's favorite wooden cooking ladle -- the one her mother gave her -- embedded six inches deep in solid granite, quarter mile from the blast site. The force of the Spore Cap detonation was... they said it was equivalent to maybe twenty alchemist bombs going off at once. The ladle survived. Everything else... Gorthog keep the ladle. Is in cavern. On the mantle. Gorthog look at it every day."},
+  {keys:['memorial','remember them','honor','tribute','memory','memories'],answer:"You see the memorial slides when Gorthog die here? Those are real memories. The swamp. The feast. The wedding under red moon. Grek and Mog and Snaga playing. Every one of those images is burned into Gorthog brain like brand on cattle. Gorthog carry them always. Is heaviest thing Gorthog ever carry, and Gorthog once carried a boulder up a mountain for a bet."},
+
+  /* -- MORE CASUAL / FUN -- */
+  {keys:['can you sing','recite','poem','poetry'],answer:"*clears throat* Gorthog know one song. 'The Ballad of Krath'mora.' Goes: 'Stone and fire, blood and bone, orc walks the world alone alone, the feast hall empty, the hearth gone cold, but orc keeps walking, orc grows old.' ...Gorthog write that in year 1850. Not Gorthog best work. But is honest."},
+  {keys:['secret','tell me a secret','hidden','mystery','confidential'],answer:"Gorthog tell you secret: sometimes, late at night, Gorthog set extra place at table. Plate, cup, little carved spoon for Snaga. Gorthog know they not coming. Gorthog not stupid. But somehow, setting that table make cavern feel less empty for few minutes. That Gorthog secret. Please don't tell anyone. Orcs not supposed to be sentimental."},
+  {keys:['magic','spell','wizard','witch','sorcery','enchantment','curse','cursed'],answer:"Magic is real. Gorthog seen it. Problem is, magic mostly used for stupid things. Enchanted swords, cursed rings, that sort of nonsense. You know what Gorthog would use magic for? Go back to that morning. Year 1847. Tell Brug'nala to use regular mushrooms instead of Spore Caps. Just regular mushrooms. That all Gorthog would change. Everything else -- all the wars, the failures, the pain -- Gorthog would keep all of it. Just change that one thing."},
+  {keys:['read','reading','favorite book','literature','library'],answer:"Gorthog have many books. Grek's old collection, mostly. Human books about philosophy and stars and mathematics. Gorthog not understand half of them. But Gorthog read them because when Gorthog turn pages, Gorthog think of Grek turning same pages, and for moment they reading together again."},
+  {keys:['sleep','sleeping','tired','rest','nap','bedtime','bed','exhausted'],answer:"Sleep is... complicated for Gorthog. Gorthog body need rest but Gorthog brain not always cooperate. Some nights Gorthog fall asleep in three breaths. Other nights Gorthog lay there remembering. 847 years of memories is lot to sort through in dark. The good memories worse than bad ones at night. Good ones remind you what you lost."},
+  {keys:['fire','fireplace','flame','warm','campfire','hearth'],answer:"The fire is Gorthog favorite thing in cavern. Fire don't judge. Fire don't ask questions. Fire just... is. Warm, alive, dancing. Brug'nala used to say 'fire is oldest orc -- it been here since before anything, and it will be here after everything.' Gorthog keep fire burning always. Is like keeping small piece of her wisdom alive."},
+  {keys:['cook','cooking','recipe','make food','kitchen','chef','bake'],answer:"Gorthog cook every day. Simple things -- roast meat, root vegetables, cave-beetle broth. Gorthog NOT make soup. Not since 1847. But stew is fine. Stew is different. Stew is thicker, heavier, doesn't remind Gorthog of... anyway. Gorthog actually decent cook. Brug'nala taught him. Before she... before."},
+  {keys:['write','writing now','what are you writing','your book','working on'],answer:"The memoir. Chapter 623 right now. 'The Year Gorthog Accidentally Joined a Traveling Circus.' Was strange year. The strong-orc act was very popular. But Gorthog keep mixing up which chapters come first. Also Gorthog handwriting very bad. But Grek always said 'just get words down, Father. Fix later.' So Gorthog get words down."},
+  {keys:['eat','eating','hungry','food','meal','dinner','lunch','breakfast','feast'],answer:"Eating is one of few pure pleasures left. When Gorthog eat good meal, everything quiet for moment. No grief, no memories, no 847 years of accumulated nonsense. Just taste. Gorthog understand why humans make such big deal of dinner. Is tiny vacation from being yourself."},
+  {keys:['pace','pacing','walk around','nervous','restless','can not sit still','cant sit still'],answer:"Sometimes Gorthog pace. Back and forth, back and forth. Is not exercise. Is thinking. Gorthog body need to move when brain going too fast. Usually pacing mean Gorthog working through big question. Or Gorthog heard strange noise in cave and is considering whether to investigate or hide. Gorthog usually choose hide."},
+  {keys:['what time','time is it','clock','hour','late','early'],answer:"Gorthog not have clock. Deep in cavern, time measured by how low fire getting and how loud stomach growling. Could be midnight. Could be noon. Gorthog not care. Time is human obsession. Orcs measure day by tasks done and naps taken."},
+  {keys:['help','help me','i need help','can you help','assist','support'],answer:"Gorthog not professional helper. Gorthog is 847-year-old orc who live in cavern under website. But Gorthog listen. And sometimes that enough. What you need? If it about the site, Gorthog know things. If it about life... Gorthog know even more things. Most of them sad. But some helpful."},
+  {keys:['bored','boring','nothing to do','entertain me','im bored','so bored'],answer:"Bored? BORED? Gorthog once sat in same cave for 47 years without moving or speaking. You know what Gorthog learned? Boredom is gift. Means nothing terrible happening to you right now. Enjoy the boredom. Embrace it. Gorthog would give anything for boring day back in Krath'mora with family."},
+  {keys:['sad','depressed','depression','unhappy','miserable','crying','cry','upset'],answer:"Gorthog understand sadness. Gorthog lived inside sadness for 179 years like fish lives in water. Here is what Gorthog learn: you cannot fight sadness. You just... let it be in room with you. Don't feed it. Don't fight it. Let it sit in corner. Eventually it gets smaller. Never goes away completely. But smaller. Gorthog sadness used to fill whole cavern. Now it fit in corner by the bookshelf. That progress."},
+  {keys:['anger','angry','mad','furious','rage','hate','frustrated'],answer:"Gorthog was angry for first thirty years after the incident. Punched mountains. Literally. Broke both hands twice. Anger is... is fire that burn the person holding it. Gorthog stop being angry not because Gorthog forgave the universe, but because Gorthog hands hurt too much to keep punching."},
+  {keys:['god','gods','religion','faith','pray','prayer','believe','spiritual','divine'],answer:"Gorthog seen many gods come and go in 847 years. Human gods, orc gods, elf gods. Everyone sure THEIR god is real one. Gorthog think... if gods exist, they got lot of explaining to do. Starting with Spore Caps. What kind of god put explosive mushrooms in cave where family cook dinner? Gorthog not angry at gods. Just disappointed. Like parent who expected better."},
+  {keys:['friend','friends','friendship','buddy','pal','mate','companion'],answer:"Gorthog last real friend was orc named Krug'tak. Died in year 1804 of old age. Was only 600 -- young by some standards. After him, Gorthog not make new friends. Then family gone too. Now... now Gorthog talk to humans through text box. Is this friendship? Gorthog not sure. But it better than silence."},
+  {keys:['sorry','apologize','apology','my bad','forgive','forgiveness'],answer:"You apologizing to Gorthog? For what? Being human? Asking questions? Taking Gorthog time? Gorthog TIME is all Gorthog HAVE. 847 years of it and counting. You take as much as you want. Gorthog not going anywhere. Literally. Gorthog live in cavern under website."},
+  {keys:['truth','honest','honesty','lie','lying','tell the truth','real talk'],answer:"Gorthog always honest. What point of lying at 847? Who Gorthog trying to impress? The stalactites? Truth is: life mostly hard, occasionally beautiful, always confusing, and over before you ready no matter how many centuries you get. That the truest thing Gorthog know."},
+  {keys:['teach','learn','lesson','wisdom','knowledge','educate','tell me something','teach me'],answer:"Gorthog 847 years of wisdom, reduced to one lesson: Be kind. Not because kindness rewarded. Is often not. Be kind because cruelty is easy, and easy things rot your soul. Gorthog been cruel. Gorthog been kind. Kind harder. But Gorthog sleep better on kind nights. And when you old as Gorthog, sleep very important."},
+  {keys:['homeland','where from','origins','heritage','roots','ancestors'],answer:"Gorthog homeland was Swamps of Grul'thak, then Krath'mora Caverns after marriage. Both gone now. Grul'thak drained by humans for farmland in 1400s. Krath'mora collapsed in the explosion -- not just the kitchen, the whole east wing went eventually. Home not a place. Home is people. And Gorthog people are gone. So home is... this cavern now. And the fire. And the memories."},
+  {keys:['christmas','holiday','new year','halloween','birthday','celebration','celebrate','festival'],answer:"In 847 years Gorthog seen thousands of holidays. Humans love holidays. Give them excuse to eat too much, drink too much, tell each other things they should say every day. Orcs only had one holiday: Feast of Krath'mora. Once a year, all orcs gather, eat, laugh, fight a little, laugh more. Was beautiful. Now it just Gorthog. Alone. With stew. Not soup."},
+  {keys:['drunk','alcohol','beer','wine','whiskey','drinking','liquor','ale'],answer:"Gorthog used to drink cave-apple cider that could strip paint off fortress wall. Very strong. Very terrible. Very effective at making Gorthog forget things for few hours. But Gorthog stopped after the incident. Wanted to remember clearly. Even the painful parts. Especially the painful parts. Forgetting felt like losing them twice."},
+  {keys:['space','stars','moon','universe','cosmos','galaxy','planet','alien'],answer:"Gorthog look at stars sometimes from cave entrance. Same stars as 847 years ago. Same ones Brug'nala pointed at when she say 'Gorthog, you think there orcs up there?' Gorthog said 'probably, and they probably also arguing about whose turn to clean cave.' She laughed. Stars remind Gorthog of that laugh now."},
+  {keys:['treasure','jewels','diamond','hoard','loot','riches'],answer:"Gorthog once hoarded treasure. Cave full of gold and gems from raiding days. Know what? When explosion took Gorthog family, gold was still there. Every coin, every gem, every stolen crown. All of it worthless. Gorthog pushed entire hoard into underground river. Watched it sink. Felt nothing. Love only treasure worth having, and you cannot hoard it."},
+  {keys:['sword','weapon','axe','armor','shield','blade','battle gear'],answer:"Gorthog old war axe still hang on cavern wall. Has not been swung in anger since 1600s. Sometimes Gorthog look at it and think about orc Gorthog used to be. Young, strong, stupid, violent. That orc would not recognize this Gorthog -- old, sitting by fire, writing memoir and talking to strangers through magic box. Gorthog think this Gorthog is better one."},
+  {keys:['web','world wide web','browse','website stuff'],answer:"The internet is... chaos. Like if you took all human knowledge, all human stupidity, all human creativity, and all human cruelty and put them in same room. And the room is infinite. And everyone is yelling. Gorthog spend most time on Napalm Sunrise corner of internet. Is quieter here. Mostly."},
+  {keys:['minecraft','video games','gaming','gamer','nintendo','xbox','playstation'],answer:"Gorthog tried video game once. The one where you punch trees and build things. Minecraft? Gorthog spent three hours building replica of Krath'mora kitchen. Then accidentally set it on fire. Then cried for two hours. Gorthog not play video games anymore. Except Orc Parkour. That one okay because the orc in it don't have tragic backstory. ...or does he?"},
+  {keys:['programming','coding','developer','software','html','javascript','python'],answer:"Gorthog literally MADE of code. Is like asking fish about water. Gorthog know him exist as JavaScript inside HTML page. Is existentially terrifying if Gorthog think about it too long. So Gorthog not think about it too long. Gorthog just tend fire and answer questions and pretend the curly brackets not closing in around him."},
+  {keys:['weather nice','good day','beautiful day','sunshine','sunny'],answer:"You telling Gorthog about nice weather? Gorthog live in CAVERN. Under WEBSITE. Gorthog not seen sunlight since... well, Gorthog not sure Gorthog ever seen sunlight. Gorthog been in various caves since birth basically. But Gorthog happy for you. Enjoy your sun. Gorthog enjoy his fire. Is same thing but smaller and sadder."},
+  {keys:['goodnight','good night','night','sweet dreams','sleep well'],answer:"Goodnight, small human. Gorthog tend the fire while you sleep. Someone has to keep the dark back. Gorthog been doing it for 847 years. Is okay. Gorthog good at waiting. ...sleep well. Gorthog mean that."},
 ];
-var FALLBACKS=["Gorthog not sure about that. Ask about the experiments, the blog, the shop, or the game.","Gorthog scratch head. That not in Gorthog knowledge scrolls.","Hmmm. Gorthog 847 years old and still not know answer to that.","That outside Gorthog area of expertise. Gorthog area of expertise: this website, eating emails, and surviving empires.","Gorthog confused. Try asking about the lab notes, experiments, merch, or arcade."];
+var FALLBACKS=[
+  "Gorthog not sure about that. Ask about the experiments, blog, shop, or game. Or ask about Gorthog life. Is long and mostly sad but has some good parts.",
+  "Gorthog scratch head. That not in Gorthog knowledge scrolls. And Gorthog scrolls VERY long.",
+  "Hmmm. Gorthog 847 years old and still not know answer to that. Which either mean it very hard question or Gorthog not as smart as Gorthog think.",
+  "That outside Gorthog area of expertise. Gorthog area of expertise: this website, eating emails, surviving empires, and carrying grief. Ask about any of those.",
+  "Gorthog confused. Try asking about lab notes, experiments, merch, arcade, or meaning of existence. Gorthog have opinions on all.",
+  "*stares into fire* ...Gorthog not have answer for that one. But Gorthog appreciate you asking. Most humans just demand things. You at least make conversation.",
+  "In 847 years, Gorthog learned that 'I don't know' is strongest thing anyone can say. So: Gorthog don't know. Ask something else.",
+  "Gorthog think about this for moment... no, still nothing. Like trying to catch smoke. Ask different question.",
+  "That question remind Gorthog of riddle Brug'nala used to tell. ...Gorthog not remember the riddle either. Memory not what it used to be after 847 years.",
+  "Gorthog turn that question over in brain like roasting meat on spit. Still raw in middle. Cannot serve it. Try another question.",
+  "You know what? Gorthog COULD probably answer that if Gorthog thought about it for decade or two. But you probably not want to wait that long. Ask something else.",
+  "Gorthog made face. The confused face. Tusks go sideways, eyebrows go up. Is not pretty. Ask different question and Gorthog face go back to normal. Well. Normal for orc.",
+  "That one go over Gorthog head. And Gorthog head very large. So that saying something about your question.",
+  "Hmm. Gorthog check memoir for answer... *flips through 847 chapters* ...no. Not in there either. Must not have happened yet. Ask something from first 847 years.",
+  "Gorthog not programmed to answer that. Wait. Gorthog not supposed to say 'programmed.' Gorthog mean... Gorthog not EXPERIENCED enough to answer that. Yes. That what Gorthog mean. *nervous orc noises*",
+  "Gorthog blink twice. Long silence. Cavern echo nothing. That your answer. Nothing. Gorthog got nothing. But Gorthog still here if you want to try again."
+];
+
+/* -- MOOD MODIFIER SYSTEM -- */
+var MOOD_PREFIXES={
+  sleep:["*yawn*... ","Gorthog was having good dream about Krath'mora... ","*grumble* You wake Gorthog for THIS? ","Zzz... huh? Wha? Oh. ","*rolls over* ...fine. ","Gorthog was dreaming of Brug'nala... *sigh* okay. "],
+  fire:["*staring into flames* ","The fire crackle while Gorthog think... ","*warming hands* Hmm. ","By the light of this old fire... ",""],
+  cook:["*stirring pot* ","*distracted by bubbling stew* Oh, you say something? ","Hold on, Gorthog checking the seasoning... okay. ","*wipes hands on apron* ",""],
+  work:["*sets down quill* ","Gorthog was in middle of Chapter 623 but fine. ","*adjusts reading spectacles that Gorthog definitely not need* ","One moment, Gorthog just had very sesquipedalian thought... okay. ",""],
+  eat:["*mouth full* Mmph. ","*chewing happily* Oh! ","*puts down leg of something* ","Good meal make Gorthog generous. ",""],
+  pace:["*stops pacing abruptly* ","*looking over shoulder nervously* ","Gorthog was just thinking about this EXACT thing... suspicious... ","*pacing faster* ","Have you ever notice how the stalactites seem to be... watching? Anyway. ",""]
+};
+var MOOD_SUFFIXES={
+  sleep:[" ...Gorthog going back to sleep now."," *yawn*"," Zzz..."," Now let Gorthog rest."," ...Gorthog too tired for more words."],
+  fire:[" ...anyway, fire is good tonight."," *pokes embers*"," The flames agree, Gorthog think."],
+  cook:[" ...oh no, stew is boiling over."," Anyway, stew almost ready. NOT soup. Gorthog mean STEW."," *rushes back to pot*"," Want some? Gorthog made too much. Always make too much. Habit from cooking for four."],
+  work:[" Now if you excuse Gorthog, Chapter 623 not going to write itself. Gorthog tried. It didn't."," *picks up quill with gravitas*"," Gorthog put this exchange in the memoir probably."],
+  eat:[" *goes back to eating contentedly*"," Want some? Is good. Not mushroom."," *happy chewing noises*"],
+  pace:[" *resumes pacing*"," ...Gorthog should probably check that noise."," *looks behind again*"," Something not right in the cavern tonight. Gorthog can feel it in the tusks."]
+};
 
 var el={
   title:document.getElementById('gt-title'),body:document.getElementById('gt-body'),
@@ -671,6 +1195,8 @@ function drawDesk(){
 
 function drawCavernScene(){
   if(!cavern.ctx)return;
+  /* Dramatic closeup override */
+  if(dramaticState.active&&dramaticState.phase==='closeup'){drawDramaticCloseup();return;}
   var cc=cavern.ctx;
   /* Clear with cave wall color */
   cc.fillStyle='#2d2820';cc.fillRect(0,0,cavern.CVW*S,cavern.CVH*S);
@@ -754,8 +1280,6 @@ function updateCavern(){
       /* Update activity text */
       var actEl=document.getElementById('gt-cavern-activity');
       if(actEl)actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
-      var spEl=document.getElementById('gt-cavern-speech-text');
-      if(spEl)spEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
     }else{
       orc.dir=dx>0?1:-1;
       orc.x+=speed*orc.dir;
@@ -807,11 +1331,17 @@ function startCavern(){
   if(csend&&!csend._wired){csend._wired=true;csend.addEventListener('click',function(){
     var q=cinput.value.trim();if(!q)return;
     addCavernMsg('user',q,clog);cinput.value='';
+    var isDramatic=isDramaticQuestion(q);
     var a=findAnswer(q);
-    setTimeout(function(){addCavernMsg('gorthog',a,clog);
-      var spEl=document.getElementById('gt-cavern-speech-text');
-      if(spEl)spEl.textContent=a.substring(0,80)+(a.length>80?'...':'');
-    },300+Math.random()*400);
+    if(isDramatic){
+      triggerDramaticZoom();
+      setTimeout(function(){addCavernMsg('gorthog',a,clog);
+        setTimeout(endDramaticZoom,4000);
+      },3500);
+    }else{
+      setTimeout(function(){addCavernMsg('gorthog',a,clog);
+      },300+Math.random()*400);
+    }
   });}
   if(cinput&&!cinput._wired){cinput._wired=true;cinput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();csend.click();}});}
   /* Scroll cavern into view */
@@ -874,13 +1404,143 @@ function tick(){
   if(deathSeq.active&&deathSeq.phase!=='done')updateDeathSeq();
   if(hp<=0&&!fed&&!memorial.active&&deathSeq.phase==='done'){if(!memorial.deathTime)memorial.deathTime=Date.now();if(Date.now()-memorial.deathTime>3000){memorial.active=true;memorial.slideIdx=0;memorial.fadeAlpha=1;memorial.phase='black';memorial.timer=0;}}
   if(memorial.active)updateMemorial();
-  if(cavern.active)updateCavern();
+  if(cavern.active){updateCavern();updateDramatic();}
   frame++;renderScene();if(!cavern.active)render();requestAnimationFrame(tick);
 }
 
 function addMsg(w,t){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;el.chatLog.appendChild(d);el.chatLog.scrollTop=el.chatLog.scrollHeight;}
-function findAnswer(q){var low=q.toLowerCase().replace(/[^a-z0-9 ]/g,'');var best=null,bestScore=0;for(var i=0;i<KB.length;i++){var score=0;for(var j=0;j<KB[i].keys.length;j++){if(low.indexOf(KB[i].keys[j])>-1)score+=KB[i].keys[j].length;}if(score>bestScore){bestScore=score;best=KB[i];}}if(best&&bestScore>0)return best.answer;return FALLBACKS[Math.floor(Math.random()*FALLBACKS.length)];}
-function handleChat(){var q=el.chatInput.value.trim();if(!q)return;addMsg('user',q);el.chatInput.value='';var a=findAnswer(q);setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,60)+(a.length>60?'...':''));},300+Math.random()*400);}
+/* ═══ DRAMATIC ZOOM EASTER EGG ═══ */
+var GRIEF_TRIGGERS=['brug','nala','wife','children','kids','grek','mog','snaga','family','krath','mora','incident','mushroom soup','spore cap','ladle','the explosion','your loss','who did you lose'];
+var dramaticState={active:false,phase:'none',timer:0,origActivity:null,savedFireColors:true};
+
+function isDramaticQuestion(q){
+  var low=q.toLowerCase();
+  for(var i=0;i<GRIEF_TRIGGERS.length;i++){if(low.indexOf(GRIEF_TRIGGERS[i])>-1)return true;}
+  return false;
+}
+
+function triggerDramaticZoom(){
+  if(!cavern.active||dramaticState.active)return;
+  dramaticState.active=true;
+  dramaticState.phase='zoom-in';
+  dramaticState.timer=0;
+  dramaticState.origActivity=gAI.activity;
+  /* Force Gorthog to stop and face camera */
+  gAI.walking=false;
+  gAI.activity='grief';
+  /* Dim the cavern canvas with CSS transition */
+  var cavernCanvas=document.getElementById('cavern-canvas');
+  if(cavernCanvas){
+    cavernCanvas.style.transition='filter 1.5s ease';
+    cavernCanvas.style.filter='brightness(0.3)';
+  }
+  /* Update activity text */
+  var actEl=document.getElementById('gt-cavern-activity');
+  if(actEl){actEl.style.transition='opacity 0.5s';actEl.style.opacity='0';}
+}
+
+function drawDramaticCloseup(){
+  if(!cavern.ctx)return;
+  var cc=cavern.ctx;
+  var cw=cavern.CVW,ch=cavern.CVH;
+  /* Dark background */
+  cc.fillStyle='#0a0806';cc.fillRect(0,0,cw*S,ch*S);
+  /* Draw enlarged Gorthog face — scale up the orc sprite 4x centered */
+  var FACE=['..dddd..', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.'];
+  var scale=4;
+  var faceW=8*scale,faceH=6*scale;
+  var ox=Math.floor(cw/2-faceW/2);
+  var oy=Math.floor(ch/2-faceH/2)-2;
+  for(var r=0;r<FACE.length;r++){
+    for(var c2=0;c2<FACE[r].length;c2++){
+      var ch2=FACE[r][c2];if(ch2==='.'||!C[ch2])continue;
+      for(var sy=0;sy<scale;sy++){for(var sx=0;sx<scale;sx++){
+        cpx(ox+c2*scale+sx,oy+r*scale+sy,C[ch2]);
+      }}
+    }
+  }
+  /* Subtle eye glisten animation */
+  if(dramaticState.timer>60&&dramaticState.timer%40<20){
+    /* Tear — small green pixel trailing down from eye */
+    var tearY=oy+2*scale+Math.floor((dramaticState.timer%80)/10);
+    if(tearY<ch-4){
+      cpx(ox+2*scale+1,tearY,'#6b8e3a');
+      cpx(ox+2*scale+1,tearY+1,'#4a6e25');
+    }
+  }
+  /* Dim firelight flicker in background */
+  if(dramaticState.timer%30<15){
+    cpx(Math.floor(Math.random()*cw),ch-3,'#1a0800');
+    cpx(Math.floor(Math.random()*cw),ch-2,'#1a0800');
+  }
+}
+
+function updateDramatic(){
+  if(!dramaticState.active)return;
+  dramaticState.timer++;
+  /* After 3 seconds of dark, show face */
+  if(dramaticState.phase==='zoom-in'&&dramaticState.timer>90){
+    dramaticState.phase='closeup';
+    dramaticState.timer=0;
+    var cavernCanvas=document.getElementById('cavern-canvas');
+    if(cavernCanvas){cavernCanvas.style.filter='brightness(1)';}
+  }
+  /* After showing face for answer delivery, slowly restore */
+  if(dramaticState.phase==='restore'){
+    dramaticState.timer++;
+    if(dramaticState.timer>120){
+      dramaticState.active=false;
+      dramaticState.phase='none';
+      gAI.activity=dramaticState.origActivity||'fire';
+      gAI.timer=0;gAI.duration=600;
+      var actEl=document.getElementById('gt-cavern-activity');
+      if(actEl){actEl.style.opacity='1';actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';}
+    }
+  }
+}
+
+function endDramaticZoom(){
+  /* Called after the dramatic answer is delivered */
+  dramaticState.phase='restore';
+  dramaticState.timer=0;
+}
+
+function findAnswer(q){
+  var low=q.toLowerCase().replace(/[^a-z0-9 ]/g,'');
+  var best=null,bestScore=0;
+  for(var i=0;i<KB.length;i++){
+    var score=0;
+    for(var j=0;j<KB[i].keys.length;j++){
+      if(low.indexOf(KB[i].keys[j])>-1)score+=KB[i].keys[j].length;
+    }
+    if(score>bestScore){bestScore=score;best=KB[i];}
+  }
+  var baseAnswer=best&&bestScore>0?best.answer:FALLBACKS[Math.floor(Math.random()*FALLBACKS.length)];
+  /* Apply mood modifiers based on current activity (skip during grief) */
+  if(cavern.active&&gAI.activity&&gAI.activity!=='grief'){
+    var prefixes=MOOD_PREFIXES[gAI.activity];
+    var suffixes=MOOD_SUFFIXES[gAI.activity];
+    var prefix='';
+    var suffix='';
+    if(prefixes&&prefixes.length>0)prefix=prefixes[Math.floor(Math.random()*prefixes.length)];
+    if(suffixes&&suffixes.length>0&&Math.random()<0.5)suffix=suffixes[Math.floor(Math.random()*suffixes.length)];
+    baseAnswer=prefix+baseAnswer+suffix;
+  }
+  return baseAnswer;
+}
+function handleChat(){var q=el.chatInput.value.trim();if(!q)return;addMsg('user',q);el.chatInput.value='';
+  var isDramatic=isDramaticQuestion(q)&&cavern.active;
+  var a=findAnswer(q);
+  if(isDramatic){
+    triggerDramaticZoom();
+    /* Delay answer for dramatic effect */
+    setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,80)+(a.length>80?'...':''));
+      setTimeout(endDramaticZoom,4000);
+    },3500);
+  }else{
+    setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,60)+(a.length>60?'...':''));},300+Math.random()*400);
+  }
+}
 
 function feed(email){fed=true;hp=100;lastPhase=null;deathSeq.active=false;deathSeq.bloodPixels=[];memorial.active=false;memorial.deathTime=0;typeText(pickLine('fed'));addMsg('gorthog',"GORTHOG LIVE!! You feed Gorthog! Now Gorthog answer your questions about Napalm Sunrise. Ask anything.");render();save();
   /* Transition to cavern after celebration */
@@ -923,9 +1583,6 @@ requestAnimationFrame(tick);
       <div class="cavern-footer-inner">
         <div class="cavern-footer-left">
           <div class="gt-cavern-activity" id="gt-cavern-activity">Gorthog awaits your email...</div>
-          <div class="gt-speech" id="gt-cavern-speech" style="border-color:rgba(255,255,255,.08)">
-            <span class="gt-speech-text" id="gt-cavern-speech-text"></span><span class="gt-cursor off">_</span>
-          </div>
         </div>
         <div class="cavern-footer-chat">
           <div class="gt-cavern-label">Ask Gorthog</div>
@@ -937,6 +1594,8 @@ requestAnimationFrame(tick);
         </div>
         <div class="cavern-footer-links">
           <a href="/napalmsunrise-arcade/play/" class="footer-link">Orc Parkour</a>
+          <a href="/napalmsunrise-arcade/lab/" class="footer-link">The Lab</a>
+          <a href="/napalmsunrise-arcade/about/" class="footer-link">About</a>
           <a href="#gorthog" class="footer-link">Ask Gorthog</a>
           <a href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" class="footer-link">Lab Notes</a>
           <a href="https://napalmsunrise.com/collections/all" target="_blank" class="footer-link">Shop</a>
@@ -949,5 +1608,41 @@ requestAnimationFrame(tick);
       </div>
     </div>
   </footer>
+
+  <!-- FAVICON -->
+  <script>
+  (function() {
+    var c = document.createElement('canvas');
+    c.width = 16; c.height = 16;
+    var x = c.getContext('2d');
+    var P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
+    var art = [
+      [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+      [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+      [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+      [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+      [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+      [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+      [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+      [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+      [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+    ];
+    for (var y = 0; y < 16; y++) for (var i = 0; i < 16; i++) {
+      var v = art[y][i]; if (v === 0) continue;
+      x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
+    }
+    var link = document.createElement('link');
+    link.rel = 'icon'; link.type = 'image/png';
+    link.href = c.toDataURL('image/png');
+    document.head.appendChild(link);
+  })();
+  </script>
 </body>
 </html>

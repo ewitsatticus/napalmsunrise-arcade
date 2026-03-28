@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0D0D0D">
+  <title>404 — You Have Wandered Into The Void</title>
+  <meta name="description" content="This page does not exist. Gorthog is confused. You should probably go home.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="404 — Napalm Sunrise">
+  <meta property="og:description" content="You have wandered into the void. Gorthog not know this place.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napalmsunrise.com/404">
+  <meta property="og:image" content="https://napalmsunrise.com/images/og-default.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="404 — Napalm Sunrise">
+  <meta name="twitter:description" content="You have wandered into the void. Gorthog not know this place.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body {
+      background: var(--black);
+      color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 28px;
+    }
+
+    .void-canvas-wrap {
+      margin-bottom: 40px;
+    }
+    .void-canvas-wrap canvas {
+      image-rendering: pixelated;
+    }
+
+    .void-title {
+      font-family: var(--font-display);
+      font-size: 72px;
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+    }
+
+    .void-quote {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-style: italic;
+      color: rgba(243,237,224,0.5);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .void-code {
+      font-family: var(--font-ui);
+      font-size: 120px;
+      letter-spacing: 0.1em;
+      color: rgba(232,38,10,0.15);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      user-select: none;
+    }
+
+    .void-btn {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 2px solid var(--red);
+      background: var(--red);
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.12s;
+    }
+    .void-btn:hover {
+      background: #c41e06;
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 rgba(232,38,10,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .void-title { font-size: 48px; }
+      .void-code { font-size: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="void-code">404</div>
+
+  <div class="void-canvas-wrap">
+    <canvas id="gorthog-404" width="192" height="192"></canvas>
+  </div>
+
+  <div class="void-title">YOU HAVE WANDERED<br>INTO THE VOID</div>
+
+  <p class="void-quote">"Gorthog not know this place. Smell like broken links and regret. Maybe go home?"</p>
+
+  <a href="/napalmsunrise-arcade/" class="void-btn">Return to Base</a>
+
+  <script>
+    // ========================================================
+    // GORTHOG CONFUSED SPRITE
+    // ========================================================
+    (function() {
+      const canvas = document.getElementById('gorthog-404');
+      const ctx = canvas.getContext('2d');
+      const S = 12;
+
+      const C = {
+        0: 'transparent',
+        1: '#3a782f',
+        2: '#0d0d0d',
+        3: '#64aa4b',
+        4: '#e8260a',
+        5: '#dcc864',
+        6: '#4a2810',
+        7: '#2d5a24',
+        8: '#f3ede0', // white for question mark / confused eyes
+      };
+
+      // Confused orc - raised eyebrow, open mouth, question-mark vibe
+      const sprite = [
+        [0,0,0,0,0,2,2,2,2,2,2,0,0,8,8,0],
+        [0,0,0,2,2,7,1,1,1,1,7,2,2,8,8,0],
+        [0,0,2,7,1,1,3,3,3,3,1,1,7,2,8,0],
+        [0,2,6,1,1,3,3,3,3,3,3,1,1,6,2,0],
+        [0,2,6,1,2,2,3,3,3,3,3,3,1,6,2,0],
+        [0,0,2,1,3,2,2,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,3,2,3,3,3,3,2,3,1,2,0,0],
+        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+        [0,0,2,1,3,3,1,7,7,1,3,3,1,2,0,0],
+        [0,2,5,1,1,3,3,3,3,3,3,1,1,5,2,0],
+        [0,2,5,1,1,1,4,4,4,4,1,1,1,5,2,0],
+        [0,0,2,1,1,4,1,1,1,1,4,1,1,2,0,0],
+        [0,0,2,7,1,4,4,4,4,4,4,1,7,2,0,0],
+        [0,0,0,2,7,1,1,1,1,1,1,7,2,0,0,0],
+        [0,0,0,0,2,2,7,1,1,7,2,2,0,0,0,0],
+        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+      ];
+
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const v = sprite[y][x];
+          if (v === 0) continue;
+          ctx.fillStyle = C[v];
+          ctx.fillRect(x * S, y * S, S, S);
+        }
+      }
+
+      // Add a floating "?" above his head
+      ctx.fillStyle = '#f3ede0';
+      ctx.font = 'bold 24px "Bebas Neue", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('?', 168, 24);
+    })();
+
+    // ========================================================
+    // FAVICON
+    // ========================================================
+    (function() {
+      const c = document.createElement('canvas');
+      c.width = 16; c.height = 16;
+      const x = c.getContext('2d');
+      const P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
+      const art = [
+        [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+        [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+        [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+        [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+        [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+        [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+        [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+        [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+        [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+        [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+      ];
+      for (let y = 0; y < 16; y++) for (let i = 0; i < 16; i++) {
+        const v = art[y][i]; if (v === 0) continue;
+        x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
+      }
+      const link = document.createElement('link');
+      link.rel = 'icon'; link.type = 'image/png';
+      link.href = c.toDataURL('image/png');
+      document.head.appendChild(link);
+    })();
+  </script>
+</body>
+</html>

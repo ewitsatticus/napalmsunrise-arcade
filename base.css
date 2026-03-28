@@ -43,8 +43,18 @@ img { max-width: 100%; height: auto; }
   border-left: 1px solid rgba(255,255,255,0.08);
   transition: background 0.12s, color 0.12s; white-space: nowrap;
 }
-.nav-link:hover { background: rgba(255,255,255,0.06); color: #F3EDE0; }
+.nav-link:hover { background: rgba(255,255,255,0.06); color: #F3EDE0; animation: glitch 0.3s ease; }
 .nav-link.active { background: var(--red) !important; color: var(--bg) !important; }
+
+/* -- GLITCH HOVER -- */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  40% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+  60% { transform: translate(-1px, 0); }
+  80% { transform: translate(1px, 1px); filter: hue-rotate(45deg); }
+  100% { transform: translate(0); }
+}
 
 /* -- FOOTER LINKS -- */
 .footer-link {
@@ -125,23 +135,55 @@ img { max-width: 100%; height: auto; }
 /* -- HERO -- */
 .hero {
   border-bottom: var(--border);
+  position: relative;
+  overflow: hidden;
 }
-.hero-left { padding: 80px 0; }
+#hero-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  z-index: 0;
+}
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.4) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-left {
+  padding: 80px 0;
+  position: relative;
+  z-index: 2;
+}
 .eyebrow {
   font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--gray); margin-bottom: 20px;
+  transition: opacity 0.5s ease;
 }
 .hero-name {
   font-family: var(--font-display); font-size: 100px; line-height: 0.88;
   letter-spacing: 0.02em; margin-bottom: 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 }
 .hero-site {
   font-family: var(--font-display); font-size: 100px; line-height: 0.88;
   letter-spacing: 0.02em; color: var(--red); margin-bottom: 32px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 }
 .hero-tagline {
   font-size: 17px; line-height: 1.6; font-style: italic; color: #3a3632;
   max-width: 540px; margin-bottom: 40px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
 /* hero-right removed — hero is now full-width */
