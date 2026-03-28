@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "/Users/atticuseby/napalmsunrise-arcade", "-l", "4567", "--no-clipboard"],
       "port": 4567
+    },
+    {
+      "name": "about",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4568", "-d", "/Users/atticuseby/napalmsunrise-arcade"],
+      "port": 4568
     }
   ]
 }
