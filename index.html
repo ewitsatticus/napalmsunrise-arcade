@@ -787,36 +787,29 @@ function drawMemorialFinal(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,CW,CH);for
    ═════════════════════��════════ */
 var cavern={active:false,transitioning:false,transStart:0,CVW:270,CVH:90};
 var CGROUND=cavern.CVH-9;
-var CS=2;/* cavern pixel scale (was 3 via S) */
+var CS=2;
+/* 16-bit expanded palette — richer shading for cavern sprites */
+C['q']='#8aad50';C['v']='#567a2e';C['l']='#7a9a3a';C['j']='#5a3618';
+C['a']='#8b6840';C['e']='#c9a240';C['c']='#e8d0b0';C['A']='#4a3218';
 var ACTIVITIES=['sleep','fire','cook','work','eat','pace'];
 var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.'};
 var gAI={activity:'fire',targetX:135,timer:0,duration:600,walking:false,sitFrame:0,
-  zones:{sleep:{x:27,name:'sleep'},fire:{x:82,name:'fire'},cook:{x:150,name:'cook'},work:{x:202,name:'work'},eat:{x:165,name:'eat'},pace:{x:105,name:'pace'}},
+  zones:{sleep:{x:27},fire:{x:68},cook:{x:138},work:{x:198},eat:{x:162},pace:{x:105}},
   preSleep:{active:false,phase:'none',timer:0}
 };
-/* Sitting orc (used at fire, desk, eating) */
-var ORC_SIT=[
-  '..dddd..',
-  '.dggggd.',
-  '.gwdwgd.',
-  'ddggggdd',
-  '.dgttgd.',
-  '.dgmmgd.',
-  '..dggd..',
-  '.dgggdg.',
-  '..dddd..',
-  '.dd..dd.',
-];
-/* Sleeping orc (horizontal) */
-var ORC_SLEEP=[
-  '...........',
-  '.dd........',
-  'dggd.......',
-  'gwgdddddd..',
-  'dttdgggggd.',
-  '.dmdddddd..',
-  '...........',
-];
+/* ---- 16-bit cavern orc sprites (10 wide) ---- */
+/* Walk right — 4-frame cycle: R1 stride, R2 cross, R3 stride, R2 cross */
+var CORC_R1=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jgggga..','...jaej...','...dggd...','..dv..vd..','..dg...gd.','..db...db.','...b....b.'];
+var CORC_R2=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','.ajggggj..','...jaej...','...dggd...','...dvvd...','..dg.gd...','..db.db...','..bb.bb...'];
+var CORC_R3=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jgggga..','...jaej...','...dggd...','..dv..vd..','.dg...gd..','.db...db..','.b....bb..'];
+var CORC_STAND=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jggggj..','...jaej...','...dggd...','..dv..vd..','..dg..gd..','..db..db..','..bb..bb..'];
+function cMirror(sp){return sp.map(function(r){return r.split('').reverse().join('')});}
+var CORC_L1=cMirror(CORC_R1),CORC_L2=cMirror(CORC_R2),CORC_L3=cMirror(CORC_R3);
+var CORC_WALK_R=[CORC_R1,CORC_R2,CORC_R3,CORC_R2];
+var CORC_WALK_L=[CORC_L1,CORC_L2,CORC_L3,CORC_L2];
+/* Sitting (10x13) and sleeping (14x7) */
+var CORC_SIT=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jggggj..','...jaej...','..dddddd..','..dd..dd..'];
+var CORC_SLEEP=['..............','.dd...........','dlgd..........','gwgdjjdddddj..','dttdjggggggjd.','.dmdjjdddddj..','..............'];
 
 function cpx(x,y,color){if(!cavern.ctx)return;cavern.ctx.fillStyle=color;cavern.ctx.fillRect(Math.round(x)*CS,Math.round(y)*CS,CS,CS);}
 function cpxSprite(sprite,ox,oy){for(var r=0;r<sprite.length;r++){for(var c=0;c<sprite[r].length;c++){var ch=sprite[r][c];if(ch==='.'||!C[ch])continue;cpx(ox+c,oy+r,C[ch]);}}}
@@ -963,24 +956,32 @@ function drawFireplace(){
   }
   /* Soot stains above */
   cpx(80,G-23,'#3a3428');cpx(84,G-24,'#3a3428');cpx(88,G-23,'#332e22');cpx(86,G-25,'#332e22');
-  /* Fire — animated with more colors, bigger */
-  var fc=frame%20;
-  var fireColors=['#ff8800','#ff4400','#cc3333','#ff6600','#ffaa00','#ffcc00'];
-  for(var i=0;i<12;i++){
-    var fx=78+i+Math.round(Math.sin(frame*0.3+i)*1.5);
-    var fh=3+Math.round(Math.sin(frame*0.12+i*1.7)*5);
+  /* Fire — 16-bit heat gradient: white-hot base → red tips */
+  var fireGrad=['#fff8e0','#ffe880','#ffcc00','#ffaa00','#ff8800','#ff4400','#cc2200','#881100'];
+  for(var i=0;i<14;i++){
+    var fx=77+i+Math.round(Math.sin(frame*0.2+i*0.8)*1.2);
+    var fh=2+Math.round(Math.abs(Math.sin(frame*0.08+i*1.3))*7);
     if(fh<1)fh=1;
     for(var fy=0;fy<fh;fy++){
-      cpx(fx,G-1-fy,fireColors[(fy+fc+i)%fireColors.length]);
+      var ci=Math.min(fireGrad.length-1,Math.floor(fy*fireGrad.length/fh));
+      cpx(fx,G-1-fy,fireGrad[ci]);
     }
   }
-  /* Hot coals at base */
-  for(var x=79;x<91;x++){cpx(x,G,x%2===0?'#aa3300':'#cc4400');if(x%3===0)cpx(x,G-1,'#992200');}
-  /* Embers floating up */
-  for(var ei=0;ei<3;ei++){
-    if((frame+ei*7)%6<3){
-      cpx(79+Math.floor(Math.random()*10),G-10-Math.floor(Math.random()*8),'#ffaa00');
-      cpx(80+Math.floor(Math.random()*8),G-12-Math.floor(Math.random()*5),'#ff880060');
+  /* Hot coals — brighter, more varied */
+  for(var x=78;x<92;x++){
+    var coalC=x%3===0?'#dd4400':x%3===1?'#cc3300':'#ff5500';
+    cpx(x,G,coalC);
+    if(x%2===0)cpx(x,G-1,'#aa2200');
+  }
+  /* Embers — deterministic, no flicker */
+  for(var ei=0;ei<6;ei++){
+    var et=(frame+ei*37)%90;
+    if(et<65){
+      var ex=78+((ei*13+Math.floor(frame/3))%13);
+      var ey=G-3-Math.floor(et/4);
+      if(et<25)cpx(ex,ey,'#ffcc00');
+      else if(et<45)cpx(ex,ey,'#ff8800');
+      else cpx(ex,ey,'#cc440080');
     }
   }
   /* Logs — crossed, larger */
@@ -1000,8 +1001,10 @@ function drawFireplace(){
   cpx(90,G-28,'#8b5e3c');cpx(91,G-28,'#7a5230');cpx(92,G-28,'#7a5230');
   /* Steam from mug */
   if(frame%20<12){var my=G-29-Math.floor((frame%20)/4);cpx(91,my,'#5a5340');}
-  /* Sitting rug */
-  for(var x=74;x<96;x++){cpx(x,G,x%3===0?'#8b4a30':'#7a3a20');if(x%5===0)cpx(x,G,'#9a5a40');}
+  /* Sitting rug — extended for orc position */
+  for(var x=64;x<96;x++){cpx(x,G,x%3===0?'#8b4a30':'#7a3a20');if(x%5===0)cpx(x,G,'#9a5a40');}
+  /* Rug fringe */
+  for(var x=64;x<96;x+=3){cpx(x,G+1,x%6===0?'#7a3a20':'#6a2a10');}
 }
 
 function drawKitchen(){
@@ -1127,12 +1130,68 @@ function drawDesk(){
   cpx(250,G-38,'#6b4226');
 }
 
+/* ---- Dynamic lighting overlay ---- */
+function drawLighting(){
+  var cc=cavern.ctx;
+  var flicker=0.85+0.15*Math.sin(frame*0.08);
+  /* Fire glow — warm amber overlay fading with distance */
+  cc.fillStyle='#ff8844';
+  for(var x=50;x<120;x++){
+    var dist=Math.abs(x-85);
+    var alpha=Math.max(0,(1-dist/35)*0.14*flicker);
+    if(alpha>0.005){
+      cc.globalAlpha=alpha;
+      cc.fillRect(x*CS,(CGROUND-30)*CS,CS,33*CS);
+    }
+  }
+  /* Torch glow on walls */
+  var torches=[30,98,165,240];
+  cc.fillStyle='#ffaa44';
+  var tf=0.7+0.3*Math.sin(frame*0.15);
+  for(var ti=0;ti<torches.length;ti++){
+    var tx=torches[ti];
+    for(var x=tx-6;x<=tx+6;x++){
+      var d=Math.abs(x-tx);
+      var a=Math.max(0,(1-d/6)*0.08*tf);
+      if(a>0.005){
+        cc.globalAlpha=a;
+        cc.fillRect(x*CS,8*CS,CS,10*CS);
+      }
+    }
+  }
+  /* Candle glow — bed nightstand + desk */
+  var candles=[{x:52,y:CGROUND-10},{x:218,y:CGROUND-14}];
+  var cf=0.65+0.35*Math.sin(frame*0.12);
+  cc.fillStyle='#ffaa44';
+  for(var ci=0;ci<candles.length;ci++){
+    var cx=candles[ci].x,cy=candles[ci].y;
+    for(var x=cx-4;x<=cx+4;x++){
+      var d2=Math.abs(x-cx);
+      var a2=Math.max(0,(1-d2/4)*0.07*cf);
+      if(a2>0.005){
+        cc.globalAlpha=a2;
+        cc.fillRect(x*CS,(cy-3)*CS,CS,12*CS);
+      }
+    }
+  }
+  /* Kitchen fire glow */
+  var kf=0.75+0.25*Math.sin(frame*0.1+1);
+  cc.fillStyle='#ff7733';
+  for(var x=140;x<165;x++){
+    var kd=Math.abs(x-152);
+    var ka=Math.max(0,(1-kd/13)*0.08*kf);
+    if(ka>0.005){
+      cc.globalAlpha=ka;
+      cc.fillRect(x*CS,(CGROUND-10)*CS,CS,12*CS);
+    }
+  }
+  cc.globalAlpha=1;
+}
+
 function drawCavernScene(){
   if(!cavern.ctx)return;
-  /* Dramatic closeup override */
   if(dramaticState.active&&dramaticState.phase==='closeup'){drawDramaticCloseup();return;}
   var cc=cavern.ctx;
-  /* Clear with cave wall color */
   cc.fillStyle='#2d2820';cc.fillRect(0,0,cavern.CVW*CS,cavern.CVH*CS);
   drawCavernBg();
   drawBed();
@@ -1140,115 +1199,98 @@ function drawCavernScene(){
   drawKitchen();
   drawDesk();
 
-  /* Draw Gorthog at his current position */
+  /* Draw Gorthog */
   var gx=Math.round(orc.x);
-  var gy=CGROUND-12;
+  var gy=CGROUND-16;/* 16-row sprites */
+  var gySit=CGROUND-13;/* 13-row sit sprites */
 
   function cText(str,x,y,col){for(var i=0;i<str.length;i++){var ch2=FONT3x5[str[i]];if(!ch2)continue;for(var r=0;r<ch2.length;r++){for(var c2=0;c2<ch2[r].length;c2++){if(ch2[r][c2]!=='.')cpx(x+i*4+c2,y+r,C[col]||col);}}}}
 
   if(gAI.preSleep.active){
-    /* BEDTIME UNDRESSING SEQUENCE */
     var ps=gAI.preSleep;
-    var bx=46;/* standing position near armor stand */
+    var bx=46;
     if(ps.phase==='walk-to-stand'){
-      /* Walking to armor stand */
-      var sprite2;
-      if(orc.dir===1)sprite2=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-      else sprite2=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+      var sprite2=CORC_WALK_R[orc.walkFrame%4];
+      if(orc.dir===-1)sprite2=CORC_WALK_L[orc.walkFrame%4];
       cpxSprite(sprite2,gx,gy);
     }else if(ps.phase==='remove-belt'){
-      /* Standing, belt removed — draw orc without belt detail */
-      cpxSprite(ORC_R1,bx,gy);
-      /* Belt on stand */
+      cpxSprite(CORC_STAND,bx,gy);
       cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
-      /* Arm reaching animation */
-      if(ps.timer%20<10)cpx(bx+9,gy+5,'#64aa4b');
+      if(ps.timer%20<10)cpx(bx+10,gy+8,C['g']);
     }else if(ps.phase==='remove-armor'){
-      /* Standing in undershirt */
-      cpxSprite(ORC_R1,bx,gy);
-      /* Armor on stand */
+      cpxSprite(CORC_STAND,bx,gy);
       cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
       cpx(47,CGROUND-10,'#666');cpx(48,CGROUND-10,'#555');cpx(49,CGROUND-10,'#666');
       cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
-      /* Orc stretching */
-      if(ps.timer%30<15){cpx(bx+2,gy-1,'#64aa4b');cpx(bx+6,gy-1,'#64aa4b');}
+      if(ps.timer%30<15){cpx(bx+2,gy-1,C['g']);cpx(bx+8,gy-1,C['g']);}
     }else if(ps.phase==='yawn'){
-      /* Yawning animation — mouth open wide */
-      cpxSprite(ORC_R1,bx,gy);
-      /* Override mouth with open yawn */
-      cpx(bx+3,gy+6,'#8b2010');cpx(bx+4,gy+6,'#8b2010');cpx(bx+5,gy+6,'#8b2010');
-      cpx(bx+3,gy+7,'#cc3333');cpx(bx+4,gy+7,'#cc3333');cpx(bx+5,gy+7,'#cc3333');
-      /* Arms up stretching */
-      cpx(bx+1,gy-1,'#64aa4b');cpx(bx+7,gy-1,'#64aa4b');
-      cpx(bx+1,gy-2,'#3a782f');cpx(bx+7,gy-2,'#3a782f');
+      cpxSprite(CORC_STAND,bx,gy);
+      cpx(bx+4,gy+5,'#8b2010');cpx(bx+5,gy+5,'#8b2010');cpx(bx+6,gy+5,'#8b2010');
+      cpx(bx+4,gy+6,'#cc3333');cpx(bx+5,gy+6,'#cc3333');cpx(bx+6,gy+6,'#cc3333');
+      cpx(bx+2,gy-1,C['g']);cpx(bx+8,gy-1,C['g']);
+      cpx(bx+2,gy-2,C['d']);cpx(bx+8,gy-2,C['d']);
     }else if(ps.phase==='walk-to-bed'){
-      var sprite3;
-      if(orc.dir===1)sprite3=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-      else sprite3=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+      var sprite3=CORC_WALK_R[orc.walkFrame%4];
+      if(orc.dir===-1)sprite3=CORC_WALK_L[orc.walkFrame%4];
       cpxSprite(sprite3,gx,gy);
     }else if(ps.phase==='climb-in'){
-      /* Sitting on bed edge */
-      cpxSprite(ORC_SIT,27,CGROUND-16);
+      cpxSprite(CORC_SIT,27,gySit);
     }
-    /* Armor/belt accumulating on stand */
     if(ps.phase!=='walk-to-stand'){
       cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
     }
   }else if(gAI.activity==='sleep'){
-    /* Sleeping in bed */
-    cpxSprite(ORC_SLEEP,18,CGROUND-13);
-    /* Blanket drawn over */
+    cpxSprite(CORC_SLEEP,18,CGROUND-13);
     for(var bx2=26;bx2<43;bx2++){cpx(bx2,CGROUND-8,bx2%3===0?'#4a5e2a':'#5a6e3a');}
-    /* ZZZ — floating */
     var zy=CGROUND-18-Math.floor((frame%50)/6);
     var zx=36+Math.floor((frame%50)/10);
     if(frame%50<15)cText('Z',zx,zy,'#ccc');
     else if(frame%50<30){cText('Z',zx-1,zy-1,'#ccc');cText('Z',zx+4,zy,'#aaa');}
     else{cText('Z',zx+7,zy-2,'#aaa');cText('Z',zx+2,zy-3,'#888');}
   }else if(gAI.walking){
-    var sprite4;
-    if(orc.dir===1)sprite4=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-    else sprite4=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    /* Ground shadow under walking orc */
+    for(var sx=gx+1;sx<gx+9;sx++){cpx(sx,CGROUND-1,'#2a2620');}
+    var sprite4=CORC_WALK_R[orc.walkFrame%4];
+    if(orc.dir===-1)sprite4=CORC_WALK_L[orc.walkFrame%4];
     cpxSprite(sprite4,gx,gy);
   }else if(gAI.activity==='fire'){
-    cpxSprite(ORC_SIT,78,CGROUND-16);
-    /* Warm glow on orc */
-    if(frame%6<3){cpx(83,CGROUND-13,'#4a3018');cpx(84,CGROUND-14,'#4a3018');}
+    cpxSprite(CORC_SIT,68,gySit);
+    if(frame%6<3){cpx(75,CGROUND-10,'#4a3018');cpx(76,CGROUND-11,'#4a3018');}
   }else if(gAI.activity==='cook'){
-    var stir=Math.sin(frame*0.2)>0;
-    cpxSprite(stir?ORC_R1:ORC_R2,138,CGROUND-18);
-    /* Spoon */
-    cpx(150,CGROUND-10,'#c5b89a');cpx(150,CGROUND-11,'#c5b89a');cpx(150,CGROUND-12,'#c5b89a');cpx(150,CGROUND-13,'#c5b89a');
+    var stir=Math.sin(frame*0.15)>0;
+    cpxSprite(stir?CORC_R1:CORC_R2,136,gy);
+    cpx(148,CGROUND-9,'#c5b89a');cpx(148,CGROUND-10,'#c5b89a');cpx(148,CGROUND-11,'#c5b89a');cpx(148,CGROUND-12,'#c5b89a');
   }else if(gAI.activity==='work'){
-    cpxSprite(ORC_SIT,200,CGROUND-16);
-    /* Quill scratch animation */
-    if(frame%20<10){cpx(206,CGROUND-13,'#333');cpx(207,CGROUND-12,'#333');}
+    cpxSprite(CORC_SIT,196,gySit);
+    if(frame%20<10){cpx(204,CGROUND-11,'#333');cpx(205,CGROUND-10,'#333');}
   }else if(gAI.activity==='eat'){
-    cpxSprite(ORC_SIT,162,CGROUND-16);
-    /* Food item in hand area */
-    if(frame%30<15){cpx(167,CGROUND-13,'#cc3333');cpx(168,CGROUND-14,'#cc8844');}
+    cpxSprite(CORC_SIT,160,gySit);
+    if(frame%30<15){cpx(166,CGROUND-10,'#cc3333');cpx(167,CGROUND-11,'#cc8844');}
   }else{
     /* Pacing */
-    var sprite5;
-    if(orc.dir===1)sprite5=(orc.walkFrame===0)?ORC_R1:ORC_R2;
-    else sprite5=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    for(var sx2=gx+1;sx2<gx+9;sx2++){cpx(sx2,CGROUND-1,'#2a2620');}
+    var sprite5=CORC_WALK_R[orc.walkFrame%4];
+    if(orc.dir===-1)sprite5=CORC_WALK_L[orc.walkFrame%4];
     cpxSprite(sprite5,gx,gy);
   }
 
-  /* Ambient particles — dust motes drifting */
-  if(frame%12===0){
-    var dx=Math.floor(Math.random()*cavern.CVW);
-    var dy=15+Math.floor(Math.random()*45);
-    cpx(dx,dy,'#5a5340');
+  /* Dynamic lighting overlay */
+  drawLighting();
+
+  /* Ambient particles — deterministic dust motes */
+  for(var di=0;di<3;di++){
+    var dt2=(frame+di*53)%120;
+    if(dt2<8){
+      var dx3=(di*89+Math.floor(frame/20)*7)%cavern.CVW;
+      var dy3=15+((di*41+Math.floor(frame/30)*11)%45);
+      cpx(dx3,dy3,'#5a5340');
+    }
   }
-  if(frame%20===0){
-    var dx2=Math.floor(Math.random()*cavern.CVW);
-    var dy2=18+Math.floor(Math.random()*30);
-    cpx(dx2,dy2,'#4a4330');
-  }
-  /* Cobwebs in corners */
+  /* Cobwebs */
   cpx(2,12,'#4a4438');cpx(3,13,'#4a4438');cpx(4,14,'#3d3828');
   cpx(267,12,'#4a4438');cpx(266,13,'#4a4438');cpx(265,14,'#3d3828');
+  cpx(3,12,'#3d3828');cpx(5,15,'#332e22');
+  cpx(266,12,'#3d3828');cpx(264,15,'#332e22');
 }
 
 function updateCavern(){
@@ -1264,8 +1306,8 @@ function updateCavern(){
         var actEl2=document.getElementById('gt-cavern-activity');
         if(actEl2)actEl2.textContent='Gorthog removes his belt. It has seen 400 years of war.';
       }else{
-        orc.dir=dx2>0?1:-1;orc.x+=0.3*orc.dir;
-        orc.walkTimer++;if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+        orc.dir=dx2>0?1:-1;orc.x+=0.4*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
       }
     }else if(ps.phase==='remove-belt'&&ps.timer>80){
       ps.phase='remove-armor';ps.timer=0;
@@ -1283,11 +1325,10 @@ function updateCavern(){
         var actEl5=document.getElementById('gt-cavern-activity');
         if(actEl5)actEl5.textContent='Gorthog climbs into bed. The frame protests audibly.';
       }else{
-        orc.dir=dx3>0?1:-1;orc.x+=0.3*orc.dir;
-        orc.walkTimer++;if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+        orc.dir=dx3>0?1:-1;orc.x+=0.4*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
       }
     }else if(ps.phase==='climb-in'&&ps.timer>60){
-      /* Done undressing — transition to sleep */
       ps.active=false;ps.phase='none';ps.timer=0;
       gAI.activity='sleep';gAI.walking=false;gAI.timer=0;
       gAI.duration=400+Math.floor(Math.random()*300);
@@ -1300,7 +1341,7 @@ function updateCavern(){
   gAI.timer++;
 
   if(gAI.walking){
-    var speed=0.35;
+    var speed=0.4;
     var dx=gAI.targetX-orc.x;
     if(Math.abs(dx)<1){
       orc.x=gAI.targetX;
@@ -1309,34 +1350,36 @@ function updateCavern(){
       gAI.duration=300+Math.floor(Math.random()*400);
       var actEl=document.getElementById('gt-cavern-activity');
       if(actEl)actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
-      /* If arriving at sleep, start undressing sequence */
-      if(gAI.activity==='sleep'){
-        gAI.preSleep.active=true;
-        gAI.preSleep.phase='walk-to-stand';
-        gAI.preSleep.timer=0;
-        var actEl7=document.getElementById('gt-cavern-activity');
-        if(actEl7)actEl7.textContent='Gorthog heads to the armor stand. It is time for rest.';
-        return;
-      }
     }else{
       orc.dir=dx>0?1:-1;
       orc.x+=speed*orc.dir;
       orc.walkTimer++;
-      if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+      if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
     }
   }else{
     if(gAI.timer>=gAI.duration){
       var newAct=ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
       if(newAct===gAI.activity)newAct=ACTIVITIES[(ACTIVITIES.indexOf(newAct)+1)%ACTIVITIES.length];
-      gAI.activity=newAct;
-      gAI.targetX=gAI.zones[newAct].x;
-      gAI.walking=true;
-      gAI.timer=0;
+      /* Sleep: start undressing immediately instead of walking to bed first */
+      if(newAct==='sleep'){
+        gAI.activity='sleep';
+        gAI.preSleep.active=true;
+        gAI.preSleep.phase='walk-to-stand';
+        gAI.preSleep.timer=0;
+        gAI.timer=0;
+        var actEl7=document.getElementById('gt-cavern-activity');
+        if(actEl7)actEl7.textContent='Gorthog heads to the armor stand. It is time for rest.';
+      }else{
+        gAI.activity=newAct;
+        gAI.targetX=gAI.zones[newAct].x;
+        gAI.walking=true;
+        gAI.timer=0;
+      }
     }
     if(gAI.activity==='pace'&&!gAI.walking){
-      orc.x+=orc.dir*0.2;
+      orc.x+=orc.dir*0.25;
       orc.walkTimer++;
-      if(orc.walkTimer>10){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+      if(orc.walkTimer>7){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
       if(orc.x>gAI.zones.pace.x+22||orc.x<gAI.zones.pace.x-22)orc.dir*=-1;
     }
   }
@@ -1353,7 +1396,7 @@ function startCavern(){
   document.getElementById('gorthog-ask').classList.add('cavern-mode');
   document.getElementById('cavern-footer').classList.add('cavern-active');
   /* Init orc position at fireplace */
-  orc.x=82;orc.dir=1;orc.vx=0;
+  orc.x=68;orc.dir=1;orc.vx=0;
   gAI.activity='fire';gAI.walking=false;gAI.timer=0;gAI.duration=400;
   /* Show activity */
   var actEl=document.getElementById('gt-cavern-activity');
@@ -1479,10 +1522,10 @@ function drawDramaticCloseup(){
   var cw=cavern.CVW,ch=cavern.CVH;
   /* Dark background */
   cc.fillStyle='#0a0806';cc.fillRect(0,0,cw*CS,ch*CS);
-  /* Draw enlarged Gorthog face — scale up the orc sprite 4x centered */
-  var FACE=['..dddd..', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.'];
+  /* Draw enlarged Gorthog face — 16-bit quality, scaled 4x centered */
+  var FACE=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...'];
   var scale=4;
-  var faceW=8*scale,faceH=6*scale;
+  var faceW=10*scale,faceH=7*scale;
   var ox=Math.floor(cw/2-faceW/2);
   var oy=Math.floor(ch/2-faceH/2)-2;
   for(var r=0;r<FACE.length;r++){
