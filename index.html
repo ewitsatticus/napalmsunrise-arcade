@@ -33,11 +33,7 @@
       </a>
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
         <a href="/napalmsunrise-arcade/" class="nav-link active">Home</a>
-        <a href="/napalmsunrise-arcade/play/" class="nav-link">Play</a>
-        <a href="/napalmsunrise-arcade/lab/" class="nav-link">Lab</a>
         <a href="/napalmsunrise-arcade/about/" class="nav-link">About</a>
-        <a href="#gorthog" class="nav-link">Gorthog</a>
-        <a href="https://napalmsunrise.com/blogs/lab-notes" class="nav-link" target="_blank">Lab Notes</a>
         <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
       </nav>
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
@@ -64,8 +60,6 @@
     <!-- HERO -->
     <div class="wrap">
       <section class="hero">
-        <canvas id="hero-canvas"></canvas>
-        <div class="hero-overlay"></div>
         <div class="hero-left">
           <div class="eyebrow" id="hero-eyebrow">TRANSMITTING FROM THE END OF THE WORLD</div>
           <div class="hero-site">NAPALM SUNRISE</div>
@@ -75,6 +69,9 @@
             <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank">EXPLORE</a>
             <a class="btn btn-ghost" href="#gorthog">ASK GORTHOG</a>
           </div>
+        </div>
+        <div class="hero-right">
+          <canvas id="hero-canvas"></canvas>
         </div>
       </section>
     </div>
@@ -109,11 +106,14 @@
         }, 600);
       }, 8000);
 
-      /* ---- PIXEL ART NAPALM SUNRISE CANVAS ---- */
+      /* ---- MORPHING NAPALM SUN ---- */
       const canvas = document.getElementById('hero-canvas');
       const ctx = canvas.getContext('2d');
-      const PX = 5; // pixel scale
-      let W, H, cols, rows;
+      const PX = 4;
+      let W, H, cols, rows, cx, cy, baseR;
+
+      /* Site background color to use as canvas bg */
+      const BG = [243, 237, 224]; /* --bg: #F3EDE0 */
 
       function resize() {
         const rect = canvas.parentElement.getBoundingClientRect();
@@ -121,310 +121,209 @@
         H = canvas.height = rect.height;
         cols = Math.ceil(W / PX);
         rows = Math.ceil(H / PX);
-        generateBuildings();
+        cx = Math.floor(cols / 2);
+        cy = Math.floor(rows / 2);
+        baseR = Math.floor(Math.min(cols, rows) * 0.32);
       }
-
-      // Silhouetted buildings
-      let buildings = [];
-      function generateBuildings() {
-        buildings = [];
-        let x = 0;
-        while (x < cols) {
-          const w = 3 + Math.floor(Math.random() * 8);
-          const h = 4 + Math.floor(Math.random() * (rows * 0.35));
-          const gap = Math.random() < 0.3 ? 1 + Math.floor(Math.random() * 3) : 0;
-          buildings.push({ x: x, w: w, h: h });
-          x += w + gap;
-        }
-      }
-
-      // Napalm drops
-      const drops = [];
-      const MAX_DROPS = 60;
-
-      // Fire particles at bottom
-      const flames = [];
-      const MAX_FLAMES = 120;
-
-      // Smoke/ash particles
-      const smoke = [];
-      const MAX_SMOKE = 80;
-
-      const LOOP = 35; // seconds per full loop
-      let startTime = performance.now();
 
       function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
-      function lerpColor(c1, c2, t) {
-        return [
-          Math.round(lerp(c1[0], c2[0], t)),
-          Math.round(lerp(c1[1], c2[1], t)),
-          Math.round(lerp(c1[2], c2[2], t))
-        ];
+      function lerpC(a, b, t) { return [Math.round(lerp(a[0],b[0],t)),Math.round(lerp(a[1],b[1],t)),Math.round(lerp(a[2],b[2],t))]; }
+      function rgb(c) { return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+      function px(x,y,c) { ctx.fillStyle=rgb(c); ctx.fillRect(x*PX,y*PX,PX,PX); }
+
+      /* Noise for organic edges */
+      var noiseT = [];
+      for (var ni = 0; ni < 360; ni++) noiseT[ni] = Math.random() * 0.4 + 0.8;
+
+      /* Orbiting embers/particles */
+      var embers = [];
+      for (var ei = 0; ei < 40; ei++) {
+        embers.push({
+          angle: Math.random() * Math.PI * 2,
+          dist: 0.7 + Math.random() * 0.6,
+          speed: 0.005 + Math.random() * 0.015,
+          size: Math.random() < 0.3 ? 2 : 1,
+          phase: Math.random() * Math.PI * 2
+        });
       }
 
-      function rgb(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+      /* Drip particles */
+      var drips = [];
 
-      // Colors
-      const BLACK = [5, 5, 5];
-      const DARK_RED = [60, 8, 2];
-      const BLOOD_RED = [180, 30, 5];
-      const ORANGE = [232, 120, 10];
-      const YELLOW = [255, 200, 40];
-      const FIRE_RED = [220, 50, 10];
-      const FIRE_ORANGE = [255, 140, 20];
-      const FIRE_YELLOW = [255, 220, 60];
-      const ASH_GRAY = [80, 70, 60];
-      const SMOKE_DARK = [30, 28, 25];
+      const LOOP = 30;
+      let startTime = performance.now();
 
-      function drawPixel(cx, cy, color) {
-        ctx.fillStyle = rgb(color);
-        ctx.fillRect(cx * PX, cy * PX, PX, PX);
-      }
+      /* Color palettes for each phase */
+      const CORE_DARK = [80, 10, 2];
+      const CORE_RED = [200, 35, 5];
+      const CORE_ORANGE = [240, 130, 15];
+      const CORE_YELLOW = [255, 210, 50];
+      const CORE_WHITE = [255, 240, 200];
+      const EMBER_COLORS = [[255,100,10],[255,160,20],[255,200,40],[200,40,5],[255,80,0]];
+      const ASH = [120, 100, 80];
+      const SMOKE = [60, 55, 48];
 
       function frame(now) {
-        const elapsed = ((now - startTime) / 1000) % LOOP;
-        const phase = elapsed / LOOP; // 0..1
+        var elapsed = ((now - startTime) / 1000) % LOOP;
+        var phase = elapsed / LOOP;
 
-        // Phase boundaries (as fraction of LOOP)
-        // 0.00-0.18: sunrise
-        // 0.18-0.35: napalm drops
-        // 0.35-0.50: fire spreads
-        // 0.50-0.70: inferno
-        // 0.70-0.88: burnout
-        // 0.88-1.00: darkness
+        /* Clear to site background */
+        ctx.fillStyle = rgb(BG);
+        ctx.fillRect(0, 0, W, H);
 
-        // -- SKY --
-        let skyTop, skyBot;
-        if (phase < 0.18) {
-          // sunrise: black -> dark red/orange sky
-          const t = phase / 0.18;
-          skyTop = lerpColor(BLACK, DARK_RED, t * 0.7);
-          skyBot = lerpColor(BLACK, BLOOD_RED, t);
-        } else if (phase < 0.35) {
-          const t = (phase - 0.18) / 0.17;
-          skyTop = lerpColor(DARK_RED, [100, 20, 5], t * 0.6);
-          skyBot = lerpColor(BLOOD_RED, ORANGE, t * 0.7);
+        /* Phase mapping:
+           0.00-0.25: coalesce from embers into ball (sunrise forming)
+           0.25-0.50: burning sun, pulsing, surface eruptions
+           0.50-0.70: napalm drips, ball destabilizing, tendrils
+           0.70-0.85: explosion — ball breaks apart into particles
+           0.85-1.00: embers cool, fade to near-nothing, then reform */
+
+        var radius, coreColor, midColor, outerColor, intensity, morphAmt;
+
+        if (phase < 0.25) {
+          /* Coalesce */
+          var t = phase / 0.25;
+          radius = baseR * (0.3 + t * 0.7);
+          intensity = t;
+          morphAmt = (1 - t) * 8 + 2;
+          coreColor = lerpC(CORE_DARK, CORE_RED, t);
+          midColor = lerpC(CORE_DARK, CORE_ORANGE, t * 0.6);
+          outerColor = lerpC(SMOKE, CORE_RED, t * 0.4);
         } else if (phase < 0.50) {
-          const t = (phase - 0.35) / 0.15;
-          skyTop = lerpColor([100, 20, 5], FIRE_RED, t * 0.4);
-          skyBot = lerpColor(ORANGE, FIRE_ORANGE, t);
+          /* Burning steady */
+          var t = (phase - 0.25) / 0.25;
+          var pulse = Math.sin(t * Math.PI * 6) * 0.08;
+          radius = baseR * (1 + pulse);
+          intensity = 1;
+          morphAmt = 2 + Math.sin(t * Math.PI * 4) * 1.5;
+          coreColor = lerpC(CORE_ORANGE, CORE_YELLOW, 0.3 + Math.sin(t * Math.PI * 3) * 0.3);
+          midColor = lerpC(CORE_RED, CORE_ORANGE, 0.5 + pulse);
+          outerColor = CORE_RED;
         } else if (phase < 0.70) {
-          const t = (phase - 0.50) / 0.20;
-          skyTop = lerpColor([100, 20, 5], FIRE_ORANGE, t * 0.5);
-          skyBot = lerpColor(FIRE_ORANGE, FIRE_YELLOW, t * 0.6);
-        } else if (phase < 0.88) {
-          const t = (phase - 0.70) / 0.18;
-          skyTop = lerpColor([100, 20, 5], SMOKE_DARK, t);
-          skyBot = lerpColor(FIRE_ORANGE, ASH_GRAY, t);
-        } else {
-          const t = (phase - 0.88) / 0.12;
-          skyTop = lerpColor(SMOKE_DARK, BLACK, t);
-          skyBot = lerpColor(ASH_GRAY, BLACK, t);
-        }
-
-        // Draw sky gradient (chunky pixel rows)
-        for (var r = 0; r < rows; r++) {
-          var t = r / rows;
-          var c = lerpColor(skyTop, skyBot, t);
-          ctx.fillStyle = rgb(c);
-          ctx.fillRect(0, r * PX, W, PX);
-        }
-
-        // -- SUN --
-        if (phase < 0.50) {
-          var sunT, sunAlpha;
-          if (phase < 0.18) {
-            sunT = phase / 0.18;
-            sunAlpha = sunT;
-          } else {
-            sunT = 1;
-            sunAlpha = 1 - ((phase - 0.18) / 0.32) * 0.3;
-          }
-          var sunRadius = Math.floor(Math.min(cols, rows) * 0.08);
-          var sunCX = Math.floor(cols * 0.5);
-          var horizonRow = Math.floor(rows * 0.72);
-          var sunCY = horizonRow + Math.floor(sunRadius * 2 * (1 - sunT));
-          var sunColors = [BLOOD_RED, FIRE_RED, ORANGE];
-          for (var sy = -sunRadius; sy <= sunRadius; sy++) {
-            for (var sx = -sunRadius; sx <= sunRadius; sx++) {
-              var dist = Math.sqrt(sx * sx + sy * sy);
-              if (dist <= sunRadius) {
-                var ci = Math.floor((dist / sunRadius) * (sunColors.length - 1));
-                ci = Math.min(ci, sunColors.length - 1);
-                var sc = sunColors[ci];
-                var py = sunCY + sy;
-                var px = sunCX + sx;
-                if (py >= 0 && py < rows && px >= 0 && px < cols) {
-                  ctx.globalAlpha = sunAlpha;
-                  drawPixel(px, py, sc);
-                }
-              }
-            }
-          }
-          ctx.globalAlpha = 1;
-        }
-
-        // -- BUILDINGS (silhouettes on horizon) --
-        var horizonRow = Math.floor(rows * 0.72);
-        var buildColor;
-        if (phase < 0.35) {
-          buildColor = BLACK;
-        } else if (phase < 0.70) {
-          var bt = (phase - 0.35) / 0.35;
-          buildColor = lerpColor(BLACK, [30, 10, 5], bt * 0.3);
-        } else {
-          buildColor = lerpColor([30, 10, 5], BLACK, (phase - 0.70) / 0.30);
-        }
-        for (var bi = 0; bi < buildings.length; bi++) {
-          var b = buildings[bi];
-          for (var by = 0; by < b.h; by++) {
-            for (var bx = 0; bx < b.w; bx++) {
-              var pr = horizonRow - by;
-              var pc = b.x + bx;
-              if (pr >= 0 && pr < rows && pc < cols) {
-                drawPixel(pc, pr, buildColor);
-              }
-            }
-          }
-          // occasional window glow during fire phases
-          if (phase > 0.35 && phase < 0.85 && b.h > 6) {
-            var fireGlow = Math.min(1, (phase - 0.35) / 0.15);
-            if (phase > 0.70) fireGlow *= Math.max(0, 1 - (phase - 0.70) / 0.15);
-            for (var wy = 2; wy < b.h - 1; wy += 3) {
-              for (var wx = 1; wx < b.w - 1; wx += 2) {
-                if (Math.random() < 0.4 * fireGlow) {
-                  var wc = Math.random() < 0.5 ? FIRE_ORANGE : FIRE_YELLOW;
-                  ctx.globalAlpha = 0.4 + Math.random() * 0.5;
-                  drawPixel(b.x + wx, horizonRow - wy, wc);
-                }
-              }
-            }
-            ctx.globalAlpha = 1;
-          }
-        }
-
-        // -- GROUND --
-        var groundColor;
-        if (phase < 0.35) {
-          groundColor = BLACK;
-        } else if (phase < 0.70) {
-          var gt = (phase - 0.35) / 0.35;
-          groundColor = lerpColor(BLACK, [40, 12, 3], gt);
-        } else {
-          groundColor = lerpColor([40, 12, 3], BLACK, (phase - 0.70) / 0.30);
-        }
-        for (var gr = horizonRow + 1; gr < rows; gr++) {
-          for (var gc = 0; gc < cols; gc++) {
-            drawPixel(gc, gr, groundColor);
-          }
-        }
-
-        // -- NAPALM DROPS (phase 0.18 - 0.55) --
-        if (phase > 0.15 && phase < 0.55) {
-          var dropIntensity = phase < 0.25 ? (phase - 0.15) / 0.10 : (phase < 0.45 ? 1 : 1 - (phase - 0.45) / 0.10);
-          var targetDrops = Math.floor(MAX_DROPS * dropIntensity);
-          while (drops.length < targetDrops) {
-            drops.push({
-              x: Math.floor(Math.random() * cols),
-              y: -Math.floor(Math.random() * 10),
-              speed: 0.3 + Math.random() * 0.6,
-              len: 2 + Math.floor(Math.random() * 4),
-              color: Math.random() < 0.5 ? ORANGE : YELLOW
-            });
-          }
-        }
-        for (var di = drops.length - 1; di >= 0; di--) {
-          var d = drops[di];
-          d.y += d.speed;
-          if (d.y > rows + 5) {
-            drops.splice(di, 1);
-            continue;
-          }
-          for (var dl = 0; dl < d.len; dl++) {
-            var dry = Math.floor(d.y - dl);
-            if (dry >= 0 && dry < rows) {
-              ctx.globalAlpha = 0.6 + 0.4 * (1 - dl / d.len);
-              drawPixel(d.x, dry, d.color);
-            }
-          }
-          ctx.globalAlpha = 1;
-        }
-
-        // -- FIRE ON GROUND (phase 0.35 - 0.85) --
-        if (phase > 0.32 && phase < 0.88) {
-          var fireT;
-          if (phase < 0.50) {
-            fireT = (phase - 0.32) / 0.18; // spreading
-          } else if (phase < 0.70) {
-            fireT = 1; // full inferno
-          } else {
-            fireT = Math.max(0, 1 - (phase - 0.70) / 0.18); // dying
-          }
-          var fireWidth = Math.floor(cols * fireT);
-          var fireStart = Math.floor((cols - fireWidth) / 2);
-          for (var fi = 0; fi < fireWidth; fi++) {
-            var fx = fireStart + fi;
-            var flameH = 2 + Math.floor(Math.random() * 6 * fireT);
-            for (var fy = 0; fy < flameH; fy++) {
-              var frow = horizonRow - fy;
-              if (frow >= 0 && frow < rows) {
-                var fc;
-                if (fy < flameH * 0.3) fc = FIRE_YELLOW;
-                else if (fy < flameH * 0.6) fc = FIRE_ORANGE;
-                else fc = FIRE_RED;
-                ctx.globalAlpha = 0.5 + Math.random() * 0.5;
-                drawPixel(fx, frow, fc);
-              }
-            }
-          }
-          // Ground fire glow
-          for (var gfr = horizonRow + 1; gfr < Math.min(rows, horizonRow + 5); gfr++) {
-            for (var gfc = fireStart; gfc < fireStart + fireWidth; gfc++) {
-              if (gfc >= 0 && gfc < cols && Math.random() < 0.3 * fireT) {
-                ctx.globalAlpha = 0.3 * fireT;
-                drawPixel(gfc, gfr, FIRE_RED);
-              }
-            }
-          }
-          ctx.globalAlpha = 1;
-        }
-
-        // -- SMOKE / ASH (phase 0.55 - 1.0) --
-        if (phase > 0.50 && phase < 1.0) {
-          var smokeIntensity = phase < 0.70 ? (phase - 0.50) / 0.20 : (phase < 0.90 ? 1 : 1 - (phase - 0.90) / 0.10);
-          var targetSmoke = Math.floor(MAX_SMOKE * smokeIntensity);
-          while (smoke.length < targetSmoke) {
-            smoke.push({
-              x: Math.random() * cols,
-              y: horizonRow - Math.random() * 5,
-              vx: (Math.random() - 0.5) * 0.3,
-              vy: -0.1 - Math.random() * 0.4,
+          /* Destabilize — napalm drips */
+          var t = (phase - 0.50) / 0.20;
+          radius = baseR * (1 + t * 0.15);
+          intensity = 1;
+          morphAmt = 2 + t * 6;
+          coreColor = lerpC(CORE_YELLOW, CORE_WHITE, t * 0.5);
+          midColor = lerpC(CORE_ORANGE, CORE_YELLOW, t * 0.4);
+          outerColor = lerpC(CORE_RED, CORE_ORANGE, t * 0.6);
+          /* Spawn drips */
+          if (Math.random() < 0.15 + t * 0.3) {
+            var da = Math.random() * Math.PI * 2;
+            drips.push({
+              x: cx + Math.cos(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              y: cy + Math.sin(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              vx: Math.cos(da) * (0.2 + Math.random() * 0.5),
+              vy: Math.sin(da) * (0.2 + Math.random() * 0.3) + 0.3,
               life: 1,
-              decay: 0.002 + Math.random() * 0.005,
-              color: Math.random() < 0.6 ? ASH_GRAY : SMOKE_DARK
+              color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
             });
           }
-        }
-        for (var si = smoke.length - 1; si >= 0; si--) {
-          var s = smoke[si];
-          s.x += s.vx;
-          s.y += s.vy;
-          s.life -= s.decay;
-          if (s.life <= 0 || s.y < -2) {
-            smoke.splice(si, 1);
-            continue;
+        } else if (phase < 0.85) {
+          /* Explosion / break apart */
+          var t = (phase - 0.70) / 0.15;
+          radius = baseR * (1.15 - t * 0.8);
+          intensity = 1 - t * 0.7;
+          morphAmt = 6 + t * 10;
+          coreColor = lerpC(CORE_WHITE, CORE_ORANGE, t);
+          midColor = lerpC(CORE_YELLOW, CORE_RED, t);
+          outerColor = lerpC(CORE_ORANGE, CORE_DARK, t);
+          /* Burst particles */
+          if (t < 0.3) {
+            for (var bi = 0; bi < 3; bi++) {
+              var da = Math.random() * Math.PI * 2;
+              drips.push({
+                x: cx + Math.cos(da) * radius * 0.5,
+                y: cy + Math.sin(da) * radius * 0.5,
+                vx: Math.cos(da) * (0.5 + Math.random() * 1.5),
+                vy: Math.sin(da) * (0.5 + Math.random() * 1.5),
+                life: 0.6 + Math.random() * 0.4,
+                color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
+              });
+            }
           }
-          var sx = Math.floor(s.x);
-          var sy = Math.floor(s.y);
-          if (sx >= 0 && sx < cols && sy >= 0 && sy < rows) {
-            ctx.globalAlpha = s.life * 0.5;
-            drawPixel(sx, sy, s.color);
-            // bigger smoke blobs
-            if (s.life > 0.5 && sx + 1 < cols) drawPixel(sx + 1, sy, s.color);
-            if (s.life > 0.5 && sy - 1 >= 0) drawPixel(sx, sy - 1, s.color);
+        } else {
+          /* Cool and reform */
+          var t = (phase - 0.85) / 0.15;
+          radius = baseR * (0.35 - t * 0.15 + t * t * 0.1);
+          intensity = 0.3 + t * 0.2;
+          morphAmt = 10 - t * 6;
+          coreColor = lerpC(CORE_DARK, CORE_DARK, 1);
+          midColor = lerpC(ASH, CORE_DARK, t);
+          outerColor = lerpC(SMOKE, CORE_DARK, t * 0.5);
+        }
+
+        /* Draw the morphing ball */
+        if (radius > 1 && intensity > 0.05) {
+          for (var py = Math.max(0, cy - Math.ceil(radius) - 5); py < Math.min(rows, cy + Math.ceil(radius) + 5); py++) {
+            for (var ppx = Math.max(0, cx - Math.ceil(radius) - 5); ppx < Math.min(cols, cx + Math.ceil(radius) + 5); ppx++) {
+              var dx = ppx - cx, dy = py - cy;
+              var dist = Math.sqrt(dx * dx + dy * dy);
+              var angle = Math.atan2(dy, dx);
+              var ai = Math.floor(((angle / Math.PI + 1) * 180)) % 360;
+              /* Organic morphing edge */
+              var nv = noiseT[ai] + Math.sin(elapsed * 2 + ai * 0.05) * 0.15 * morphAmt / 5;
+              var edgeR = radius * nv;
+              if (dist <= edgeR) {
+                var norm = dist / edgeR;
+                var c;
+                if (norm < 0.3) c = lerpC(coreColor, midColor, norm / 0.3);
+                else if (norm < 0.7) c = lerpC(midColor, outerColor, (norm - 0.3) / 0.4);
+                else c = lerpC(outerColor, BG, (norm - 0.7) / 0.3);
+                /* Flicker */
+                var flk = Math.sin(elapsed * 8 + ai * 0.1 + dist * 0.3) * 0.1;
+                c = [Math.min(255,Math.max(0,c[0]+Math.round(flk*50))),Math.min(255,Math.max(0,c[1]+Math.round(flk*20))),c[2]];
+                ctx.globalAlpha = intensity * (0.7 + 0.3 * (1 - norm));
+                px(ppx, py, c);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        /* Orbiting embers */
+        for (var oi = 0; oi < embers.length; oi++) {
+          var em = embers[oi];
+          em.angle += em.speed;
+          var eDist = radius * em.dist;
+          var ex = cx + Math.cos(em.angle) * eDist;
+          var ey = cy + Math.sin(em.angle) * eDist;
+          var eAlpha = intensity * (0.3 + Math.sin(elapsed * 3 + em.phase) * 0.3);
+          if (eAlpha > 0.05 && ex >= 0 && ex < cols && ey >= 0 && ey < rows) {
+            ctx.globalAlpha = eAlpha;
+            var ec = EMBER_COLORS[oi % EMBER_COLORS.length];
+            px(Math.floor(ex), Math.floor(ey), ec);
+            if (em.size > 1 && Math.floor(ex)+1 < cols) px(Math.floor(ex)+1, Math.floor(ey), ec);
           }
         }
         ctx.globalAlpha = 1;
+
+        /* Drip particles */
+        for (var di = drips.length - 1; di >= 0; di--) {
+          var d = drips[di];
+          d.x += d.vx; d.y += d.vy; d.vy += 0.02; d.life -= 0.012;
+          if (d.life <= 0 || d.x < -2 || d.x > cols + 2 || d.y > rows + 2) { drips.splice(di, 1); continue; }
+          var dix = Math.floor(d.x), diy = Math.floor(d.y);
+          if (dix >= 0 && dix < cols && diy >= 0 && diy < rows) {
+            ctx.globalAlpha = d.life * 0.8;
+            px(dix, diy, d.color);
+            /* Trail */
+            var tx = Math.floor(d.x - d.vx * 0.5), ty = Math.floor(d.y - d.vy * 0.5);
+            if (tx >= 0 && tx < cols && ty >= 0 && ty < rows) {
+              ctx.globalAlpha = d.life * 0.3;
+              px(tx, ty, d.color);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        /* Slowly rotate noise field for organic movement */
+        if (Math.random() < 0.3) {
+          var ri = Math.floor(Math.random() * 360);
+          noiseT[ri] += (Math.random() - 0.5) * 0.06;
+          noiseT[ri] = Math.max(0.6, Math.min(1.2, noiseT[ri]));
+        }
 
         requestAnimationFrame(frame);
       }
@@ -467,20 +366,6 @@
             <p>Which 90s reference ranks faster in 2026? The answer will surprise absolutely no one.</p>
           </div>
           <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" style="margin-top:8px;display:inline-block">All Lab Notes &rarr;</a>
-        </div>
-        <div class="tri-col" style="background:var(--black);color:var(--bg);">
-          <div class="tri-label">/ The Arcade</div>
-          <h2 class="tri-heading" style="color:var(--bg);">PLAY<br>NOW</h2>
-          <a href="/napalmsunrise-arcade/play/" class="card" style="background:var(--black);color:var(--bg);border-color:rgba(255,255,255,0.15);text-decoration:none;">
-            <span class="card-tag red">Playable</span>
-            <h4 style="color:var(--bg);">Orc Parkour</h4>
-            <p style="color:rgba(243,237,224,0.5);">8-bit NES-style platformer. Hub world with doors. One level. More coming.</p>
-          </a>
-          <a href="#gorthog" class="card" style="background:var(--black);color:var(--bg);border-color:rgba(255,255,255,0.15);text-decoration:none;">
-            <span class="card-tag" style="background:var(--acid);color:var(--black);">Interactive</span>
-            <h4 style="color:var(--bg);">Gorthog Tamagotchi</h4>
-            <p style="color:rgba(243,237,224,0.5);">Feed the orc or watch him die. It's like Neopets but with more guilt.</p>
-          </a>
         </div>
       </div>
     </div>
