@@ -198,8 +198,8 @@ img { max-width: 100%; height: auto; }
   display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border);
   align-items: stretch;
 }
-.tri-col { padding: 52px 40px; border-right: var(--border); display: flex; flex-direction: column; }
-.tri-col:last-child { border-right: none; }
+.tri-col { padding: 52px 40px 52px 0; border-right: var(--border); display: flex; flex-direction: column; }
+.tri-col:last-child { padding-left: 40px; padding-right: 0; border-right: none; }
 .tri-label {
   font-family: var(--font-display); font-size: 11px; letter-spacing: 0.28em;
   text-transform: uppercase; color: var(--red); margin-bottom: 18px;
