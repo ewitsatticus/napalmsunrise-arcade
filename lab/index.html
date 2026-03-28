@@ -450,57 +450,31 @@
     // FAVICON (generated inline)
     // ========================================================
     (function() {
-      const c = document.createElement('canvas');
-      c.width = 16; c.height = 16;
+      var c=document.createElement('canvas');c.width=16;c.height=16;
       var x=c.getContext('2d');
       var link=document.createElement('link');
       link.rel='icon';link.type='image/png';
       document.head.appendChild(link);
-      var frame=0,particles=[],sunR=3.5;
+      var frame=0;
+      var colors=['#FFD700','#FFC200','#FFB000','#FF9500','#FF7700','#FF5500','#E8260A','#FF3300','#FF5500','#FF7700','#FF9500','#FFB000','#FFC200'];
       function draw(){
         x.clearRect(0,0,16,16);
-        var t=frame*0.15;
-        var pulse=sunR+Math.sin(t*2)*0.5;
-        var grd=x.createRadialGradient(8,8,0,8,8,pulse+2);
-        grd.addColorStop(0,'#FFFBE0');
-        grd.addColorStop(0.4,'#FFD700');
-        grd.addColorStop(0.7,'#FF8C00');
-        grd.addColorStop(1,'#E8260A');
-        x.beginPath();x.arc(8,8,pulse+1,0,Math.PI*2);
-        x.fillStyle=grd;x.fill();
-        for(var r=0;r<8;r++){
-          var a=t*1.2+r*Math.PI/4;
-          var len=3+Math.sin(t*3+r)*1.5;
-          var rx=8+Math.cos(a)*(pulse+1);
-          var ry=8+Math.sin(a)*(pulse+1);
-          var ex=8+Math.cos(a)*(pulse+1+len);
-          var ey=8+Math.sin(a)*(pulse+1+len);
-          x.strokeStyle='rgba(255,200,0,'+(0.6+Math.sin(t*4+r)*0.3)+')';
-          x.lineWidth=1;
-          x.beginPath();x.moveTo(rx,ry);x.lineTo(ex,ey);x.stroke();
-        }
-        if(frame%3===0){
-          var pa=Math.random()*Math.PI*2;
-          var spd=0.3+Math.random()*0.6;
-          particles.push({x:8,y:8,vx:Math.cos(pa)*spd,vy:Math.sin(pa)*spd,
-            life:12+Math.random()*10,maxLife:12+Math.random()*10,
-            color:['#FF4500','#FF6600','#FFD700','#E8260A','#C8FF00'][Math.floor(Math.random()*5)]});
-        }
-        for(var i=particles.length-1;i>=0;i--){
-          var p=particles[i];
-          p.x+=p.vx;p.y+=p.vy;p.life--;
-          if(p.life<=0){particles.splice(i,1);continue;}
-          x.globalAlpha=p.life/p.maxLife;
-          x.fillStyle=p.color;
-          x.fillRect(Math.round(p.x),Math.round(p.y),1,1);
-        }
+        var t=frame*0.08;
+        var ci=Math.floor((frame*0.3)%colors.length);
+        var col=colors[ci];
+        var pulse=4+Math.sin(t)*1.2;
+        x.beginPath();x.arc(8,8,pulse+2,0,Math.PI*2);
+        x.fillStyle=col;x.globalAlpha=0.25;x.fill();
+        x.beginPath();x.arc(8,8,pulse+0.5,0,Math.PI*2);
+        x.fillStyle=col;x.globalAlpha=0.5;x.fill();
+        x.beginPath();x.arc(8,8,pulse-1,0,Math.PI*2);
+        x.fillStyle='#FFFBE0';x.globalAlpha=1;x.fill();
+        x.fillStyle='#FFFFFF';x.fillRect(7,7,2,2);
         x.globalAlpha=1;
-        x.fillStyle='#FFFFFF';
-        x.fillRect(7,7,2,2);
         link.href=c.toDataURL('image/png');
         frame++;
       }
-      setInterval(draw,80);draw();
+      setInterval(draw,100);draw();
     })();
   </script>
 </body>

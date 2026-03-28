@@ -84,14 +84,20 @@
       border: 2px solid rgba(255,255,255,0.08);
       display: block;
     }
+    .person-portrait-inner canvas.portrait-canvas {
+      position: relative;
+      z-index: 1;
+    }
     canvas.smoke-canvas {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 192px;
-      height: 400px;
+      height: 480px;
       pointer-events: none;
       image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      z-index: 2;
     }
 
     .person-name {
@@ -168,7 +174,7 @@
       .about-hero { padding: 48px 0 32px; }
       .person-portrait-inner { width: 160px; height: 160px; }
       .person-portrait-inner canvas.portrait-canvas { width: 160px; height: 160px; }
-      canvas.smoke-canvas { width: 160px; }
+      canvas.smoke-canvas { width: 160px; height: 400px; }
     }
   </style>
 </head>
@@ -204,17 +210,16 @@
         <div class="about-col">
           <div class="person-portrait-wrap">
             <div class="person-portrait-inner">
-              <canvas class="smoke-canvas" id="atticus-smoke" width="192" height="400"></canvas>
+              <canvas class="smoke-canvas" id="atticus-smoke" width="32" height="80"></canvas>
               <canvas class="portrait-canvas" id="atticus-canvas" width="192" height="192"></canvas>
             </div>
           </div>
           <div class="person-name">ATTICUS EBY</div>
-          <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
+          <div class="person-role">Keeper of the Scrolls</div>
           <div class="person-bio">
-            <p>Napalm Sunrise started as an experiment that refused to end. What began as a side project in SEO testing and digital tinkering evolved into something stranger and more interesting&mdash;a public laboratory where the results are posted whether they look good or not.</p>
-            <p>Background in search engine optimization and answer engine optimization, with a particular interest in the places where organic traffic, AI citation, and content strategy collide. The lab runs experiments that most people would call inadvisable. The results speak for themselves, usually in riddles.</p>
-            <p>The philosophy is simple: test everything, document the wreckage, share what works. No gatekeeping, no sanitized case studies. Just raw data from the front lines of a search landscape that changes faster than anyone can map it.</p>
-            <p>When not running experiments or arguing with an 847-year-old orc about email marketing strategy, you can find the evidence scattered across lab notes, code repositories, and the occasional piece of merch that probably shouldn't exist.</p>
+            <p>Atticus Eby serves as Keeper of the Scrolls at Napalm Sunrise, a digital laboratory specializing in search engine optimization (SEO), answer engine optimization (AEO), and experimental content strategy. His research focuses on organic traffic acquisition, AI-mediated citation pathways, and cross-platform distribution frameworks.</p>
+            <p>Mr. Eby maintains an active testing environment for controlled digital marketing experiments. Results are documented and published without editorial modification, in accordance with the laboratory's commitment to methodological transparency.</p>
+            <p>Prior professional experience includes various positions in digital marketing and content strategy. Formal credentials: none worth listing. Published works: scattered across lab notes and code repositories. Recreational interests: arguing with an 847-year-old orc about email subject lines.</p>
           </div>
           <div class="person-links">
             <a href="https://atticuseby.com" target="_blank">Website</a>
@@ -231,12 +236,11 @@
             </div>
           </div>
           <div class="person-name">GORTHOG</div>
-          <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
+          <div class="person-role">Content Mage</div>
           <div class="person-bio">
-            <p>Born in the swamps of a place that no longer appears on any map. Raised among raiders. Survived things that would break lesser creatures&mdash;the wars, the raids, the long marches through territory that smelled like sulfur and bad decisions.</p>
-            <p>There was a marriage once. A good one, by orc standards. And then a tragedy that Gorthog does not speak of in detail. The specifics are his to share, and he shares them only with those who ask properly. What came after was wandering. Centuries of it.</p>
-            <p>How an 847-year-old orc ended up as the resident advisor of a digital marketing operation is a story best heard from Gorthog himself. He answers questions in the chatbot below. He gives advice on life, war, loss, and occasionally on email subject lines. His counsel is surprisingly sound.</p>
-            <p>He eats emails. Literally. Don't ask.</p>
+            <p>Gorthog (b. approx. 1179 CE, Krath'mora Swamplands, location since delisted) serves as Content Mage at Napalm Sunrise, where his responsibilities include audience engagement, conversational interface management, and the consumption of electronic mail (literal).</p>
+            <p>Professional experience spans approximately eight centuries, with prior roles in territorial defense, raiding operations, and subsistence-level culinary arts. Transitioned to digital marketing following an extended sabbatical prompted by personal circumstances he declines to discuss in professional settings.</p>
+            <p>Advisory methodology draws upon cross-cultural expertise accumulated across multiple human civilizations. Specializations include grief counseling, long-term strategic planning, email subject line optimization, and electronic correspondence ingestion. Surviving spouse of the late Brug'nala of Krath'mora. Father to Snaga (deceased). No further personal information will be provided at this time.</p>
           </div>
         </div>
       </div>
@@ -254,136 +258,181 @@
   // ANIMATED PORTRAITS
   // ================================================================
   (function() {
-    var S = 6; // pixel scale: 32 * 6 = 192
+    var S = 6;
 
-    function px(ctx, x, y, color) {
-      ctx.fillStyle = color;
-      ctx.fillRect(x * S, y * S, S, S);
-    }
-
-    function drawSprite(ctx, sprite, colors) {
+    function drawSprite(ctx, sprite, colors, ox, oy) {
+      ox = ox || 0; oy = oy || 0;
       for (var y = 0; y < sprite.length; y++) {
         for (var x = 0; x < sprite[y].length; x++) {
           var ch = sprite[y][x];
           if (ch === '.' || !colors[ch]) continue;
-          px(ctx, x, y, colors[ch]);
+          ctx.fillStyle = colors[ch];
+          ctx.fillRect((x + ox) * S, (y + oy) * S, S, S);
         }
       }
     }
 
     // ==============================================================
-    // GORTHOG — ugly snarling orc with blink animation
+    // GORTHOG — ugly snarling orc, blink, FREAK OUT
     // ==============================================================
     var gCanvas = document.getElementById('gorthog-canvas');
     var gCtx = gCanvas.getContext('2d');
 
     var GC = {
       '.':'transparent',
-      'o':'#0d0d0d',   // outline
-      'g':'#3a782f',   // dark green
-      'G':'#4e9638',   // mid green
-      'L':'#64aa4b',   // light green
-      's':'#2d5a24',   // shadow green
-      'R':'#8b2010',   // dark red (mouth interior)
-      'r':'#e8260a',   // red gums
-      'T':'#dcc864',   // tusk
-      't':'#c4b050',   // tusk shadow
-      'e':'#4a2810',   // ear brown
-      'E':'#3a1c08',   // ear shadow
-      'W':'#cccc44',   // eye yellow
-      'w':'#998822',   // eye dark
-      'p':'#1a0a00',   // pupil
-      'B':'#2a2a2a',   // brow
-      'n':'#2d4a22',   // nostril
-      'F':'#e8ddc0',   // fang/tooth
-      'f':'#c8c0a0',   // fang shadow
-      'S':'#7a5e2a',   // scar
-      'b':'#332e20',   // beard stubble
+      'o':'#0d0d0d',
+      'g':'#3a782f',
+      'G':'#4e9638',
+      'L':'#64aa4b',
+      's':'#2d5a24',
+      'R':'#8b2010',
+      'r':'#e8260a',
+      'T':'#dcc864',
+      't':'#c4b050',
+      'e':'#4a2810',
+      'E':'#3a1c08',
+      'W':'#cccc44',
+      'w':'#998822',
+      'p':'#1a0a00',
+      'B':'#2a2a2a',
+      'n':'#2d4a22',
+      'F':'#e8ddc0',
+      'f':'#c8c0a0',
+      'S':'#7a5e2a',
+      'b':'#332e20',
+      'X':'#ff0000',
     };
 
-    // 32x32 ugly Gorthog — heavy brow, scars, fangs, snarl
     var gSpriteOpen = [
       '................................',
-      '..........oooooooooooo..........',
-      '........oogssgggggssgooo........',
-      '.......ogsgggGGGGGGgggsgo.......',
-      '......ogsggGGLLLLLLGGggsgo.....',
-      '.....ogsgGGLLLLLLLLLLGgsgo.....',
-      '....ogsgGLLLLLLLLLLLLLGgsgo....',
-      '...ogsgGLLLLLLLLLLLLLLGgsgo....',
-      '..oEesgGLLLLLLLLLLLLLLGgseEo...',
-      '..oEeegGLLLLLLLLLLLLLLGgeeEo...',
-      '.oEeeegGLLLLLLLLLLLLLLGgeeeEo..',
-      '.oEeeeGGLBBBoooLLLooBBGGeeEo...',
-      '..oesgGLBogGGGoLLoGGGoBLgseo...',
-      '..oesgGLoWWwGoLLLoWWwGLLgseo...',
-      '..oesgGLopppGoLLLopppGLLgseo...',
-      '..oesgGLoWWwGoLLLoWWwGLLgseo...',
-      '..oesgGGLooooLLLLLooooGGgseo...',
-      '..oesgGGLLLLLLLLLLLLLGGgseo....',
-      '..oesgGGLLSSLnnnnLSSLGGgseo....',
-      '..oesgGGGLLLngggnLLLGGGgseo....',
-      '.oTgggGGGLLLLLLLLLLLGGGgggTo...',
-      '.oTtggGGGgLLLLLLLLLgGGGggtTo...',
-      '.oTtggGGFoorrrrrrrrooFGGggtTo..',
-      '..otggGGoFoRRRRRRRRoFoGGggto...',
-      '..oogGGGoFFoRRRRRRoFFoGGGgoo...',
-      '...osgGGGoooooooooooooGGgsoo...',
-      '....osggGGbGGLLLLGGbGGggsoo...',
-      '.....ossgGGbGGGGGGbGGgssooo...',
-      '......oossgGGGGGGGGgssoo.....',
-      '.......ooosssggggsssoo........',
-      '.........oooooooooooo.........',
+      '...........oooooooooooo.........',
+      '.........oogssgggggssgooo.......',
+      '........ogsgggGGGGGGgggsgo......',
+      '.......ogsggGGLLLLLLGGggsgo....',
+      '......ogsgGGLLLLLLLLLLGgsgo....',
+      '.....ogsgGLLLLLLLLLLLLLGgsgo...',
+      '....ogsgGLLLLLLLLLLLLLLGgsgo...',
+      '...oEesgGLLLLLLLLLLLLLLGgseEo..',
+      '...oEeegGLLLLLLLLLLLLLLGgeeEo..',
+      '..oEeeegGLLLLLLLLLLLLLLGgeeeEo.',
+      '..oEeeeGGLBBBoooLLLooBBGGeeEo..',
+      '...oesgGLBogGGGoLLoGGGoBLgseo..',
+      '...oesgGLoWWwGoLLLoWWwGLLgseo..',
+      '...oesgGLopppGoLLLopppGLLgseo..',
+      '...oesgGLoWWwGoLLLoWWwGLLgseo..',
+      '...oesgGGLooooLLLLLooooGGgseo..',
+      '...oesgGGLLLLLLLLLLLLLGGgseo...',
+      '...oesgGGLLSSLnnnnLSSLGGgseo...',
+      '...oesgGGGLLLngggnLLLGGGgseo...',
+      '..oTgggGGGLLLLLLLLLLLGGGgggTo..',
+      '..oTtggGGGgLLLLLLLLLgGGGggtTo..',
+      '..oTtggGGFoorrrrrrrrooFGGggtTo.',
+      '...otggGGoFoRRRRRRRRoFoGGggto..',
+      '...oogGGGoFFoRRRRRRoFFoGGGgoo..',
+      '....osgGGGoooooooooooooGGgsoo..',
+      '.....osggGGbGGLLLLGGbGGggsoo...',
+      '......ossgGGbGGGGGGbGGgssooo...',
+      '.......oossgGGGGGGGGgssoo......',
+      '........ooosssggggsssoo........',
+      '..........oooooooooooo.........',
       '................................',
     ];
 
-    // Blink version — eyes closed
     var gSpriteBlink = [
       '................................',
-      '..........oooooooooooo..........',
-      '........oogssgggggssgooo........',
-      '.......ogsgggGGGGGGgggsgo.......',
-      '......ogsggGGLLLLLLGGggsgo.....',
-      '.....ogsgGGLLLLLLLLLLGgsgo.....',
-      '....ogsgGLLLLLLLLLLLLLGgsgo....',
-      '...ogsgGLLLLLLLLLLLLLLGgsgo....',
-      '..oEesgGLLLLLLLLLLLLLLGgseEo...',
-      '..oEeegGLLLLLLLLLLLLLLGgeeEo...',
-      '.oEeeegGLLLLLLLLLLLLLLGgeeeEo..',
-      '.oEeeeGGLBBBoooLLLooBBGGeeEo...',
-      '..oesgGLBogGGGoLLoGGGoBLgseo...',
-      '..oesgGLooooGoLLLooooGLLgseo...',
-      '..oesgGLLLLLGoLLLLLLLGLLgseo...',
-      '..oesgGLooooGoLLLooooGLLgseo...',
-      '..oesgGGLooooLLLLLooooGGgseo...',
-      '..oesgGGLLLLLLLLLLLLLGGgseo....',
-      '..oesgGGLLSSLnnnnLSSLGGgseo....',
-      '..oesgGGGLLLngggnLLLGGGgseo....',
-      '.oTgggGGGLLLLLLLLLLLGGGgggTo...',
-      '.oTtggGGGgLLLLLLLLLgGGGggtTo...',
-      '.oTtggGGFoorrrrrrrrooFGGggtTo..',
-      '..otggGGoFoRRRRRRRRoFoGGggto...',
-      '..oogGGGoFFoRRRRRRoFFoGGGgoo...',
-      '...osgGGGoooooooooooooGGgsoo...',
-      '....osggGGbGGLLLLGGbGGggsoo...',
-      '.....ossgGGbGGGGGGbGGgssooo...',
-      '......oossgGGGGGGGGgssoo.....',
-      '.......ooosssggggsssoo........',
-      '.........oooooooooooo.........',
+      '...........oooooooooooo.........',
+      '.........oogssgggggssgooo.......',
+      '........ogsgggGGGGGGgggsgo......',
+      '.......ogsggGGLLLLLLGGggsgo....',
+      '......ogsgGGLLLLLLLLLLGgsgo....',
+      '.....ogsgGLLLLLLLLLLLLLGgsgo...',
+      '....ogsgGLLLLLLLLLLLLLLGgsgo...',
+      '...oEesgGLLLLLLLLLLLLLLGgseEo..',
+      '...oEeegGLLLLLLLLLLLLLLGgeeEo..',
+      '..oEeeegGLLLLLLLLLLLLLLGgeeeEo.',
+      '..oEeeeGGLBBBoooLLLooBBGGeeEo..',
+      '...oesgGLBogGGGoLLoGGGoBLgseo..',
+      '...oesgGLooooGoLLLooooGLLgseo..',
+      '...oesgGLLLLLGoLLLLLLLGLLgseo..',
+      '...oesgGLooooGoLLLooooGLLgseo..',
+      '...oesgGGLooooLLLLLooooGGgseo..',
+      '...oesgGGLLLLLLLLLLLLLGGgseo...',
+      '...oesgGGLLSSLnnnnLSSLGGgseo...',
+      '...oesgGGGLLLngggnLLLGGGgseo...',
+      '..oTgggGGGLLLLLLLLLLLGGGgggTo..',
+      '..oTtggGGGgLLLLLLLLLgGGGggtTo..',
+      '..oTtggGGFoorrrrrrrrooFGGggtTo.',
+      '...otggGGoFoRRRRRRRRoFoGGggto..',
+      '...oogGGGoFFoRRRRRRoFFoGGGgoo..',
+      '....osgGGGoooooooooooooGGgsoo..',
+      '.....osggGGbGGLLLLGGbGGggsoo...',
+      '......ossgGGbGGGGGGbGGgssooo...',
+      '.......oossgGGGGGGGGgssoo......',
+      '........ooosssggggsssoo........',
+      '..........oooooooooooo.........',
       '................................',
     ];
 
+    /* Rage sprite — wide eyes, red pupils, screaming mouth */
+    var gSpriteRage = [
+      '................................',
+      '...........oooooooooooo.........',
+      '.........oogssgggggssgooo.......',
+      '........ogsgggGGGGGGgggsgo......',
+      '.......ogsggGGLLLLLLGGggsgo....',
+      '......ogsgGGLLLLLLLLLLGgsgo....',
+      '.....ogsgGLLLLLLLLLLLLLGgsgo...',
+      '....ogsgGLLLLLLLLLLLLLLGgsgo...',
+      '...oEesgGLLLLLLLLLLLLLLGgseEo..',
+      '...oEeegGLLLLLLLLLLLLLLGgeeEo..',
+      '..oEeeegGLLLLLLLLLLLLLLGgeeeEo.',
+      '..oEeeeGGoBBBoooLLLooBBBoGeeEo.',
+      '...oesgGGoWWWWoLLLoWWWWoGgseo..',
+      '...oesgGGoWWWWoLLLoWWWWoGgseo..',
+      '...oesgGGoWXpWoLLLoWXpWoGgseo..',
+      '...oesgGGoWWWWoLLLoWWWWoGgseo..',
+      '...oesgGGooooooLLLooooooGgseo..',
+      '...oesgGGLLLLLLLLLLLLLGGgseo...',
+      '...oesgGGLLSSLnnnnLSSLGGgseo...',
+      '...oesgGGGLLLngggnLLLGGGgseo...',
+      '..oTgggGGGLLLLLLLLLLLGGGgggTo..',
+      '..oTtggGGGoooooooooooooGGggtTo.',
+      '..oTtggGoFoRRRRRRRRRRoFoGggtTo.',
+      '...otggGoRRRRRRRRRRRRRRoGggto..',
+      '...oogGGoFRRRRRRRRRRRRFoGGgoo..',
+      '....osgGGoooooooooooooooGgsoo..',
+      '.....osggGGbGGLLLLGGbGGggsoo...',
+      '......ossgGGbGGGGGGbGGgssooo...',
+      '.......oossgGGGGGGGGgssoo......',
+      '........ooosssggggsssoo........',
+      '..........oooooooooooo.........',
+      '................................',
+    ];
+
+    var gState = 'normal';
     var gBlink = false;
     var gBlinkTimer = 0;
     var gNextBlink = 120 + Math.random() * 200;
+    var gRageTimer = 0;
+    var gNextRage = 550 + Math.random() * 200;
+    var gRageDuration = 55;
 
     function drawGorthog() {
       gCtx.clearRect(0, 0, 192, 192);
-      drawSprite(gCtx, gBlink ? gSpriteBlink : gSpriteOpen, GC);
+      gCtx.save();
+      if (gState === 'rage') {
+        var sx = (Math.random() - 0.5) * 10;
+        var sy = (Math.random() - 0.5) * 10;
+        gCtx.translate(sx, sy);
+        drawSprite(gCtx, gSpriteRage, GC);
+      } else {
+        drawSprite(gCtx, gBlink ? gSpriteBlink : gSpriteOpen, GC);
+      }
+      gCtx.restore();
     }
 
     // ==============================================================
-    // ATTICUS — smoking portrait with rising smoke
+    // ATTICUS — smoking animation with pixelated smoke
     // ==============================================================
     var aCanvas = document.getElementById('atticus-canvas');
     var aCtx = aCanvas.getContext('2d');
@@ -392,38 +441,38 @@
 
     var AC = {
       '.':'transparent',
-      'o':'#0d0d0d',   // outline
-      'h':'#5c3a1e',   // dark brown hair
-      'H':'#7a4e2a',   // medium brown hair
-      'd':'#3a2210',   // darkest hair
-      'D':'#4a3018',   // hair mid-dark
-      's':'#e8c9a0',   // skin base
-      'S':'#f5dbb8',   // skin highlight
-      'w':'#d4a878',   // skin shadow
-      'c':'#c49468',   // skin deep shadow
-      'W':'#e8ddd0',   // eye white
-      'P':'#3a2a18',   // pupil
-      'I':'#5a4030',   // iris
-      'e':'#2a1a0a',   // eye outline
-      'm':'#6b4226',   // mustache
-      'M':'#55351c',   // mustache dark
-      'b':'#907060',   // stubble light
-      'L':'#cc8877',   // lip
-      'l':'#aa6655',   // lip shadow
-      'T':'#1a1a1a',   // shirt dark
-      't':'#252525',   // shirt lighter
-      'n':'#d0a080',   // nose shadow
-      'N':'#c09070',   // nose deep
-      'E':'#c8a888',   // ear
-      'q':'#b09070',   // ear shadow
-      'C':'#aaaaaa',   // cigarette
-      'f':'#e8260a',   // cig ember
-      'F':'#ff6600',   // cig glow
-      'k':'#888888',   // cig filter
+      'o':'#0d0d0d',
+      'h':'#5c3a1e',
+      'H':'#7a4e2a',
+      'd':'#3a2210',
+      'D':'#4a3018',
+      's':'#e8c9a0',
+      'S':'#f5dbb8',
+      'w':'#d4a878',
+      'c':'#c49468',
+      'W':'#e8ddd0',
+      'P':'#3a2a18',
+      'I':'#5a4030',
+      'e':'#2a1a0a',
+      'm':'#6b4226',
+      'M':'#55351c',
+      'b':'#907060',
+      'L':'#cc8877',
+      'l':'#aa6655',
+      'T':'#1a1a1a',
+      't':'#252525',
+      'n':'#d0a080',
+      'N':'#c09070',
+      'E':'#c8a888',
+      'q':'#b09070',
+      'C':'#aaaaaa',
+      'f':'#e8260a',
+      'F':'#ff6600',
+      'k':'#888888',
     };
 
-    // 32x32 Atticus — wavy hair, mustache, cigarette in mouth
-    var aSprite = [
+    /* Atticus with cigarette in mouth (cig at lip level, touching face) */
+    var aSpriteCig = [
       '................................',
       '..........ddhhhhhdd.............',
       '.........dDHhHhHhHDd............',
@@ -446,7 +495,43 @@
       '....oosSSSSSnNnnnNnSSSSsoo......',
       '....oowSSmMMmmmmmMMmSSwoo......',
       '....oowSSSmMMMMMMMmSSSwoo.......',
-      '....oowSSSSsssssssSSSSwooCCCfo..',
+      '....oowSSSSsssssssSSSSwoo.......',
+      '....oowSSSSSLlLLSSSSSwokkCCfo..',
+      '....oocSSSSSllllSSSSSScoo.......',
+      '....oowSSbSSSSSSSbSSSwoo........',
+      '.....oocSSSSSSSSSSSSScoo........',
+      '.....oowSSSSSSSSSSSSwoo.........',
+      '......ocoTTTTTTTTToco...........',
+      '.....ooTTtTTTTTTtTToo...........',
+      '....oTTTtTTTTTTTTtTTTo..........',
+      '...oTTTTTTTTTTTTTTTTTTo.........',
+    ];
+
+    /* Atticus without cigarette (exhaling) */
+    var aSpriteNoCig = [
+      '................................',
+      '..........ddhhhhhdd.............',
+      '.........dDHhHhHhHDd............',
+      '........dHhDHHhHHDhHd...........',
+      '.......dHhHhDHHDhHhHHd..........',
+      '......dHHhHhHhHhHhHHhDd.........',
+      '.....dHHDhHhHHHHhHhDHhd.........',
+      '.....dHhHHDHhHhHhDHHhHd.........',
+      '....dHhHHHHDHHHHDHHHhHhd........',
+      '....dHHhooooooooooooooHHd.......',
+      '....dHHosSSSSSSSSSSSSSSoHd......',
+      '.....dosSSSSSSSSSSSSSSSSod......',
+      '...oEossSSSSSSSSSSSSSSSSsoEo....',
+      '...oqosSSeeeoSSSSSeeeSSSSoqo....',
+      '...oEosSWIPeeoSSSeeWIPeSSSoEo...',
+      '...oqosSWIPeeoSSSeeWIPeSSSoqo...',
+      '....oosSSeeeoSSSSSeeeSSSSoo.....',
+      '....oosSSSSSSSSSSSSSSSSSSoo.....',
+      '....oosSSSSSSnNNNnSSSSSsoo......',
+      '....oosSSSSSnNnnnNnSSSSsoo......',
+      '....oowSSmMMmmmmmMMmSSwoo......',
+      '....oowSSSmMMMMMMMmSSSwoo.......',
+      '....oowSSSSsssssssSSSSwoo.......',
       '....oowSSSSSLlLLSSSSSwoo.......',
       '....oocSSSSSllllSSSSSScoo.......',
       '....oowSSbSSSSSSSbSSSwoo........',
@@ -458,59 +543,61 @@
       '...oTTTTTTTTTTTTTTTTTTo.........',
     ];
 
-    // Smoke particles
+    /* Smoke system — low-res pixelated canvas (32x80, displayed at 192x480) */
+    /* Bottom 32 rows = portrait area. Cig tip at approx (27, 71) in smoke coords */
     var smokeParticles = [];
-    var CIG_TIP_X = 28; // pixel coords of cigarette tip
-    var CIG_TIP_Y = 22;
-    var smokeTimer = 0;
+    var CIG_X = 27, CIG_Y = 71;
+    var MOUTH_X = 22, MOUTH_Y = 71;
+    var smokingState = 'puffing';
+    var smokingTimer = 0;
+    var PUFF_TIME = 480;
+    var EXHALE_TIME = 120;
 
-    function spawnSmoke() {
-      // Spawn at cig tip position, in smoke canvas coords
-      // Smoke canvas is 192x400, face is at bottom 192px, so face y=0 in portrait = y=208 in smoke canvas
-      var baseY = 400 - 192; // offset: portrait top in smoke canvas coords
-      var sx = CIG_TIP_X * S + S/2 + (Math.random() - 0.5) * 4;
-      var sy = baseY + CIG_TIP_Y * S + (Math.random() - 0.5) * 3;
-      smokeParticles.push({
-        x: sx,
-        y: sy,
-        vx: 0.15 + Math.random() * 0.3,
-        vy: -0.6 - Math.random() * 0.8,
-        size: 2 + Math.random() * 3,
-        alpha: 0.5 + Math.random() * 0.3,
-        life: 0,
-        maxLife: 120 + Math.random() * 100,
-        wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: 0.02 + Math.random() * 0.03,
-      });
+    function spawnSmoke(sx, sy, count) {
+      for (var i = 0; i < (count || 1); i++) {
+        smokeParticles.push({
+          x: sx + (Math.random() - 0.5) * 1.5,
+          y: sy + (Math.random() - 0.5) * 1,
+          vx: 0.04 + Math.random() * 0.08,
+          vy: -0.18 - Math.random() * 0.15,
+          alpha: 0.55 + Math.random() * 0.3,
+          life: 0,
+          maxLife: 90 + Math.random() * 70,
+          wobble: Math.random() * Math.PI * 2,
+        });
+      }
     }
 
     function updateSmoke() {
-      smokeCtx.clearRect(0, 0, 192, 400);
+      smokeCtx.clearRect(0, 0, 32, 80);
       for (var i = smokeParticles.length - 1; i >= 0; i--) {
         var p = smokeParticles[i];
         p.life++;
         if (p.life > p.maxLife) { smokeParticles.splice(i, 1); continue; }
         var t = p.life / p.maxLife;
-        p.x += p.vx + Math.sin(p.wobble) * 0.4;
+        p.x += p.vx + Math.sin(p.wobble + p.life * 0.06) * 0.06;
         p.y += p.vy;
-        p.vy *= 0.995;
-        p.wobble += p.wobbleSpeed;
-        p.size += 0.04;
+        p.wobble += 0.03;
         var alpha = p.alpha * (1 - t * t);
-        if (alpha < 0.01) { smokeParticles.splice(i, 1); continue; }
-        smokeCtx.beginPath();
-        smokeCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        smokeCtx.fillStyle = 'rgba(180,175,165,' + alpha.toFixed(3) + ')';
-        smokeCtx.fill();
+        if (alpha < 0.03) { smokeParticles.splice(i, 1); continue; }
+        var shade = Math.floor(130 + (1 - t) * 70);
+        smokeCtx.globalAlpha = alpha;
+        smokeCtx.fillStyle = 'rgb(' + shade + ',' + shade + ',' + (shade - 8) + ')';
+        smokeCtx.fillRect(Math.floor(p.x), Math.floor(p.y), 1, 1);
       }
+      smokeCtx.globalAlpha = 1;
     }
 
     function drawAtticus() {
       aCtx.clearRect(0, 0, 192, 192);
-      drawSprite(aCtx, aSprite, AC);
-      // Animate cig ember flicker
-      if (Math.random() < 0.3) {
-        px(aCtx, 29, 22, '#ff4400');
+      if (smokingState === 'puffing') {
+        drawSprite(aCtx, aSpriteCig, AC);
+        if (Math.random() < 0.3) {
+          aCtx.fillStyle = '#ff4400';
+          aCtx.fillRect(27 * S, 23 * S, S, S);
+        }
+      } else {
+        drawSprite(aCtx, aSpriteNoCig, AC);
       }
     }
 
@@ -518,98 +605,95 @@
     // ANIMATION LOOP
     // ==============================================================
     var frame = 0;
+    var origBorder = 'rgba(255,255,255,0.08)';
+
     function tick() {
       frame++;
 
-      // Gorthog blink
-      gBlinkTimer++;
-      if (gBlink) {
-        if (gBlinkTimer > 6) { gBlink = false; gBlinkTimer = 0; gNextBlink = 100 + Math.random() * 250; }
+      /* ---- Gorthog ---- */
+      if (gState === 'rage') {
+        gRageTimer++;
+        if (gRageTimer > gRageDuration) {
+          gState = 'normal';
+          gRageTimer = 0;
+          gNextRage = 550 + Math.random() * 200;
+          gCanvas.style.borderColor = origBorder;
+        }
       } else {
-        if (gBlinkTimer > gNextBlink) { gBlink = true; gBlinkTimer = 0; }
+        gRageTimer++;
+        if (gRageTimer > gNextRage) {
+          gState = 'rage';
+          gRageTimer = 0;
+          gCanvas.style.borderColor = '#e8260a';
+        }
+        gBlinkTimer++;
+        if (gBlink) {
+          if (gBlinkTimer > 6) { gBlink = false; gBlinkTimer = 0; gNextBlink = 100 + Math.random() * 250; }
+        } else {
+          if (gBlinkTimer > gNextBlink) { gBlink = true; gBlinkTimer = 0; }
+        }
       }
       drawGorthog();
 
-      // Atticus + smoke
+      /* ---- Atticus smoking cycle ---- */
+      smokingTimer++;
+      if (smokingState === 'puffing') {
+        if (smokingTimer % 5 === 0) spawnSmoke(CIG_X, CIG_Y, 1);
+        if (smokingTimer > PUFF_TIME) { smokingState = 'exhaling'; smokingTimer = 0; }
+      } else {
+        if (smokingTimer < 25 && smokingTimer % 2 === 0) spawnSmoke(MOUTH_X, MOUTH_Y, 3);
+        if (smokingTimer > EXHALE_TIME) { smokingState = 'puffing'; smokingTimer = 0; }
+      }
       drawAtticus();
-      smokeTimer++;
-      if (smokeTimer % 3 === 0) spawnSmoke();
       updateSmoke();
 
       requestAnimationFrame(tick);
     }
 
-    // Pad all sprite rows to 32
-    function padSprites() {
-      [gSpriteOpen, gSpriteBlink, aSprite].forEach(function(sp) {
-        for (var i = 0; i < sp.length; i++) {
-          while (sp[i].length < 32) sp[i] += '.';
-          if (sp[i].length > 32) sp[i] = sp[i].substring(0, 32);
-        }
-      });
-    }
-    padSprites();
+    /* Pad all sprite rows to 32 */
+    [gSpriteOpen, gSpriteBlink, gSpriteRage, aSpriteCig, aSpriteNoCig].forEach(function(sp) {
+      for (var i = 0; i < sp.length; i++) {
+        while (sp[i].length < 32) sp[i] += '.';
+        if (sp[i].length > 32) sp[i] = sp[i].substring(0, 32);
+      }
+    });
 
     tick();
   })();
 
   // ================================================================
-  // FAVICON
+  // FAVICON — pulsing sun orb
   // ================================================================
-  (function() {
+  (function(){
     var c=document.createElement('canvas');c.width=16;c.height=16;
     var x=c.getContext('2d');
     var link=document.createElement('link');
     link.rel='icon';link.type='image/png';
     document.head.appendChild(link);
     var frame=0;
-    var particles=[];
-    var sunR=3.5;
+    var colors=['#FFD700','#FFC200','#FFB000','#FF9500','#FF7700','#FF5500','#E8260A','#FF3300','#FF5500','#FF7700','#FF9500','#FFB000','#FFC200'];
     function draw(){
       x.clearRect(0,0,16,16);
-      var t=frame*0.15;
-      var pulse=sunR+Math.sin(t*2)*0.5;
-      var grd=x.createRadialGradient(8,8,0,8,8,pulse+2);
-      grd.addColorStop(0,'#FFFBE0');
-      grd.addColorStop(0.4,'#FFD700');
-      grd.addColorStop(0.7,'#FF8C00');
-      grd.addColorStop(1,'#E8260A');
-      x.beginPath();x.arc(8,8,pulse+1,0,Math.PI*2);
-      x.fillStyle=grd;x.fill();
-      for(var r=0;r<8;r++){
-        var a=t*1.2+r*Math.PI/4;
-        var len=3+Math.sin(t*3+r)*1.5;
-        var rx=8+Math.cos(a)*(pulse+1);
-        var ry=8+Math.sin(a)*(pulse+1);
-        var ex=8+Math.cos(a)*(pulse+1+len);
-        var ey=8+Math.sin(a)*(pulse+1+len);
-        x.strokeStyle='rgba(255,200,0,'+(0.6+Math.sin(t*4+r)*0.3)+')';
-        x.lineWidth=1;
-        x.beginPath();x.moveTo(rx,ry);x.lineTo(ex,ey);x.stroke();
-      }
-      if(frame%3===0){
-        var pa=Math.random()*Math.PI*2;
-        var spd=0.3+Math.random()*0.6;
-        particles.push({x:8,y:8,vx:Math.cos(pa)*spd,vy:Math.sin(pa)*spd,
-          life:12+Math.random()*10,maxLife:12+Math.random()*10,
-          color:['#FF4500','#FF6600','#FFD700','#E8260A','#C8FF00'][Math.floor(Math.random()*5)]});
-      }
-      for(var i=particles.length-1;i>=0;i--){
-        var p=particles[i];
-        p.x+=p.vx;p.y+=p.vy;p.life--;
-        if(p.life<=0){particles.splice(i,1);continue;}
-        var alpha=p.life/p.maxLife;
-        x.globalAlpha=alpha;
-        x.fillStyle=p.color;
-        x.fillRect(Math.round(p.x),Math.round(p.y),1,1);
-      }
+      var t=frame*0.08;
+      var ci=Math.floor((frame*0.3)%colors.length);
+      var col=colors[ci];
+      var pulse=4+Math.sin(t)*1.2;
+      /* Outer glow */
+      x.beginPath();x.arc(8,8,pulse+2,0,Math.PI*2);
+      x.fillStyle=col;x.globalAlpha=0.25;x.fill();
+      /* Mid ring */
+      x.beginPath();x.arc(8,8,pulse+0.5,0,Math.PI*2);
+      x.fillStyle=col;x.globalAlpha=0.5;x.fill();
+      /* Core */
+      x.beginPath();x.arc(8,8,pulse-1,0,Math.PI*2);
+      x.fillStyle='#FFFBE0';x.globalAlpha=1;x.fill();
+      /* Hot center */
+      x.fillStyle='#FFFFFF';x.fillRect(7,7,2,2);
       x.globalAlpha=1;
-      x.fillStyle='#FFFFFF';
-      x.fillRect(7,7,2,2);
       link.href=c.toDataURL('image/png');
       frame++;
     }
-    setInterval(draw,80);draw();
+    setInterval(draw,100);draw();
   })();
   </script>
 </body>
