@@ -190,6 +190,23 @@
         <span class="gt-speech-text" id="gt-speech-text"></span><span class="gt-cursor" id="gt-cursor">_</span>
       </div>
       <div class="gt-mood" id="gt-mood">GORTHOG AWAITS</div>
+      <div class="gt-cavern-chat" id="gt-cavern-chat">
+        <div>
+          <div class="gt-cavern-label">Gorthog's Cave</div>
+          <div class="gt-cavern-activity" id="gt-cavern-activity"></div>
+          <div class="gt-speech" id="gt-cavern-speech" style="border-color:rgba(255,255,255,.08)">
+            <span class="gt-speech-text" id="gt-cavern-speech-text"></span><span class="gt-cursor off">_</span>
+          </div>
+        </div>
+        <div>
+          <div class="gt-cavern-label">Ask Gorthog</div>
+          <div class="gt-chat-log" id="gt-cavern-log" style="max-height:200px"></div>
+          <div class="gt-chat-input-row" style="margin-top:10px">
+            <input class="gt-input" type="text" id="gt-cavern-input" placeholder="Ask Gorthog anything..." autocomplete="off">
+            <button class="btn btn-red gt-feed-btn" id="gt-cavern-send">Ask</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -236,7 +253,19 @@
   .gt-chat-msg .gt-chat-who{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
   .gt-chat-msg.user .gt-chat-who{color:rgba(255,255,255,.3)}.gt-chat-msg.gorthog .gt-chat-who{color:var(--red,#E8260A)}
   .gt-chat-msg.user .gt-chat-body{color:rgba(243,237,224,.5);font-style:italic}.gt-chat-msg.gorthog .gt-chat-body{color:rgba(243,237,224,.8)}
-  @media(max-width:1024px){.gt-inner{grid-template-columns:1fr;gap:40px}.gt-title{font-size:56px}}
+  /* CAVERN MODE */
+  .gorthog-tama.cavern-mode .gt-inner{grid-template-columns:1fr;gap:24px}
+  .gorthog-tama.cavern-mode .gt-copy{display:none}
+  .gorthog-tama.cavern-mode .gt-viewport-wrap{width:100%}
+  .gorthog-tama.cavern-mode .gt-screen{aspect-ratio:3/1;border-radius:8px;transition:aspect-ratio .8s ease}
+  .gorthog-tama.cavern-mode .gt-status-bar{display:none}
+  .gorthog-tama.cavern-mode .gt-bar-track{display:none}
+  .gorthog-tama.cavern-mode .gt-mood{font-size:10px;letter-spacing:.22em}
+  .gorthog-tama.cavern-mode .gt-cavern-chat{display:grid;grid-template-columns:1fr 380px;gap:40px;margin-top:20px;max-width:1440px}
+  .gt-cavern-chat{display:none}
+  .gt-cavern-label{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px}
+  .gt-cavern-activity{font-family:var(--font-body,'Courier Prime',monospace);font-size:14px;font-style:italic;color:rgba(243,237,224,.5);margin-bottom:16px;min-height:1.6em}
+  @media(max-width:1024px){.gt-inner{grid-template-columns:1fr;gap:40px}.gt-title{font-size:56px}.gorthog-tama.cavern-mode .gt-cavern-chat{grid-template-columns:1fr}}
   @media(max-width:768px){.gt-title{font-size:44px}.gt-input-row,.gt-chat-input-row{flex-direction:column}.gt-feed-btn{width:100%}}
 </style>
 
@@ -361,7 +390,319 @@ function drawMemorial6(){memorialBg();for(var x=20;x<46;x++){pxRaw(x,GROUND-6,'#
 function drawMemorial7(){ctx.fillStyle='#3a3028';ctx.fillRect(0,0,CW,CH);for(var x=0;x<VW;x++){pxRaw(x,GROUND,'#2a2018');if(x%4===0)pxRaw(x,GROUND+1,'#2a2018');}for(var i=0;i<30;i++){pxRaw(VW/2-8+Math.floor(Math.random()*16),GROUND-Math.floor(Math.random()*3),'#660000');}drawSprite(ORC_DEAD,VW/2-8,GROUND-12,false);}
 function drawMemorialFinal(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,CW,CH);for(var y=18;y<38;y++)pxRaw(30,y,'#555');for(var x=25;x<36;x++)pxRaw(x,22,'#555');pxRaw(27,38,'r');pxRaw(28,38,'r');pxRaw(33,38,'r');pxRaw(34,38,'r');pxRaw(25,39,'Y');pxRaw(29,39,'P');pxRaw(32,39,'Y');pxRaw(36,39,'P');drawText('RIP',24,12,'W');drawText('1179',18,42,'W');drawText('-',34,42,'W');drawText('2026',38,42,'W');}
 
+/* ══════════════════════════════
+   CAVERN MODE — Gorthog's Home
+   ═════════════════════��════════ */
+var cavern={active:false,transitioning:false,transStart:0,CVW:180,CVH:60};
+var CGROUND=cavern.CVH-6;
+var ACTIVITIES=['sleep','fire','cook','work','eat','pace'];
+var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.'};
+var gAI={activity:'fire',targetX:90,timer:0,duration:600,walking:false,sitFrame:0,
+  zones:{sleep:{x:18,name:'sleep'},fire:{x:55,name:'fire'},cook:{x:100,name:'cook'},work:{x:135,name:'work'},eat:{x:110,name:'eat'},pace:{x:70,name:'pace'}}
+};
+/* Sitting orc (used at fire, desk, eating) */
+var ORC_SIT=[
+  '..dddd..',
+  '.dggggd.',
+  '.gwdwgd.',
+  'ddggggdd',
+  '.dgttgd.',
+  '.dgmmgd.',
+  '..dggd..',
+  '.dgggdg.',
+  '..dddd..',
+  '.dd..dd.',
+];
+/* Sleeping orc (horizontal) */
+var ORC_SLEEP=[
+  '...........',
+  '.dd........',
+  'dggd.......',
+  'gwgdddddd..',
+  'dttdgggggd.',
+  '.dmdddddd..',
+  '...........',
+];
+
+function drawCavernBg(){
+  /* Stone walls */
+  for(var x=0;x<cavern.CVW;x++){
+    for(var y=0;y<5;y++){
+      var shade=(x+y*3)%5===0?'#4a4438':'#3d3828';
+      pxRaw(x,y,shade);
+    }
+    /* Ceiling stalactites */
+    if(x%12===3)pxRaw(x,5,'#4a4438');
+    if(x%12===4){pxRaw(x,5,'#3d3828');pxRaw(x,6,'#3d3828');}
+    if(x%12===5)pxRaw(x,5,'#4a4438');
+  }
+  /* Stone floor */
+  for(var x=0;x<cavern.CVW;x++){
+    pxRaw(x,CGROUND,'#4a4438');
+    pxRaw(x,CGROUND+1,(x+1)%3===0?'#3d3828':'#4a4438');
+    for(var y=CGROUND+2;y<cavern.CVH;y++)pxRaw(x,y,'#2d2820');
+    /* Floor detail */
+    if(x%7===0)pxRaw(x,CGROUND,'#555040');
+  }
+  /* Room dividers — stone pillars */
+  var pillars=[42,75,125];
+  for(var pi=0;pi<pillars.length;pi++){
+    var px2=pillars[pi];
+    for(var y=5;y<=CGROUND;y++){pxRaw(px2,y,'#555040');pxRaw(px2+1,y,'#4a4438');}
+  }
+}
+
+function drawBed(){
+  /* Bed frame */
+  for(var x=10;x<30;x++){pxRaw(x,CGROUND-1,'#6b4226');pxRaw(x,CGROUND-2,'#6b4226');}
+  /* Mattress */
+  for(var x=11;x<29;x++){pxRaw(x,CGROUND-3,'#8b7355');pxRaw(x,CGROUND-4,'#8b7355');}
+  /* Pillow */
+  for(var x=11;x<16;x++){pxRaw(x,CGROUND-5,'#c5b89a');pxRaw(x,CGROUND-4,'#c5b89a');}
+  /* Blanket */
+  for(var x=16;x<29;x++){pxRaw(x,CGROUND-5,'#5a6e3a');pxRaw(x,CGROUND-4,'#4a5e2a');}
+  /* Headboard */
+  pxRaw(10,CGROUND-5,'#6b4226');pxRaw(10,CGROUND-6,'#6b4226');pxRaw(10,CGROUND-7,'#6b4226');
+  /* Nightstand */
+  pxRaw(33,CGROUND-1,'#6b4226');pxRaw(34,CGROUND-1,'#6b4226');
+  pxRaw(33,CGROUND-2,'#6b4226');pxRaw(34,CGROUND-2,'#6b4226');
+  pxRaw(33,CGROUND-3,'#8b5e3c');pxRaw(34,CGROUND-3,'#8b5e3c');
+  /* Candle on nightstand */
+  pxRaw(33,CGROUND-4,'#c9a227');pxRaw(33,CGROUND-5,'#ff8800');
+}
+
+function drawFireplace(){
+  /* Stone frame */
+  for(var y=CGROUND-12;y<=CGROUND;y++){pxRaw(50,y,'#666');pxRaw(51,y,'#555');pxRaw(60,y,'#555');pxRaw(61,y,'#666');}
+  for(var x=50;x<62;x++){pxRaw(x,CGROUND-12,'#666');pxRaw(x,CGROUND-13,'#777');}
+  /* Mantle shelf */
+  for(var x=49;x<63;x++){pxRaw(x,CGROUND-13,'#8b7355');pxRaw(x,CGROUND-14,'#8b7355');}
+  /* Inside - dark */
+  for(var y=CGROUND-11;y<=CGROUND;y++){for(var x=52;x<60;x++)pxRaw(x,y,'#1a1208');}
+  /* Fire — animated */
+  var fc=frame%20;
+  var fireColors=['#ff8800','#ff4400','#cc3333','#ff6600','#ffaa00'];
+  for(var i=0;i<5;i++){
+    var fx=53+i+Math.round(Math.sin(frame*0.3+i)*1);
+    var fh=3+Math.round(Math.sin(frame*0.15+i*2)*2);
+    for(var fy=0;fy<fh;fy++){
+      pxRaw(fx,CGROUND-1-fy,fireColors[(fy+fc+i)%fireColors.length]);
+    }
+  }
+  /* Embers */
+  if(frame%8<4)pxRaw(54+Math.floor(Math.random()*5),CGROUND-6-Math.floor(Math.random()*3),'#ffaa00');
+  /* Log */
+  pxRaw(53,CGROUND,'#6b4226');pxRaw(54,CGROUND,'#6b4226');pxRaw(57,CGROUND,'#6b4226');pxRaw(58,CGROUND,'#6b4226');
+  /* Skull on mantle */
+  pxRaw(51,CGROUND-15,'#ddd');pxRaw(52,CGROUND-15,'#ddd');pxRaw(51,CGROUND-16,'#ddd');pxRaw(52,CGROUND-16,'#ddd');
+  pxRaw(51,CGROUND-15,'#333');/* eye socket */
+}
+
+function drawKitchen(){
+  /* Cooking pot on stand */
+  for(var x=96;x<106;x++){pxRaw(x,CGROUND-1,'#555');pxRaw(x,CGROUND-2,'#555');}
+  for(var x=97;x<105;x++){pxRaw(x,CGROUND-3,'#444');pxRaw(x,CGROUND-4,'#444');pxRaw(x,CGROUND-5,'#444');}
+  /* Pot rim */
+  for(var x=96;x<106;x++)pxRaw(x,CGROUND-5,'#666');
+  /* Steam */
+  if(frame%15<10){
+    var sy=CGROUND-6-Math.floor((frame%15)/2);
+    pxRaw(99+(frame%3),sy,'#aaa');
+    pxRaw(102-(frame%2),sy-1,'#999');
+  }
+  /* Stand legs */
+  pxRaw(96,CGROUND,'#555');pxRaw(105,CGROUND,'#555');
+  /* Small fire under pot */
+  pxRaw(99,CGROUND,'#ff6600');pxRaw(100,CGROUND,'#ff8800');pxRaw(101,CGROUND,'#ff4400');
+  if(frame%6<3)pxRaw(100,CGROUND-1,'#ff8800');
+  /* Food shelf on wall */
+  for(var x=82;x<94;x++){pxRaw(x,CGROUND-14,'#6b4226');pxRaw(x,CGROUND-20,'#6b4226');}
+  /* Shelf brackets */
+  pxRaw(83,CGROUND-13,'#6b4226');pxRaw(92,CGROUND-13,'#6b4226');
+  pxRaw(83,CGROUND-19,'#6b4226');pxRaw(92,CGROUND-19,'#6b4226');
+  /* Items on shelves */
+  pxRaw(84,CGROUND-15,'#cc3333');pxRaw(85,CGROUND-15,'#cc3333');/* jar */
+  pxRaw(88,CGROUND-15,'#c9a227');/* cheese */
+  pxRaw(90,CGROUND-15,'#9966aa');pxRaw(91,CGROUND-15,'#9966aa');/* potion */
+  pxRaw(85,CGROUND-21,'#aaa');pxRaw(86,CGROUND-21,'#aaa');/* bowl */
+  pxRaw(89,CGROUND-21,'#6b8e3a');/* herb */
+}
+
+function drawDesk(){
+  /* Desk surface */
+  for(var x=128;x<148;x++){pxRaw(x,CGROUND-6,'#8b5e3c');pxRaw(x,CGROUND-5,'#6b4226');}
+  /* Desk legs */
+  pxRaw(129,CGROUND-4,'#6b4226');pxRaw(129,CGROUND-3,'#6b4226');pxRaw(129,CGROUND-2,'#6b4226');pxRaw(129,CGROUND-1,'#6b4226');
+  pxRaw(146,CGROUND-4,'#6b4226');pxRaw(146,CGROUND-3,'#6b4226');pxRaw(146,CGROUND-2,'#6b4226');pxRaw(146,CGROUND-1,'#6b4226');
+  /* Scroll/paper */
+  pxRaw(132,CGROUND-7,'#e8e0d0');pxRaw(133,CGROUND-7,'#e8e0d0');pxRaw(134,CGROUND-7,'#e8e0d0');
+  pxRaw(132,CGROUND-8,'#e8e0d0');pxRaw(133,CGROUND-8,'#e8e0d0');pxRaw(134,CGROUND-8,'#e8e0d0');
+  /* Ink lines on paper */
+  pxRaw(132,CGROUND-7,'#333');pxRaw(133,CGROUND-8,'#333');
+  /* Quill */
+  pxRaw(136,CGROUND-7,'#d4c9a8');pxRaw(136,CGROUND-8,'#d4c9a8');pxRaw(136,CGROUND-9,'#c5b89a');
+  /* Ink pot */
+  pxRaw(138,CGROUND-7,'#222');pxRaw(139,CGROUND-7,'#222');
+  /* Bookshelf behind desk */
+  for(var x=150;x<165;x++){pxRaw(x,CGROUND-8,'#6b4226');pxRaw(x,CGROUND-14,'#6b4226');pxRaw(x,CGROUND-20,'#6b4226');}
+  /* Books */
+  for(var bx=151;bx<164;bx+=3){
+    var bh=3+Math.floor(Math.sin(bx)*2);
+    var bc=['#cc3333','#336699','#6b8e3a','#9966aa','#c9a227'][(bx*7)%5];
+    for(var by=0;by<bh;by++)pxRaw(bx,CGROUND-9-by,bc);
+    for(var by=0;by<bh-1;by++)pxRaw(bx,CGROUND-15-by,bc);
+  }
+  /* Wall torch near desk */
+  pxRaw(170,CGROUND-16,'#6b4226');pxRaw(170,CGROUND-17,'#6b4226');
+  pxRaw(170,CGROUND-18,'#ff8800');
+  if(frame%10<5)pxRaw(170,CGROUND-19,'#ff6600');
+}
+
+function drawCavernScene(){
+  /* Clear with cave wall color */
+  ctx.fillStyle='#2d2820';ctx.fillRect(0,0,el.canvas.width,el.canvas.height);
+  drawCavernBg();
+  drawBed();
+  drawFireplace();
+  drawKitchen();
+  drawDesk();
+
+  /* Draw Gorthog at his current position */
+  var gx=Math.round(orc.x);
+  var gy=CGROUND-12;
+
+  if(gAI.activity==='sleep'){
+    /* Sleeping in bed */
+    drawSprite(ORC_SLEEP,12,CGROUND-9,false);
+    /* ZZZ */
+    var zy=CGROUND-12-Math.floor((frame%40)/5);
+    var zx=24+Math.floor((frame%40)/8);
+    if(frame%40<12)drawText('Z',zx,zy,'W');
+    else if(frame%40<24){drawText('Z',zx-1,zy-1,'W');drawText('Z',zx+3,zy,'W');}
+    else drawText('Z',zx+5,zy-2,'W');
+  }else if(gAI.walking){
+    /* Walking between rooms */
+    var sprite;
+    if(orc.dir===1)sprite=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+    else sprite=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    drawSprite(sprite,gx,gy,false);
+  }else if(gAI.activity==='fire'){
+    /* Sitting by fire */
+    drawSprite(ORC_SIT,52,CGROUND-10,false);
+    /* Warm glow on orc */
+    if(frame%6<3)pxRaw(52+4,CGROUND-8,'#ff880033');
+  }else if(gAI.activity==='cook'){
+    /* Standing at pot, stirring */
+    var stir=Math.sin(frame*0.2)>0;
+    drawSprite(stir?ORC_R1:ORC_R2,92,CGROUND-12,false);
+    /* Spoon */
+    pxRaw(100,CGROUND-6,'#c5b89a');pxRaw(100,CGROUND-7,'#c5b89a');pxRaw(100,CGROUND-8,'#c5b89a');
+  }else if(gAI.activity==='work'){
+    /* Sitting at desk */
+    drawSprite(ORC_SIT,132,CGROUND-10,false);
+    /* Quill scratch animation */
+    if(frame%20<10)pxRaw(135,CGROUND-8,'#333');
+  }else if(gAI.activity==='eat'){
+    /* Sitting near kitchen */
+    drawSprite(ORC_SIT,108,CGROUND-10,false);
+    /* Food item in hand area */
+    if(frame%30<15){pxRaw(112,CGROUND-8,'#cc3333');}
+  }else{
+    /* Pacing — walking idle */
+    var sprite;
+    if(orc.dir===1)sprite=(orc.walkFrame===0)?ORC_R1:ORC_R2;
+    else sprite=(orc.walkFrame===0)?ORC_L1:ORC_L2;
+    drawSprite(sprite,gx,gy,false);
+  }
+
+  /* Ambient particles — dust motes */
+  if(frame%30===0){
+    var dx=Math.floor(Math.random()*cavern.CVW);
+    var dy=10+Math.floor(Math.random()*30);
+    pxRaw(dx,dy,'#5a5340');
+  }
+}
+
+function updateCavern(){
+  if(!cavern.active)return;
+
+  gAI.timer++;
+
+  if(gAI.walking){
+    /* Move toward target */
+    var speed=0.25;
+    var dx=gAI.targetX-orc.x;
+    if(Math.abs(dx)<1){
+      orc.x=gAI.targetX;
+      gAI.walking=false;
+      gAI.timer=0;
+      gAI.duration=300+Math.floor(Math.random()*400);/* 5-12 seconds at 60fps */
+      /* Update activity text */
+      var actEl=document.getElementById('gt-cavern-activity');
+      if(actEl)actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
+      var spEl=document.getElementById('gt-cavern-speech-text');
+      if(spEl)spEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
+    }else{
+      orc.dir=dx>0?1:-1;
+      orc.x+=speed*orc.dir;
+      orc.walkTimer++;
+      if(orc.walkTimer>8){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+    }
+  }else{
+    /* Activity timer */
+    if(gAI.timer>=gAI.duration){
+      /* Pick new activity */
+      var newAct=ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
+      /* Avoid repeating */
+      if(newAct===gAI.activity)newAct=ACTIVITIES[(ACTIVITIES.indexOf(newAct)+1)%ACTIVITIES.length];
+      gAI.activity=newAct;
+      gAI.targetX=gAI.zones[newAct].x;
+      gAI.walking=true;
+      gAI.timer=0;
+    }
+    /* Pace activity has its own walking */
+    if(gAI.activity==='pace'&&!gAI.walking){
+      orc.x+=orc.dir*0.15;
+      orc.walkTimer++;
+      if(orc.walkTimer>10){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+      if(orc.x>gAI.zones.pace.x+15||orc.x<gAI.zones.pace.x-15)orc.dir*=-1;
+    }
+  }
+}
+
+function startCavern(){
+  cavern.active=true;
+  /* Resize canvas for wide cavern */
+  el.canvas.width=cavern.CVW*S;/* 540 */
+  el.canvas.height=cavern.CVH*S;/* 180 */
+  CW=el.canvas.width;CH=el.canvas.height;
+  /* Switch layout */
+  document.getElementById('gorthog-tama').classList.add('cavern-mode');
+  /* Init orc position at fireplace */
+  orc.x=55;orc.dir=1;orc.vx=0;
+  gAI.activity='fire';gAI.walking=false;gAI.timer=0;gAI.duration=400;
+  /* Show cavern chat */
+  var actEl=document.getElementById('gt-cavern-activity');
+  if(actEl)actEl.textContent=ACTIVITY_NAMES.fire;
+  /* Wire up cavern chat */
+  var csend=document.getElementById('gt-cavern-send');
+  var cinput=document.getElementById('gt-cavern-input');
+  var clog=document.getElementById('gt-cavern-log');
+  if(csend)csend.addEventListener('click',function(){
+    var q=cinput.value.trim();if(!q)return;
+    addCavernMsg('user',q,clog);cinput.value='';
+    var a=findAnswer(q);
+    setTimeout(function(){addCavernMsg('gorthog',a,clog);
+      var spEl=document.getElementById('gt-cavern-speech-text');
+      if(spEl)spEl.textContent=a.substring(0,80)+(a.length>80?'...':'');
+    },300+Math.random()*400);
+  });
+  if(cinput)cinput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();csend.click();}});
+}
+function addCavernMsg(w,t,log){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+
 function renderScene(){
+  if(cavern.active){drawCavernScene();return;}
   var p=phase();
   if(p==='memorial'){var slide=MEMORIAL_SLIDES[memorial.slideIdx];if(slide)slide.draw();if(memorial.fadeAlpha>0){ctx.fillStyle='rgba(0,0,0,'+Math.min(1,memorial.fadeAlpha)+')';ctx.fillRect(0,0,CW,CH);}return;}
   if(p==='dead'){ctx.fillStyle='#8a9168';ctx.fillRect(0,0,CW,CH);drawGround();for(var i=0;i<deathSeq.bloodPixels.length;i++){var bp=deathSeq.bloodPixels[i];pxRaw(bp[0],bp[1],'#aa0000');}drawSprite(ORC_DEAD,VW/2-8,GROUND-12,false);drawSprite(YOU_WALK1,Math.round(deathSeq.youX),GROUND-8,false);drawText('YOU',Math.round(deathSeq.youX)-1,GROUND-13,'b');return;}
@@ -415,15 +756,23 @@ function tick(){
   if(deathSeq.active&&deathSeq.phase!=='done')updateDeathSeq();
   if(hp<=0&&!fed&&!memorial.active&&deathSeq.phase==='done'){if(!memorial.deathTime)memorial.deathTime=Date.now();if(Date.now()-memorial.deathTime>3000){memorial.active=true;memorial.slideIdx=0;memorial.fadeAlpha=1;memorial.phase='black';memorial.timer=0;}}
   if(memorial.active)updateMemorial();
-  frame++;renderScene();render();requestAnimationFrame(tick);
+  if(cavern.active)updateCavern();
+  frame++;renderScene();if(!cavern.active)render();requestAnimationFrame(tick);
 }
 
 function addMsg(w,t){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;el.chatLog.appendChild(d);el.chatLog.scrollTop=el.chatLog.scrollHeight;}
 function findAnswer(q){var low=q.toLowerCase().replace(/[^a-z0-9 ]/g,'');var best=null,bestScore=0;for(var i=0;i<KB.length;i++){var score=0;for(var j=0;j<KB[i].keys.length;j++){if(low.indexOf(KB[i].keys[j])>-1)score+=KB[i].keys[j].length;}if(score>bestScore){bestScore=score;best=KB[i];}}if(best&&bestScore>0)return best.answer;return FALLBACKS[Math.floor(Math.random()*FALLBACKS.length)];}
 function handleChat(){var q=el.chatInput.value.trim();if(!q)return;addMsg('user',q);el.chatInput.value='';var a=findAnswer(q);setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,60)+(a.length>60?'...':''));},300+Math.random()*400);}
 
-function feed(email){fed=true;hp=100;lastPhase=null;deathSeq.active=false;deathSeq.bloodPixels=[];memorial.active=false;memorial.deathTime=0;typeText(pickLine('fed'));addMsg('gorthog',"GORTHOG LIVE!! You feed Gorthog! Now Gorthog answer your questions about Napalm Sunrise. Ask anything.");render();save();}
-function reset(){hp=100;fed=false;lastPhase=null;lastLineTime=0;lineIdx={};orc.x=VW/2-4;orc.vx=0.3;orc.dir=1;deathSeq={active:false,timer:0,youX:VW+10,phase:'walk',stabCount:0,stabTimer:0,bloodPixels:[],flashAlpha:0,shakeAmt:0};memorial={active:false,slideIdx:0,timer:0,fadeAlpha:1,phase:'black',deathTime:0,phaseStart:0};el.email.value='';el.error.textContent='';el.chatLog.innerHTML='';lastTick=Date.now();try{localStorage.removeItem(SAVE_KEY);}catch(e){}render();typeText(pickLine('idle'));}
+function feed(email){fed=true;hp=100;lastPhase=null;deathSeq.active=false;deathSeq.bloodPixels=[];memorial.active=false;memorial.deathTime=0;typeText(pickLine('fed'));addMsg('gorthog',"GORTHOG LIVE!! You feed Gorthog! Now Gorthog answer your questions about Napalm Sunrise. Ask anything.");render();save();
+  /* Transition to cavern after celebration */
+  setTimeout(function(){startCavern();},3000);
+}
+function reset(){hp=100;fed=false;lastPhase=null;lastLineTime=0;lineIdx={};orc.x=VW/2-4;orc.vx=0.3;orc.dir=1;deathSeq={active:false,timer:0,youX:VW+10,phase:'walk',stabCount:0,stabTimer:0,bloodPixels:[],flashAlpha:0,shakeAmt:0};memorial={active:false,slideIdx:0,timer:0,fadeAlpha:1,phase:'black',deathTime:0,phaseStart:0};
+  /* Exit cavern mode */
+  cavern.active=false;document.getElementById('gorthog-tama').classList.remove('cavern-mode');
+  el.canvas.width=180;el.canvas.height=180;CW=180;CH=180;
+  el.email.value='';el.error.textContent='';el.chatLog.innerHTML='';lastTick=Date.now();try{localStorage.removeItem(SAVE_KEY);}catch(e){}render();typeText(pickLine('idle'));}
 
 el.feedBtn.addEventListener('click',function(e){e.preventDefault();var err=validateEmail(el.email.value);if(err){el.error.textContent=err;el.email.style.borderColor='#E8260A';setTimeout(function(){el.email.style.borderColor='';},1200);return;}el.error.textContent='';feed(el.email.value.trim());});
 el.email.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();el.feedBtn.click();}});
@@ -436,7 +785,7 @@ document.addEventListener('visibilitychange',function(){if(document.hidden){paus
 load();lastTick=Date.now();
 if(hp<=0&&!fed){deathSeq.active=true;deathSeq.phase='done';deathSeq.youX=VW/2+6;for(var bi=0;bi<25;bi++){deathSeq.bloodPixels.push([VW/2-6+Math.floor(Math.random()*18),GROUND-Math.floor(Math.random()*4)]);}}
 var p0=phase();
-if(fed){typeText("Gorthog remember you! Ask Gorthog anything.");addMsg('gorthog',"Gorthog remember you! Ask Gorthog anything about Napalm Sunrise.");}
+if(fed){typeText("Gorthog remember you! Ask Gorthog anything.");addMsg('gorthog',"Gorthog remember you! Ask Gorthog anything about Napalm Sunrise.");setTimeout(function(){startCavern();},500);}
 else if(p0==='dead'){typeText(LINES.dead[0]);}
 else{typeText(pickLine(p0));}
 lastLineTime=Date.now();
