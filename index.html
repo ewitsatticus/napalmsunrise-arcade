@@ -21,24 +21,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="base.css">
+  <script src="gate.js" defer></script>
 </head>
 <body class="template-index">
   <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- HEADER -->
   <header style="background:var(--black);border-bottom:4px solid var(--red);position:sticky;top:0;z-index:200;">
-    <div class="header-inner" style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;padding:0 28px;">
+    <div class="header-inner" style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;align-items:stretch;padding:0 28px;">
       <a href="/" class="logo" style="font-family:var(--font-display);font-size:26px;letter-spacing:0.1em;color:var(--bg);padding:14px 0;text-decoration:none;user-select:none;display:flex;align-items:center;">
         NAPALM<span style="color:var(--red);">SUNRISE</span>
       </a>
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
-        <a href="/napalmsunrise-arcade/" class="nav-link active">Home</a>
+        <a href="#main" class="nav-link active" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a>
         <a href="/napalmsunrise-arcade/about/" class="nav-link">About</a>
-        <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
+        <a href="/napalmsunrise-arcade/lab/" class="nav-link">Lab</a>
       </nav>
-      <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
-        <a href="https://napalmsunrise.com/cart" class="nav-link" target="_blank" style="padding:7px 14px;border:1px solid rgba(255,255,255,0.15);">Cart</a>
-      </div>
     </div>
   </header>
 
@@ -65,9 +63,9 @@
           <div class="hero-site">NAPALM SUNRISE</div>
           <p class="hero-tagline">A public experiment in digital survival. SEO tests that probably shouldn't exist, an 847-year-old orc who won't shut up, and the world's most inadvisable merch operation.</p>
           <div class="cta-row">
-            <a class="btn btn-fill" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank">EXPLORE</a>
+            <a class="btn btn-fill" href="/napalmsunrise-arcade/lab/">EXPLORE</a>
             <a class="btn btn-outline" href="#gorthog">ASK GORTHOG</a>
-            <a class="btn btn-ghost" href="https://napalmsunrise.com/collections/all" target="_blank">SHOP</a>
+            <a class="btn btn-ghost" href="/napalmsunrise-arcade/about/">ABOUT US</a>
           </div>
         </div>
         <div class="hero-right">

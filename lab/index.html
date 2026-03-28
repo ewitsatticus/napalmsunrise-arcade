@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0D0D0D">
-  <title>The Lab — Napalm Sunrise SEO/AEO Experiment Tracker</title>
-  <meta name="description" content="Live SEO and AEO experiment dashboard. Active tests, unverified results, questionable methodology. Tracking what works and what burns.">
+  <title>The Lab — Napalm Sunrise Mission Control</title>
+  <meta name="description" content="Mission control dashboard for Napalm Sunrise SEO/AEO experiments. Active tests, site vitals, transmission logs, and signal monitoring. Questionable methodology, unquestionable commitment.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="The Lab — Napalm Sunrise">
-  <meta property="og:description" content="Live SEO and AEO experiment dashboard. Active tests, unverified results, questionable methodology.">
+  <meta property="og:title" content="The Lab — Napalm Sunrise Mission Control">
+  <meta property="og:description" content="Mission control dashboard. Active experiments, live telemetry, and a very fed orc.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://napalmsunrise.com/lab/">
   <meta property="og:image" content="https://napalmsunrise.com/images/og-lab.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Lab — Napalm Sunrise">
-  <meta name="twitter:description" content="Live SEO and AEO experiment dashboard. Active tests, unverified results, questionable methodology.">
+  <meta name="twitter:title" content="The Lab — Napalm Sunrise Mission Control">
+  <meta name="twitter:description" content="Mission control dashboard. Active experiments, live telemetry, and a very fed orc.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,185 +27,501 @@
       color: var(--bg);
     }
 
-    /* -- PAGE LAYOUT -- */
-    .lab-hero {
-      padding: 80px 0 48px;
+    /* ============================================
+       MISSION CONTROL HEADER BAR
+       ============================================ */
+    .mc-header {
+      padding: 48px 0 20px;
       border-bottom: 2px solid rgba(232,38,10,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
     }
-    .lab-title {
+    .mc-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mc-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .mc-title {
       font-family: var(--font-display);
-      font-size: 120px;
+      font-size: 88px;
       line-height: 0.88;
       letter-spacing: 0.04em;
       color: var(--bg);
     }
-    .lab-subtitle {
+    .mc-subtitle {
       font-family: var(--font-body);
-      font-size: 15px;
+      font-size: 14px;
       font-style: italic;
-      color: rgba(243,237,224,0.45);
-      margin-top: 16px;
-      max-width: 600px;
+      color: rgba(243,237,224,0.4);
+      margin-top: 8px;
     }
-
-    /* -- FILTER BAR -- */
-    .filter-bar {
+    .mc-header-right {
       display: flex;
-      gap: 8px;
-      padding: 28px 0;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
     }
-    .filter-btn {
+    .mc-clock {
       font-family: var(--font-ui);
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: transparent;
-      color: rgba(243,237,224,0.5);
-      cursor: pointer;
-      transition: all 0.12s;
-    }
-    .filter-btn:hover {
-      border-color: rgba(255,255,255,0.3);
+      font-size: 28px;
+      letter-spacing: 0.12em;
       color: var(--bg);
+      font-weight: 500;
     }
-    .filter-btn.active {
-      background: var(--red);
-      border-color: var(--red);
-      color: var(--bg);
-    }
-
-    /* -- EXPERIMENT GRID -- */
-    .exp-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding-bottom: 80px;
-    }
-
-    /* -- EXPERIMENT CARD -- */
-    .exp-card {
-      border: 2px solid rgba(255,255,255,0.08);
-      padding: 24px;
-      transition: transform 0.1s, box-shadow 0.1s, border-color 0.12s;
-      position: relative;
-    }
-    .exp-card:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 4px 4px 0 rgba(232,38,10,0.3);
-      border-color: rgba(255,255,255,0.15);
-    }
-    .exp-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-    .exp-status {
+    .mc-clock-label {
       font-family: var(--font-ui);
       font-size: 9px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      padding: 3px 10px;
-      display: inline-block;
+      color: rgba(243,237,224,0.25);
     }
-    .exp-status.live {
-      background: var(--red);
-      color: white;
-      animation: pulse-status 2s ease-in-out infinite;
-    }
-    .exp-status.complete {
-      background: rgba(255,255,255,0.08);
-      color: rgba(243,237,224,0.4);
-    }
-    .exp-status.failed {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(243,237,224,0.3);
-      text-decoration: line-through;
-    }
-    .exp-status.queued {
-      background: transparent;
-      border: 1px solid var(--acid);
-      color: var(--acid);
-    }
-    @keyframes pulse-status {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    .exp-name {
-      font-family: var(--font-display);
-      font-size: 28px;
-      line-height: 1;
-      letter-spacing: 0.02em;
-      margin-bottom: 8px;
-    }
-    .exp-hypothesis {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-style: italic;
-      color: rgba(243,237,224,0.55);
-      line-height: 1.5;
-      margin-bottom: 14px;
-    }
-    .exp-meta {
+    .mc-system-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-family: var(--font-ui);
       font-size: 9px;
-      letter-spacing: 0.1em;
-      color: rgba(243,237,224,0.3);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      color: rgba(243,237,224,0.45);
     }
-    .exp-metrics {
-      font-family: var(--font-ui);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: rgba(243,237,224,0.25);
-      padding: 10px 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
+    .mc-system-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: blink-green 2s ease-in-out infinite;
     }
-    .exp-result {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--acid);
-      font-weight: 700;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+    @keyframes blink-green {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px #4ade80; }
+      50% { opacity: 0.4; box-shadow: none; }
     }
 
-    /* -- PROGRESS BAR -- */
-    .exp-progress {
-      height: 2px;
+    /* ============================================
+       DASHBOARD GRID
+       ============================================ */
+    .mc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 2px;
+      padding: 2px 0;
+      margin-top: 2px;
+    }
+    .mc-grid .panel-seo       { grid-column: 1 / 3; grid-row: 1; }
+    .mc-grid .panel-vitals     { grid-column: 3; grid-row: 1; }
+    .mc-grid .panel-transmission { grid-column: 1; grid-row: 2; }
+    .mc-grid .panel-queue      { grid-column: 2; grid-row: 2; }
+    .mc-grid .panel-signal     { grid-column: 3; grid-row: 2; }
+    .mc-grid .panel-fullwidth  { grid-column: 1 / -1; grid-row: 3; }
+
+    /* ============================================
+       PANEL BASE
+       ============================================ */
+    .panel {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .panel:hover {
+      border-color: rgba(232,38,10,0.25);
+      box-shadow: 0 0 20px rgba(232,38,10,0.05);
+    }
+    .panel-header {
       background: rgba(255,255,255,0.04);
-      margin-top: 14px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .panel-label {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.55);
+    }
+    .panel-status-light {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .panel-status-light.green {
+      background: #4ade80;
+      box-shadow: 0 0 6px rgba(74,222,128,0.5);
+      animation: blink-green 3s ease-in-out infinite;
+    }
+    .panel-status-light.red {
+      background: var(--red);
+      box-shadow: 0 0 6px rgba(232,38,10,0.5);
+      animation: pulse-red 1.5s ease-in-out infinite;
+    }
+    .panel-status-light.yellow {
+      background: #facc15;
+      box-shadow: 0 0 6px rgba(250,204,21,0.4);
+      animation: blink-yellow 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-red {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @keyframes blink-yellow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .panel-body {
+      padding: 16px;
+      flex: 1;
       overflow: hidden;
     }
-    .exp-progress-fill {
+
+    /* ============================================
+       SEO EXPERIMENTS PANEL
+       ============================================ */
+    .exp-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .exp-table th {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.25);
+      text-align: left;
+      padding: 6px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+    .exp-table td {
+      font-family: var(--font-body);
+      font-size: 12px;
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+      color: rgba(243,237,224,0.7);
+    }
+    .exp-table tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+    .exp-table tr:last-child td {
+      border-bottom: none;
+    }
+    .exp-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .exp-dot.active {
+      background: #4ade80;
+      box-shadow: 0 0 4px rgba(74,222,128,0.5);
+      animation: blink-green 2s ease-in-out infinite;
+    }
+    .exp-dot.pending {
+      background: #facc15;
+      box-shadow: 0 0 4px rgba(250,204,21,0.4);
+      animation: blink-yellow 2.5s ease-in-out infinite;
+    }
+    .exp-dot.failed {
+      background: var(--red);
+      box-shadow: 0 0 4px rgba(232,38,10,0.4);
+    }
+    .exp-dot.complete {
+      background: rgba(243,237,224,0.2);
+    }
+    .exp-name-cell {
+      display: flex;
+      align-items: center;
+    }
+    .exp-id {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      color: rgba(243,237,224,0.2);
+      letter-spacing: 0.1em;
+    }
+    .exp-status-label {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      display: inline-block;
+    }
+    .exp-status-label.active {
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+    .exp-status-label.pending {
+      color: #facc15;
+      border: 1px solid rgba(250,204,21,0.25);
+    }
+    .exp-status-label.failed {
+      color: var(--red);
+      border: 1px solid rgba(232,38,10,0.25);
+      text-decoration: line-through;
+    }
+    .exp-status-label.complete {
+      color: rgba(243,237,224,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .exp-progress-bar {
+      width: 80px;
+      height: 3px;
+      background: rgba(255,255,255,0.04);
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    .exp-progress-bar-fill {
       height: 100%;
       transition: width 0.6s ease;
     }
-    .exp-progress-fill.live { background: var(--red); animation: progress-glow 2s ease-in-out infinite; }
-    .exp-progress-fill.complete { background: rgba(255,255,255,0.15); }
-    .exp-progress-fill.failed { background: rgba(255,255,255,0.06); }
-    .exp-progress-fill.queued { background: var(--acid); width: 0% !important; }
+    .exp-progress-bar-fill.active { background: #4ade80; }
+    .exp-progress-bar-fill.pending { background: #facc15; }
+    .exp-progress-bar-fill.failed { background: var(--red); }
+    .exp-progress-bar-fill.complete { background: rgba(243,237,224,0.15); }
 
-    @keyframes progress-glow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    /* ============================================
+       SITE VITALS PANEL
+       ============================================ */
+    .vitals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .vital {
+      background: rgba(255,255,255,0.02);
+      padding: 14px 12px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .vital-label {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.3);
+      margin-bottom: 6px;
+    }
+    .vital-value {
+      font-family: var(--font-display);
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--bg);
+    }
+    .vital-value.red { color: var(--red); }
+    .vital-value.acid { color: var(--acid); }
+    .vital-unit {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(243,237,224,0.2);
+      margin-top: 4px;
+    }
+    .vital.full-width {
+      grid-column: 1 / -1;
     }
 
-    /* -- FOOTER -- */
-    .lab-footer {
+    /* ============================================
+       TRANSMISSION LOG PANEL
+       ============================================ */
+    .transmission-log {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      line-height: 1.9;
+      color: rgba(243,237,224,0.5);
+      max-height: 320px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.08) transparent;
+    }
+    .transmission-log::-webkit-scrollbar {
+      width: 4px;
+    }
+    .transmission-log::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .transmission-log::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+    }
+    .log-line {
+      display: flex;
+      gap: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .log-time {
+      color: rgba(243,237,224,0.2);
+      flex-shrink: 0;
+    }
+    .log-tag {
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+    .log-tag.ok { color: #4ade80; }
+    .log-tag.warn { color: #facc15; }
+    .log-tag.err { color: var(--red); }
+    .log-tag.info { color: rgba(243,237,224,0.35); }
+    .log-msg {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ============================================
+       EXPERIMENT QUEUE PANEL
+       ============================================ */
+    .queue-list {
+      list-style: none;
+    }
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .queue-item:last-child {
+      border-bottom: none;
+    }
+    .queue-priority {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      flex-shrink: 0;
+      min-width: 48px;
+      text-align: center;
+    }
+    .queue-priority.p1 {
+      color: var(--red);
+      border: 1px solid rgba(232,38,10,0.3);
+    }
+    .queue-priority.p2 {
+      color: #facc15;
+      border: 1px solid rgba(250,204,21,0.25);
+    }
+    .queue-priority.p3 {
+      color: rgba(243,237,224,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .queue-name {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: rgba(243,237,224,0.6);
+      flex: 1;
+    }
+    .queue-eta {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: rgba(243,237,224,0.2);
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       SIGNAL MONITOR PANEL
+       ============================================ */
+    .signal-monitor {
+      position: relative;
+      height: 100%;
+      min-height: 200px;
+    }
+    .signal-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .signal-readout {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 12px;
+      background: linear-gradient(transparent, rgba(13,13,13,0.9));
+      display: flex;
+      justify-content: space-between;
+    }
+    .signal-stat {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.3);
+    }
+    .signal-stat span {
+      color: var(--acid);
+    }
+
+    /* ============================================
+       STATUS TICKER (BOTTOM)
+       ============================================ */
+    .mc-ticker {
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 0;
+    }
+    .mc-ticker-track {
+      display: flex;
+      gap: 56px;
+      align-items: center;
+      animation: ticker-scroll 40s linear infinite;
+      white-space: nowrap;
+    }
+    .mc-tick {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-ui);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(243,237,224,0.3);
+      white-space: nowrap;
+    }
+    .mc-tick .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .mc-tick .dot.active { background: var(--red); animation: blink 2.4s ease-in-out infinite; }
+    .mc-tick .dot.done { background: var(--muted); }
+    .mc-tick .dot.queued { background: var(--acid); }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .mc-footer {
       background: #1a1610;
       border-top: 4px solid var(--red);
       padding: 28px;
       text-align: center;
     }
-    .lab-footer p {
+    .mc-footer p {
       font-family: var(--font-ui);
       font-size: 9px;
       letter-spacing: 0.1em;
@@ -213,11 +529,42 @@
       text-transform: uppercase;
     }
 
-    /* -- RESPONSIVE -- */
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1024px) {
+      .mc-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .mc-grid .panel-seo       { grid-column: 1 / -1; grid-row: 1; }
+      .mc-grid .panel-vitals     { grid-column: 1 / -1; grid-row: 2; }
+      .mc-grid .panel-transmission { grid-column: 1; grid-row: 3; }
+      .mc-grid .panel-queue      { grid-column: 2; grid-row: 3; }
+      .mc-grid .panel-signal     { grid-column: 1 / -1; grid-row: 4; }
+      .mc-grid .panel-fullwidth  { grid-column: 1 / -1; grid-row: 5; }
+      .mc-title { font-size: 64px; }
+    }
     @media (max-width: 768px) {
-      .lab-title { font-size: 72px; }
-      .exp-grid { grid-template-columns: 1fr; }
-      .lab-hero { padding: 48px 0 32px; }
+      .mc-grid {
+        grid-template-columns: 1fr;
+      }
+      .mc-grid .panel-seo,
+      .mc-grid .panel-vitals,
+      .mc-grid .panel-transmission,
+      .mc-grid .panel-queue,
+      .mc-grid .panel-signal,
+      .mc-grid .panel-fullwidth {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      .mc-title { font-size: 48px; }
+      .mc-header { padding: 32px 0 16px; }
+      .mc-header-right { align-items: flex-start; }
+      .vitals-grid { grid-template-columns: 1fr; }
+      .exp-table th:nth-child(4),
+      .exp-table td:nth-child(4) {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -233,6 +580,7 @@
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
         <a href="/napalmsunrise-arcade/" class="nav-link">Home</a>
         <a href="/napalmsunrise-arcade/about/" class="nav-link">About</a>
+        <a href="/napalmsunrise-arcade/lab/" class="nav-link active">Lab</a>
         <a href="https://napalmsunrise.com/collections/all" class="nav-link" target="_blank">Shop</a>
       </nav>
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
@@ -243,238 +591,540 @@
 
   <main id="main" role="main">
     <div class="wrap">
-      <!-- HERO -->
-      <section class="lab-hero">
-        <div class="lab-title">THE LAB</div>
-        <p class="lab-subtitle">Active experiments. Unverified results. Questionable methodology.</p>
-      </section>
 
-      <!-- FILTER BAR -->
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="live">Live</button>
-        <button class="filter-btn" data-filter="complete">Complete</button>
-        <button class="filter-btn" data-filter="failed">Failed</button>
-        <button class="filter-btn" data-filter="queued">Queued</button>
+      <!-- MISSION CONTROL HEADER -->
+      <div class="mc-header">
+        <div class="mc-header-left">
+          <div class="mc-eyebrow">Napalm Sunrise // Mission Control</div>
+          <div class="mc-title">THE LAB</div>
+          <div class="mc-subtitle">Active experiments. Unverified results. Questionable methodology. All systems nominal.</div>
+        </div>
+        <div class="mc-header-right">
+          <div class="mc-clock" id="mc-clock">00:00:00</div>
+          <div class="mc-clock-label">Mission Elapsed Time</div>
+          <div class="mc-system-status">
+            <span class="mc-system-dot"></span>
+            All Systems Operational
+          </div>
+        </div>
       </div>
 
-      <!-- EXPERIMENT GRID -->
-      <div class="exp-grid" id="exp-grid"></div>
-    </div>
+      <!-- DASHBOARD GRID -->
+      <div class="mc-grid">
+
+        <!-- SEO EXPERIMENTS PANEL -->
+        <div class="panel panel-seo">
+          <div class="panel-header">
+            <span class="panel-label">SEO Experiments // Active Tests</span>
+            <span class="panel-status-light green"></span>
+          </div>
+          <div class="panel-body" style="padding:0;overflow-x:auto;">
+            <table class="exp-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Experiment</th>
+                  <th>Status</th>
+                  <th>Progress</th>
+                  <th>Started</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="exp-id">NS-001</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot active"></span>Can an orc rank on Google?</span></td>
+                  <td><span class="exp-status-label active">Active</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill active" style="width:72%"></span></span></td>
+                  <td class="exp-id">2026-01-15</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-002</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot active"></span>Email-gated content vs. open content</span></td>
+                  <td><span class="exp-status-label active">Active</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill active" style="width:58%"></span></span></td>
+                  <td class="exp-id">2026-02-01</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-003</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot active"></span>Pixel art vs. stock photos conversion rate</span></td>
+                  <td><span class="exp-status-label active">Active</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill active" style="width:41%"></span></span></td>
+                  <td class="exp-id">2026-02-20</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-004</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot pending"></span>AEO schema stacking for AI citations</span></td>
+                  <td><span class="exp-status-label pending">Pending</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill pending" style="width:12%"></span></span></td>
+                  <td class="exp-id">2026-03-10</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-005</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot complete"></span>Internal link velocity burst test</span></td>
+                  <td><span class="exp-status-label complete">Complete</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill complete" style="width:100%"></span></span></td>
+                  <td class="exp-id">2025-10-01</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-006</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot failed"></span>10,000 programmatic pages in 30 days</span></td>
+                  <td><span class="exp-status-label failed">Failed</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill failed" style="width:100%"></span></span></td>
+                  <td class="exp-id">2025-09-01</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-007</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot active"></span>Brand SERP entity stacking</span></td>
+                  <td><span class="exp-status-label active">Active</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill active" style="width:33%"></span></span></td>
+                  <td class="exp-id">2026-03-01</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-008</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot pending"></span>Orc-authored vs. human-authored content</span></td>
+                  <td><span class="exp-status-label pending">Pending</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill pending" style="width:5%"></span></span></td>
+                  <td class="exp-id">2026-03-25</td>
+                </tr>
+                <tr>
+                  <td class="exp-id">NS-009</td>
+                  <td><span class="exp-name-cell"><span class="exp-dot active"></span>Content decay signature detection</span></td>
+                  <td><span class="exp-status-label active">Active</span></td>
+                  <td><span class="exp-progress-bar"><span class="exp-progress-bar-fill active" style="width:48%"></span></span></td>
+                  <td class="exp-id">2026-02-10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SITE VITALS PANEL -->
+        <div class="panel panel-vitals">
+          <div class="panel-header">
+            <span class="panel-label">Site Vitals</span>
+            <span class="panel-status-light green"></span>
+          </div>
+          <div class="panel-body" style="padding:0;">
+            <div class="vitals-grid">
+              <div class="vital">
+                <div class="vital-label">Pages Indexed</div>
+                <div class="vital-value" id="vital-pages">247</div>
+                <div class="vital-unit">of 312 submitted</div>
+              </div>
+              <div class="vital">
+                <div class="vital-label">Orc Satisfaction</div>
+                <div class="vital-value acid" id="vital-orc">94</div>
+                <div class="vital-unit">percent (self-reported)</div>
+              </div>
+              <div class="vital">
+                <div class="vital-label">Emails Consumed</div>
+                <div class="vital-value red" id="vital-emails">1,847</div>
+                <div class="vital-unit">by Gorthog (literal)</div>
+              </div>
+              <div class="vital">
+                <div class="vital-label">Days Since Incident</div>
+                <div class="vital-value" id="vital-incident">0</div>
+                <div class="vital-unit">it just happened</div>
+              </div>
+              <div class="vital full-width">
+                <div class="vital-label">Uptime</div>
+                <div class="vital-value acid" id="vital-uptime">99.7%</div>
+                <div class="vital-unit">excluding orc-related outages</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSMISSION LOG PANEL -->
+        <div class="panel panel-transmission">
+          <div class="panel-header">
+            <span class="panel-label">Transmission Log</span>
+            <span class="panel-status-light red"></span>
+          </div>
+          <div class="panel-body">
+            <div class="transmission-log" id="transmission-log"></div>
+          </div>
+        </div>
+
+        <!-- EXPERIMENT QUEUE PANEL -->
+        <div class="panel panel-queue">
+          <div class="panel-header">
+            <span class="panel-label">Experiment Queue</span>
+            <span class="panel-status-light yellow"></span>
+          </div>
+          <div class="panel-body">
+            <ul class="queue-list">
+              <li class="queue-item">
+                <span class="queue-priority p1">P1</span>
+                <span class="queue-name">Zero-click recapture via snippet dominance</span>
+                <span class="queue-eta">Apr 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p1">P1</span>
+                <span class="queue-name">AI citation bait formatting protocol</span>
+                <span class="queue-eta">Apr 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p2">P2</span>
+                <span class="queue-name">Backlink decay rate over 24 months</span>
+                <span class="queue-eta">May 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p2">P2</span>
+                <span class="queue-name">Emotional vs. neutral title tags at scale</span>
+                <span class="queue-eta">May 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p2">P2</span>
+                <span class="queue-name">Orc voice SEO: does growling convert?</span>
+                <span class="queue-eta">Jun 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p3">P3</span>
+                <span class="queue-name">Semantic topical authority cluster mapping</span>
+                <span class="queue-eta">Q3 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p3">P3</span>
+                <span class="queue-name">Cross-domain entity stacking via Gorthog lore</span>
+                <span class="queue-eta">Q3 2026</span>
+              </li>
+              <li class="queue-item">
+                <span class="queue-priority p3">P3</span>
+                <span class="queue-name">Can structured data make orcs real to Google?</span>
+                <span class="queue-eta">Q4 2026</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SIGNAL MONITOR PANEL -->
+        <div class="panel panel-signal">
+          <div class="panel-header">
+            <span class="panel-label">Signal Monitor</span>
+            <span class="panel-status-light green"></span>
+          </div>
+          <div class="panel-body" style="padding:0;position:relative;">
+            <div class="signal-monitor">
+              <canvas class="signal-canvas" id="signal-canvas"></canvas>
+              <div class="signal-readout">
+                <span class="signal-stat">Freq: <span id="signal-freq">66.6</span> MHz</span>
+                <span class="signal-stat">Amp: <span id="signal-amp">0.84</span></span>
+                <span class="signal-stat">SNR: <span id="signal-snr">42</span> dB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATUS TICKER (full width) -->
+        <div class="panel panel-fullwidth" style="background:transparent;border:none;">
+          <div class="mc-ticker">
+            <div class="mc-ticker-track" id="mc-ticker-track">
+              <span class="mc-tick"><span class="dot active"></span> NS-001 Active: Orc SEO ranking test</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-002 Active: Gated vs. open content</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-003 Active: Pixel art conversions</span>
+              <span class="mc-tick"><span class="dot queued"></span> NS-004 Pending: AEO schema stacking</span>
+              <span class="mc-tick"><span class="dot done"></span> NS-005 Complete: Link velocity burst</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-007 Active: Brand SERP manipulation</span>
+              <span class="mc-tick"><span class="dot queued"></span> NS-008 Pending: Orc-authored content</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-009 Active: Content decay detection</span>
+              <span class="mc-tick"><span class="dot active"></span> System nominal // Gorthog fed // All clear</span>
+              <!-- duplicated for seamless scroll -->
+              <span class="mc-tick"><span class="dot active"></span> NS-001 Active: Orc SEO ranking test</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-002 Active: Gated vs. open content</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-003 Active: Pixel art conversions</span>
+              <span class="mc-tick"><span class="dot queued"></span> NS-004 Pending: AEO schema stacking</span>
+              <span class="mc-tick"><span class="dot done"></span> NS-005 Complete: Link velocity burst</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-007 Active: Brand SERP manipulation</span>
+              <span class="mc-tick"><span class="dot queued"></span> NS-008 Pending: Orc-authored content</span>
+              <span class="mc-tick"><span class="dot active"></span> NS-009 Active: Content decay detection</span>
+              <span class="mc-tick"><span class="dot active"></span> System nominal // Gorthog fed // All clear</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /mc-grid -->
+    </div><!-- /wrap -->
   </main>
 
   <!-- FOOTER -->
-  <footer class="lab-footer">
-    <p>&copy; 2026 Napalm Sunrise. All experiments conducted without supervision.</p>
-    <p style="margin-top:6px;">Built with Claude Code &middot; Hosted on GitHub Pages</p>
+  <footer class="mc-footer">
+    <p>Mission Control v2.0 // All experiments conducted without supervision</p>
+    <p style="margin-top:6px;">Built with Claude Code &middot; Hosted on GitHub Pages &middot; &copy; 2026 Napalm Sunrise</p>
   </footer>
 
   <script>
-    // ========================================================
-    // EXPERIMENT DATA
-    // ========================================================
-
-    const EXPERIMENTS = [
-      {
-        id: 1,
-        name: "AEO Schema Stacking",
-        status: "live",
-        hypothesis: "Testing whether aggressive JSON-LD layering improves AI citation rates across ChatGPT, Perplexity, and Gemini.",
-        startDate: "2026-01-15",
-        metrics: "DATA PENDING",
-        result: null,
-        progress: 62
-      },
-      {
-        id: 2,
-        name: "Internal Link Velocity",
-        status: "complete",
-        hypothesis: "Does burst internal linking outperform drip linking for crawl frequency and indexation speed?",
-        startDate: "2025-10-01",
-        metrics: "Crawl rate, index coverage, internal PageRank flow",
-        result: "Burst won by 340%. Google crawled burst-linked pages 4.4x faster in the first 72 hours.",
-        progress: 100
-      },
-      {
-        id: 3,
-        name: "Content Decay Audit",
-        status: "live",
-        hypothesis: "Tracking which posts lose traffic fastest and identifying the decay signature before it happens.",
-        startDate: "2026-02-10",
-        metrics: "CLASSIFIED",
-        result: null,
-        progress: 38
-      },
-      {
-        id: 4,
-        name: "Zero-Click Recapture",
-        status: "queued",
-        hypothesis: "Can you reclaim traffic lost to AI-generated summaries by restructuring content for featured snippet dominance?",
-        startDate: "2026-04-01",
-        metrics: "DATA PENDING",
-        result: null,
-        progress: 0
-      },
-      {
-        id: 5,
-        name: "Semantic Topical Authority",
-        status: "live",
-        hypothesis: "Building authority through entity-first content clusters rather than keyword-first strategies.",
-        startDate: "2025-12-01",
-        metrics: "CLASSIFIED",
-        result: null,
-        progress: 55
-      },
-      {
-        id: 6,
-        name: "Title Tag Emotional Triggers",
-        status: "complete",
-        hypothesis: "A/B testing emotional vs neutral title tags across 200 pages to measure CTR impact.",
-        startDate: "2025-08-15",
-        metrics: "CTR delta, impression stability, bounce rate correlation",
-        result: "Emotional titles: +28% CTR. Neutral titles retained 12% more time-on-page. Trade-offs exist.",
-        progress: 100
-      },
-      {
-        id: 7,
-        name: "AI Citation Bait",
-        status: "live",
-        hypothesis: "Structuring content specifically to be cited by LLMs through strategic formatting, entity markup, and quotable blocks.",
-        startDate: "2026-01-20",
-        metrics: "DATA PENDING",
-        result: null,
-        progress: 48
-      },
-      {
-        id: 8,
-        name: "Programmatic SEO at Scale",
-        status: "failed",
-        hypothesis: "Generate 10,000 useful programmatic pages in 30 days using templated data and semantic enrichment.",
-        startDate: "2025-09-01",
-        metrics: "Indexed: 847 / 10,000. Deindexed: 6,200 within 3 weeks.",
-        result: "Google said no. Manual action received. 94% of pages deemed thin content. Lesson learned.",
-        progress: 100
-      },
-      {
-        id: 9,
-        name: "Backlink Decay Rate",
-        status: "queued",
-        hypothesis: "Measuring how fast earned backlinks disappear over 6, 12, and 24 month windows across different link types.",
-        startDate: "2026-05-01",
-        metrics: "DATA PENDING",
-        result: null,
-        progress: 0
-      },
-      {
-        id: 10,
-        name: "Brand SERP Manipulation",
-        status: "live",
-        hypothesis: "Controlling what appears when you Google 'Napalm Sunrise' through strategic entity stacking and property ownership.",
-        startDate: "2026-03-01",
-        metrics: "CLASSIFIED",
-        result: null,
-        progress: 22
-      }
-    ];
-
-    // ========================================================
-    // DATA SOURCE HOOK
-    // ========================================================
-
-    // TODO: Connect to real data source
-    // Options: Google Sheets API, Airtable, Supabase, or direct GSC API
-    const DATA_SOURCE = null; // Set to API endpoint when ready
-    async function fetchExperimentData() {
-      if (DATA_SOURCE) {
-        // Fetch real data
-        const res = await fetch(DATA_SOURCE);
-        return res.json();
-      }
-      // Fall back to hardcoded data
-      return EXPERIMENTS;
-    }
-
-    // ========================================================
-    // RENDER
-    // ========================================================
-
-    function daysRunning(startDate) {
-      const start = new Date(startDate);
-      const now = new Date();
-      const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-      return diff < 0 ? 'Starts in ' + Math.abs(diff) + ' days' : diff + ' days';
-    }
-
-    function renderCard(exp) {
-      const days = daysRunning(exp.startDate);
-      return `
-        <div class="exp-card" data-status="${exp.status}">
-          <div class="exp-card-header">
-            <div class="exp-status ${exp.status}">${exp.status.toUpperCase()}</div>
-          </div>
-          <div class="exp-name">${exp.name}</div>
-          <div class="exp-hypothesis">${exp.hypothesis}</div>
-          <div class="exp-meta">Started ${exp.startDate} &middot; ${days}</div>
-          <div class="exp-metrics">${exp.metrics}</div>
-          ${exp.result ? `<div class="exp-result">${exp.result}</div>` : ''}
-          <div class="exp-progress">
-            <div class="exp-progress-fill ${exp.status}" style="width:${exp.progress}%"></div>
-          </div>
-        </div>
-      `;
-    }
-
-    async function renderGrid(filter) {
-      const data = await fetchExperimentData();
-      const grid = document.getElementById('exp-grid');
-      const filtered = filter === 'all' ? data : data.filter(e => e.status === filter);
-      grid.innerHTML = filtered.map(renderCard).join('');
-    }
-
-    // ========================================================
-    // FILTERS
-    // ========================================================
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        renderGrid(this.dataset.filter);
-      });
-    });
-
-    // Initial render
-    renderGrid('all');
-
-    // ========================================================
-    // FAVICON (generated inline)
-    // ========================================================
+    // ================================================================
+    // MISSION ELAPSED TIME CLOCK
+    // ================================================================
     (function() {
-      var c=document.createElement('canvas');c.width=16;c.height=16;
-      var x=c.getContext('2d');
-      var link=document.createElement('link');
-      link.rel='icon';link.type='image/png';
+      var clockEl = document.getElementById('mc-clock');
+      // Mission start: Jan 1 2026
+      var missionStart = new Date('2026-01-01T00:00:00Z');
+
+      function updateClock() {
+        var now = new Date();
+        var elapsed = now - missionStart;
+        if (elapsed < 0) elapsed = 0;
+        var totalSec = Math.floor(elapsed / 1000);
+        var hrs = Math.floor(totalSec / 3600);
+        var mins = Math.floor((totalSec % 3600) / 60);
+        var secs = totalSec % 60;
+        clockEl.textContent =
+          String(hrs).padStart(4, '0') + ':' +
+          String(mins).padStart(2, '0') + ':' +
+          String(secs).padStart(2, '0');
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    })();
+
+    // ================================================================
+    // TRANSMISSION LOG
+    // ================================================================
+    (function() {
+      var logEl = document.getElementById('transmission-log');
+      var logMessages = [
+        { tag: 'ok', msg: 'Gorthog fed successfully' },
+        { tag: 'ok', msg: 'SEO crawl budget nominal' },
+        { tag: 'warn', msg: 'Orc dreams detected in cache' },
+        { tag: 'info', msg: 'SEO signal strength: 66.6 MHz' },
+        { tag: 'ok', msg: 'Schema markup deployed to /lab/' },
+        { tag: 'err', msg: 'Gorthog attempted to eat the sitemap' },
+        { tag: 'info', msg: 'Backlink profile: 847 domains' },
+        { tag: 'ok', msg: 'Content decay audit running' },
+        { tag: 'warn', msg: 'Emotional title tags causing feelings' },
+        { tag: 'info', msg: 'Programmatic page generation paused (manual action)' },
+        { tag: 'ok', msg: 'Brand SERP position 1 maintained' },
+        { tag: 'warn', msg: 'Gorthog requesting PTO again' },
+        { tag: 'err', msg: 'Zero-click traffic recapture failed: Google said no' },
+        { tag: 'ok', msg: 'AI citation bait deployed to 12 pages' },
+        { tag: 'info', msg: 'Orc satisfaction survey: 94% (self-reported)' },
+        { tag: 'warn', msg: 'Entity stacking approaching Google tolerance threshold' },
+        { tag: 'ok', msg: 'Internal link velocity: 340% above baseline' },
+        { tag: 'err', msg: 'Gorthog deleted production database (recovered)' },
+        { tag: 'info', msg: 'Pixel art A/B test: variant B winning' },
+        { tag: 'ok', msg: 'Email-gated content: 23% higher engagement' },
+        { tag: 'warn', msg: 'Orc content flagged as potentially non-human' },
+        { tag: 'ok', msg: 'Favicon pulse cycle nominal' },
+        { tag: 'info', msg: 'Search console impressions: +17% WoW' },
+        { tag: 'err', msg: 'Gorthog found the staging server' },
+        { tag: 'ok', msg: 'AEO schema validation passed' },
+        { tag: 'warn', msg: 'Cache layer reporting orc-scented anomalies' },
+        { tag: 'info', msg: 'Title tag emotional score: 7.2/10' },
+        { tag: 'ok', msg: 'Topical authority cluster: 89% coverage' },
+        { tag: 'err', msg: 'Gorthog rage-quit during content review' },
+        { tag: 'ok', msg: 'Heartbeat check: all nodes responding' },
+        { tag: 'warn', msg: 'Unidentified entity in Knowledge Graph' },
+        { tag: 'info', msg: 'Experiment NS-001 data collection: 72% complete' },
+      ];
+
+      function getTimestamp() {
+        var now = new Date();
+        return String(now.getHours()).padStart(2, '0') + ':' +
+               String(now.getMinutes()).padStart(2, '0') + ':' +
+               String(now.getSeconds()).padStart(2, '0');
+      }
+
+      var logIndex = 0;
+
+      // Seed initial lines
+      function seedLog() {
+        var seedCount = 14;
+        var now = new Date();
+        for (var i = 0; i < seedCount; i++) {
+          var fakeTime = new Date(now.getTime() - (seedCount - i) * 7000);
+          var ts = String(fakeTime.getHours()).padStart(2, '0') + ':' +
+                   String(fakeTime.getMinutes()).padStart(2, '0') + ':' +
+                   String(fakeTime.getSeconds()).padStart(2, '0');
+          var entry = logMessages[logIndex % logMessages.length];
+          logIndex++;
+          var line = document.createElement('div');
+          line.className = 'log-line';
+          line.innerHTML =
+            '<span class="log-time">' + ts + '</span>' +
+            '<span class="log-tag ' + entry.tag + '">[' + entry.tag.toUpperCase() + ']</span>' +
+            '<span class="log-msg">' + entry.msg + '</span>';
+          logEl.appendChild(line);
+        }
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      function addLogEntry() {
+        var entry = logMessages[logIndex % logMessages.length];
+        logIndex++;
+        var line = document.createElement('div');
+        line.className = 'log-line';
+        line.innerHTML =
+          '<span class="log-time">' + getTimestamp() + '</span>' +
+          '<span class="log-tag ' + entry.tag + '">[' + entry.tag.toUpperCase() + ']</span>' +
+          '<span class="log-msg">' + entry.msg + '</span>';
+        logEl.appendChild(line);
+        // Keep max 50 lines
+        while (logEl.children.length > 50) {
+          logEl.removeChild(logEl.firstChild);
+        }
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      seedLog();
+      setInterval(addLogEntry, 4000 + Math.random() * 3000);
+    })();
+
+    // ================================================================
+    // VITAL COUNTERS (incrementing)
+    // ================================================================
+    (function() {
+      var pagesEl = document.getElementById('vital-pages');
+      var emailsEl = document.getElementById('vital-emails');
+      var incidentEl = document.getElementById('vital-incident');
+
+      // Slowly increment emails consumed
+      setInterval(function() {
+        var current = parseInt(emailsEl.textContent.replace(/,/g, ''));
+        current += 1;
+        emailsEl.textContent = current.toLocaleString();
+      }, 8000);
+
+      // Occasionally increment pages
+      setInterval(function() {
+        if (Math.random() < 0.3) {
+          var current = parseInt(pagesEl.textContent);
+          pagesEl.textContent = current + 1;
+        }
+      }, 15000);
+
+      // Days since incident: stays at 0 (it just happened)
+      // Occasionally flash red
+      setInterval(function() {
+        incidentEl.style.color = 'var(--red)';
+        setTimeout(function() {
+          incidentEl.style.color = '';
+        }, 600);
+      }, 5000);
+    })();
+
+    // ================================================================
+    // SIGNAL MONITOR (waveform visualization)
+    // ================================================================
+    (function() {
+      var canvas = document.getElementById('signal-canvas');
+      var ctx = canvas.getContext('2d');
+      var freqEl = document.getElementById('signal-freq');
+      var ampEl = document.getElementById('signal-amp');
+      var snrEl = document.getElementById('signal-snr');
+      var frame = 0;
+
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function draw() {
+        frame++;
+        var w = canvas.width;
+        var h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // Grid lines
+        ctx.strokeStyle = 'rgba(243,237,224,0.04)';
+        ctx.lineWidth = 1;
+        for (var gy = 0; gy < h; gy += 20) {
+          ctx.beginPath();
+          ctx.moveTo(0, gy);
+          ctx.lineTo(w, gy);
+          ctx.stroke();
+        }
+        for (var gx = 0; gx < w; gx += 20) {
+          ctx.beginPath();
+          ctx.moveTo(gx, 0);
+          ctx.lineTo(gx, h);
+          ctx.stroke();
+        }
+
+        // Center line
+        ctx.strokeStyle = 'rgba(232,38,10,0.15)';
+        ctx.beginPath();
+        ctx.moveTo(0, h / 2);
+        ctx.lineTo(w, h / 2);
+        ctx.stroke();
+
+        // Primary waveform
+        ctx.strokeStyle = 'rgba(200,255,0,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        var t = frame * 0.03;
+        for (var x = 0; x < w; x++) {
+          var nx = x / w;
+          var y = h / 2 +
+            Math.sin(nx * 8 + t) * (h * 0.18) +
+            Math.sin(nx * 3.7 + t * 0.7) * (h * 0.08) +
+            Math.sin(nx * 15 + t * 2.3) * (h * 0.03) +
+            (Math.random() - 0.5) * 3;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Secondary (ghost) waveform
+        ctx.strokeStyle = 'rgba(232,38,10,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var x2 = 0; x2 < w; x2++) {
+          var nx2 = x2 / w;
+          var y2 = h / 2 +
+            Math.sin(nx2 * 5.5 + t * 0.6) * (h * 0.12) +
+            Math.sin(nx2 * 12 + t * 1.8) * (h * 0.04) +
+            (Math.random() - 0.5) * 2;
+          if (x2 === 0) ctx.moveTo(x2, y2);
+          else ctx.lineTo(x2, y2);
+        }
+        ctx.stroke();
+
+        // Update readouts occasionally
+        if (frame % 30 === 0) {
+          freqEl.textContent = (66 + Math.random() * 1.2).toFixed(1);
+          ampEl.textContent = (0.78 + Math.random() * 0.14).toFixed(2);
+          snrEl.textContent = Math.floor(38 + Math.random() * 10);
+        }
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ================================================================
+    // FAVICON — pulsing sun orb (preserved from original)
+    // ================================================================
+    (function() {
+      var c = document.createElement('canvas'); c.width = 16; c.height = 16;
+      var x = c.getContext('2d');
+      var link = document.createElement('link');
+      link.rel = 'icon'; link.type = 'image/png';
       document.head.appendChild(link);
-      var frame=0;
-      var colors=['#FFD700','#FFC200','#FFB000','#FF9500','#FF7700','#FF5500','#E8260A','#FF3300','#FF5500','#FF7700','#FF9500','#FFB000','#FFC200'];
-      function draw(){
-        x.clearRect(0,0,16,16);
-        var t=frame*0.08;
-        var ci=Math.floor((frame*0.3)%colors.length);
-        var col=colors[ci];
-        var pulse=4+Math.sin(t)*1.2;
-        x.beginPath();x.arc(8,8,pulse+2,0,Math.PI*2);
-        x.fillStyle=col;x.globalAlpha=0.25;x.fill();
-        x.beginPath();x.arc(8,8,pulse+0.5,0,Math.PI*2);
-        x.fillStyle=col;x.globalAlpha=0.5;x.fill();
-        x.beginPath();x.arc(8,8,pulse-1,0,Math.PI*2);
-        x.fillStyle='#FFFBE0';x.globalAlpha=1;x.fill();
-        x.fillStyle='#FFFFFF';x.fillRect(7,7,2,2);
-        x.globalAlpha=1;
-        link.href=c.toDataURL('image/png');
+      var frame = 0;
+      var colors = ['#FFD700','#FFC200','#FFB000','#FF9500','#FF7700','#FF5500','#E8260A','#FF3300','#FF5500','#FF7700','#FF9500','#FFB000','#FFC200'];
+      function draw() {
+        x.clearRect(0, 0, 16, 16);
+        var t = frame * 0.08;
+        var ci = Math.floor((frame * 0.3) % colors.length);
+        var col = colors[ci];
+        var pulse = 4 + Math.sin(t) * 1.2;
+        x.beginPath(); x.arc(8, 8, pulse + 2, 0, Math.PI * 2);
+        x.fillStyle = col; x.globalAlpha = 0.25; x.fill();
+        x.beginPath(); x.arc(8, 8, pulse + 0.5, 0, Math.PI * 2);
+        x.fillStyle = col; x.globalAlpha = 0.5; x.fill();
+        x.beginPath(); x.arc(8, 8, pulse - 1, 0, Math.PI * 2);
+        x.fillStyle = '#FFFBE0'; x.globalAlpha = 1; x.fill();
+        x.fillStyle = '#FFFFFF'; x.fillRect(7, 7, 2, 2);
+        x.globalAlpha = 1;
+        link.href = c.toDataURL('image/png');
         frame++;
       }
-      setInterval(draw,100);draw();
+      setInterval(draw, 100); draw();
     })();
   </script>
 </body>
