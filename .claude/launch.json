@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "arcade",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "/Users/atticuseby/napalmsunrise-arcade", "-l", "4567", "--no-clipboard"],
+      "port": 4567
+    }
+  ]
+}

@@ -136,19 +136,18 @@ img { max-width: 100%; height: auto; }
 .hero {
   border-bottom: var(--border);
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
 }
 .hero-left {
   padding: 80px 56px 80px 0;
-  border-right: var(--border);
 }
 .hero-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
-  min-height: 400px;
+  padding: 40px 20px;
+  min-height: 480px;
   position: relative;
 }
 #hero-canvas {
