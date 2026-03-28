@@ -62,29 +62,45 @@
       border-right: 2px solid rgba(232,38,10,0.2);
     }
 
-    .person-header {
+    /* -- PORTRAIT -- */
+    .person-portrait-wrap {
       display: flex;
-      align-items: center;
-      gap: 24px;
+      justify-content: center;
       margin-bottom: 28px;
+      position: relative;
+      overflow: visible;
+      z-index: 1;
     }
-    .person-portrait canvas {
+    .person-portrait-inner {
+      position: relative;
+      width: 192px;
+      height: 192px;
+    }
+    .person-portrait-inner canvas.portrait-canvas {
       image-rendering: pixelated;
       image-rendering: crisp-edges;
+      width: 192px;
+      height: 192px;
       border: 2px solid rgba(255,255,255,0.08);
-      width: 128px;
-      height: 128px;
-      flex-shrink: 0;
+      display: block;
     }
-    .person-header-text {
-      flex: 1;
+    canvas.smoke-canvas {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 192px;
+      height: 400px;
+      pointer-events: none;
+      image-rendering: pixelated;
     }
+
     .person-name {
       font-family: var(--font-display);
-      font-size: 56px;
+      font-size: 64px;
       line-height: 0.9;
       letter-spacing: 0.03em;
       margin-bottom: 8px;
+      text-align: center;
     }
     .person-role {
       font-family: var(--font-ui);
@@ -92,6 +108,8 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--red);
+      text-align: center;
+      margin-bottom: 28px;
     }
     .person-bio p {
       font-family: var(--font-body);
@@ -108,6 +126,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      justify-content: center;
     }
     .person-links a {
       font-family: var(--font-ui);
@@ -145,10 +164,11 @@
       .about-title { font-size: 72px; }
       .about-grid { grid-template-columns: 1fr; }
       .about-col:first-child { border-right: none; border-bottom: 2px solid rgba(232,38,10,0.2); }
-      .person-name { font-size: 42px; }
-      .person-header { gap: 16px; }
-      .person-portrait canvas { width: 96px; height: 96px; }
+      .person-name { font-size: 48px; }
       .about-hero { padding: 48px 0 32px; }
+      .person-portrait-inner { width: 160px; height: 160px; }
+      .person-portrait-inner canvas.portrait-canvas { width: 160px; height: 160px; }
+      canvas.smoke-canvas { width: 160px; }
     }
   </style>
 </head>
@@ -182,15 +202,14 @@
       <div class="about-grid">
         <!-- ATTICUS -->
         <div class="about-col">
-          <div class="person-header">
-            <div class="person-portrait">
-              <canvas id="atticus-canvas" width="192" height="192"></canvas>
-            </div>
-            <div class="person-header-text">
-              <div class="person-name">ATTICUS EBY</div>
-              <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
+          <div class="person-portrait-wrap">
+            <div class="person-portrait-inner">
+              <canvas class="smoke-canvas" id="atticus-smoke" width="192" height="400"></canvas>
+              <canvas class="portrait-canvas" id="atticus-canvas" width="192" height="192"></canvas>
             </div>
           </div>
+          <div class="person-name">ATTICUS EBY</div>
+          <div class="person-role">Founder / Operator / Chief Chaos Officer</div>
           <div class="person-bio">
             <p>Napalm Sunrise started as an experiment that refused to end. What began as a side project in SEO testing and digital tinkering evolved into something stranger and more interesting&mdash;a public laboratory where the results are posted whether they look good or not.</p>
             <p>Background in search engine optimization and answer engine optimization, with a particular interest in the places where organic traffic, AI citation, and content strategy collide. The lab runs experiments that most people would call inadvisable. The results speak for themselves, usually in riddles.</p>
@@ -206,15 +225,13 @@
 
         <!-- GORTHOG -->
         <div class="about-col">
-          <div class="person-header">
-            <div class="person-portrait">
-              <canvas id="gorthog-canvas" width="192" height="192"></canvas>
-            </div>
-            <div class="person-header-text">
-              <div class="person-name">GORTHOG</div>
-              <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
+          <div class="person-portrait-wrap">
+            <div class="person-portrait-inner">
+              <canvas class="portrait-canvas" id="gorthog-canvas" width="192" height="192"></canvas>
             </div>
           </div>
+          <div class="person-name">GORTHOG</div>
+          <div class="person-role">847-Year-Old Orc / Resident Advisor / Email Devourer</div>
           <div class="person-bio">
             <p>Born in the swamps of a place that no longer appears on any map. Raised among raiders. Survived things that would break lesser creatures&mdash;the wars, the raids, the long marches through territory that smelled like sulfur and bad decisions.</p>
             <p>There was a marriage once. A good one, by orc standards. And then a tragedy that Gorthog does not speak of in detail. The specifics are his to share, and he shares them only with those who ask properly. What came after was wandering. Centuries of it.</p>
@@ -233,190 +250,344 @@
   </footer>
 
   <script>
-    // ========================================================
-    // GORTHOG 32x32 PIXEL ART PORTRAIT
-    // ========================================================
-    (function() {
-      const canvas = document.getElementById('gorthog-canvas');
-      canvas.width = 192; canvas.height = 192;
-      const ctx = canvas.getContext('2d');
-      const S = 6; // 32x32 * 6 = 192
+  // ================================================================
+  // ANIMATED PORTRAITS
+  // ================================================================
+  (function() {
+    var S = 6; // pixel scale: 32 * 6 = 192
 
-      const C = {
-        '.':'transparent',
-        'o':'#0d0d0d',  // outline
-        'g':'#3a782f',  // dark green
-        'G':'#64aa4b',  // light green
-        's':'#2d5a24',  // shadow green
-        'h':'#4e9638',  // mid green
-        'R':'#e8260a',  // red mouth
-        'T':'#dcc864',  // tusk
-        't':'#c4b050',  // tusk shadow
-        'e':'#4a2810',  // ear brown
-        'W':'#ffffff',  // eye white
-        'p':'#1a1a1a',  // pupil
-        'r':'#8b2010',  // dark red
-        'n':'#3d6e2a',  // nose shadow
-      };
+    function px(ctx, x, y, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x * S, y * S, S, S);
+    }
 
-      const sprite = [
-        '................................',
-        '..........oooooooooooo..........',
-        '........oossggggggssooo.........',
-        '.......osgggGGGGGGgggso.........',
-        '......osggGGGGGGGGGGggso........',
-        '.....osgGGGGGGGGGGGGGgsoo.......',
-        '....osgGGGGGGGGGGGGGGGgso.......',
-        '...osgGGGGGGGGGGGGGGGGgso.......',
-        '..oesgGGGGGGGGGGGGGGGGgseo......',
-        '..oeeggGGGGGGGGGGGGGGggeeo......',
-        '.oeeeggGGGGGGGGGGGGGGggeeo......',
-        '.oeeegGGGGGGGGGGGGGGGGgeeo......',
-        '..oegGGGGooppGGGGooppGGgeo......',
-        '..oegGGGGoWWppGGGoWWppGgeo......',
-        '..oegGGGGoWWppGGGoWWppGgeo......',
-        '..oegGGGGooppGGGGooppGGgeo......',
-        '..oegGGGGGGGGGGGGGGGGGgeo.......',
-        '..oegGGGGGGGnnnnGGGGGGgeo.......',
-        '..oegGGhGGGGngggnGGGhGgeo.......',
-        '..oegGGGGGGGGGGGGGGGGGgeo.......',
-        '.oTggGGgGGGGGGGGGGGGgGGgTo......',
-        '.oTtgGGGgggGGGGGGgggGGgtTo......',
-        '.oTtggGGGGGRRRRRRGGGGGgtTo......',
-        '..otggGGGGRRRrrrRRGGGGgtoo......',
-        '..ooggGGGGGRRRRRRGGGGGgoo.......',
-        '...osgGGGGGGGGGGGGGGGgsoo.......',
-        '....osggGGGGGGGGGGGGggsoo.......',
-        '.....ossgGGGGGGGGGGgssooo.......',
-        '......oossgGGGGGGgssooo.........',
-        '.......ooosssggsssoo............',
-        '.........oooooooooo.............',
-        '................................',
-      ];
-
-      for (let y = 0; y < 32; y++) {
-        for (let x = 0; x < 32; x++) {
-          const ch = sprite[y][x];
-          if (ch === '.' || !C[ch]) continue;
-          ctx.fillStyle = C[ch];
-          ctx.fillRect(x * S, y * S, S, S);
+    function drawSprite(ctx, sprite, colors) {
+      for (var y = 0; y < sprite.length; y++) {
+        for (var x = 0; x < sprite[y].length; x++) {
+          var ch = sprite[y][x];
+          if (ch === '.' || !colors[ch]) continue;
+          px(ctx, x, y, colors[ch]);
         }
       }
-    })();
+    }
 
-    // ========================================================
-    // ATTICUS 32x32 PIXEL ART PORTRAIT
-    // ========================================================
-    (function() {
-      const canvas = document.getElementById('atticus-canvas');
-      canvas.width = 192; canvas.height = 192;
-      const ctx = canvas.getContext('2d');
-      const S = 6; // 32x32 * 6 = 192
+    // ==============================================================
+    // GORTHOG — ugly snarling orc with blink animation
+    // ==============================================================
+    var gCanvas = document.getElementById('gorthog-canvas');
+    var gCtx = gCanvas.getContext('2d');
 
-      const C = {
-        '.':'transparent',
-        'o':'#0d0d0d',  // outline
-        'h':'#5c3a1e',  // dark brown hair
-        'H':'#7a4e2a',  // medium brown hair
-        'd':'#3a2210',  // darkest hair
-        's':'#e8c9a0',  // skin base
-        'S':'#f5dbb8',  // skin highlight
-        'w':'#d4a878',  // skin shadow
-        'c':'#c49468',  // skin deep shadow
-        'e':'#2a1a0a',  // eye dark
-        'W':'#e8ddd0',  // eye white
-        'p':'#1a1208',  // pupil
-        'm':'#6b4226',  // mustache
-        'M':'#55351c',  // mustache dark
-        'b':'#8a6040',  // stubble
-        'L':'#cc8877',  // lip
-        'l':'#aa6655',  // lip shadow
-        'T':'#1a1a1a',  // shirt dark
-        't':'#252525',  // shirt lighter
-        'n':'#d0a080',  // nose shadow
-        'E':'#3e2510',  // ear shadow
-      };
+    var GC = {
+      '.':'transparent',
+      'o':'#0d0d0d',   // outline
+      'g':'#3a782f',   // dark green
+      'G':'#4e9638',   // mid green
+      'L':'#64aa4b',   // light green
+      's':'#2d5a24',   // shadow green
+      'R':'#8b2010',   // dark red (mouth interior)
+      'r':'#e8260a',   // red gums
+      'T':'#dcc864',   // tusk
+      't':'#c4b050',   // tusk shadow
+      'e':'#4a2810',   // ear brown
+      'E':'#3a1c08',   // ear shadow
+      'W':'#cccc44',   // eye yellow
+      'w':'#998822',   // eye dark
+      'p':'#1a0a00',   // pupil
+      'B':'#2a2a2a',   // brow
+      'n':'#2d4a22',   // nostril
+      'F':'#e8ddc0',   // fang/tooth
+      'f':'#c8c0a0',   // fang shadow
+      'S':'#7a5e2a',   // scar
+      'b':'#332e20',   // beard stubble
+    };
 
-      const sprite = [
-        '................................',
-        '..........ddhhhhhdd.............',
-        '.........dHhHhHhHhHd............',
-        '........dhHhHHhHHhHhd...........',
-        '.......dHhHhHHHHhHhHHd..........',
-        '......dhHHhHhHhHhHhHHhd.........',
-        '.....dhHHHhHhHHHHhHhHHhd........',
-        '.....dHhHHHHhHhHhHHHHhHd........',
-        '....dhHhHHHHHHHHHHHHHhHhd.......',
-        '....dHHhooooooooooooooHHd.......',
-        '....dhHosSSSSssssSSSSSoHd.......',
-        '.....dosSSSSSSssSSSSSSsod.......',
-        '.....osSSSSSSSSSSSSSSSSso.......',
-        '.....osSSeeoSSSSSoeeSSSo........',
-        '.....osSeWWeoSSSoeWWeSso........',
-        '.....osSeppeoSSSoeppeSso........',
-        '.....osSSeeoSSSSSoeeSSSo........',
-        '.....osSSSSSSSnSnSSSSSso........',
-        '.....osSSSSSSnnnnnSSSSso........',
-        '.....osSSSSSSSnSSnSSSSSo........',
-        '.....owSSSmMMmmmmmMMmSSo........',
-        '.....owSSSSmMMMMMMMmSSSo........',
-        '.....owSSSSSsssssssSSSSo........',
-        '.....owSSSSSSLLLLSSSSSSo........',
-        '.....ocSSSSSSlllLSSSSSSo........',
-        '.....owSSSbSSSSSSSbSSSSo........',
-        '......ocSSSSSSSSSSSSSSo.........',
-        '......owSSSSSSSSSSSSSSo.........',
-        '.......ocoTTTTTTTTToco..........',
-        '......ooTTtTTTTTTtTToo..........',
-        '.....oTTTtTTTTTTTTtTTTo.........',
-        '....oTTTTTTTTTTTTTTTTTTo........',
-      ];
+    // 32x32 ugly Gorthog — heavy brow, scars, fangs, snarl
+    var gSpriteOpen = [
+      '................................',
+      '..........oooooooooooo..........',
+      '........oogssgggggssgooo........',
+      '.......ogsgggGGGGGGgggsgo.......',
+      '......ogsggGGLLLLLLGGggsgo.....',
+      '.....ogsgGGLLLLLLLLLLGgsgo.....',
+      '....ogsgGLLLLLLLLLLLLLGgsgo....',
+      '...ogsgGLLLLLLLLLLLLLLGgsgo....',
+      '..oEesgGLLLLLLLLLLLLLLGgseEo...',
+      '..oEeegGLLLLLLLLLLLLLLGgeeEo...',
+      '.oEeeegGLLLLLLLLLLLLLLGgeeeEo..',
+      '.oEeeeGGLBBBoooLLLooBBGGeeEo...',
+      '..oesgGLBogGGGoLLoGGGoBLgseo...',
+      '..oesgGLoWWwGoLLLoWWwGLLgseo...',
+      '..oesgGLopppGoLLLopppGLLgseo...',
+      '..oesgGLoWWwGoLLLoWWwGLLgseo...',
+      '..oesgGGLooooLLLLLooooGGgseo...',
+      '..oesgGGLLLLLLLLLLLLLGGgseo....',
+      '..oesgGGLLSSLnnnnLSSLGGgseo....',
+      '..oesgGGGLLLngggnLLLGGGgseo....',
+      '.oTgggGGGLLLLLLLLLLLGGGgggTo...',
+      '.oTtggGGGgLLLLLLLLLgGGGggtTo...',
+      '.oTtggGGFoorrrrrrrrooFGGggtTo..',
+      '..otggGGoFoRRRRRRRRoFoGGggto...',
+      '..oogGGGoFFoRRRRRRoFFoGGGgoo...',
+      '...osgGGGoooooooooooooGGgsoo...',
+      '....osggGGbGGLLLLGGbGGggsoo...',
+      '.....ossgGGbGGGGGGbGGgssooo...',
+      '......oossgGGGGGGGGgssoo.....',
+      '.......ooosssggggsssoo........',
+      '.........oooooooooooo.........',
+      '................................',
+    ];
 
-      for (let y = 0; y < 32; y++) {
-        for (let x = 0; x < 32; x++) {
-          const ch = sprite[y][x];
-          if (ch === '.' || !C[ch]) continue;
-          ctx.fillStyle = C[ch];
-          ctx.fillRect(x * S, y * S, S, S);
+    // Blink version — eyes closed
+    var gSpriteBlink = [
+      '................................',
+      '..........oooooooooooo..........',
+      '........oogssgggggssgooo........',
+      '.......ogsgggGGGGGGgggsgo.......',
+      '......ogsggGGLLLLLLGGggsgo.....',
+      '.....ogsgGGLLLLLLLLLLGgsgo.....',
+      '....ogsgGLLLLLLLLLLLLLGgsgo....',
+      '...ogsgGLLLLLLLLLLLLLLGgsgo....',
+      '..oEesgGLLLLLLLLLLLLLLGgseEo...',
+      '..oEeegGLLLLLLLLLLLLLLGgeeEo...',
+      '.oEeeegGLLLLLLLLLLLLLLGgeeeEo..',
+      '.oEeeeGGLBBBoooLLLooBBGGeeEo...',
+      '..oesgGLBogGGGoLLoGGGoBLgseo...',
+      '..oesgGLooooGoLLLooooGLLgseo...',
+      '..oesgGLLLLLGoLLLLLLLGLLgseo...',
+      '..oesgGLooooGoLLLooooGLLgseo...',
+      '..oesgGGLooooLLLLLooooGGgseo...',
+      '..oesgGGLLLLLLLLLLLLLGGgseo....',
+      '..oesgGGLLSSLnnnnLSSLGGgseo....',
+      '..oesgGGGLLLngggnLLLGGGgseo....',
+      '.oTgggGGGLLLLLLLLLLLGGGgggTo...',
+      '.oTtggGGGgLLLLLLLLLgGGGggtTo...',
+      '.oTtggGGFoorrrrrrrrooFGGggtTo..',
+      '..otggGGoFoRRRRRRRRoFoGGggto...',
+      '..oogGGGoFFoRRRRRRoFFoGGGgoo...',
+      '...osgGGGoooooooooooooGGgsoo...',
+      '....osggGGbGGLLLLGGbGGggsoo...',
+      '.....ossgGGbGGGGGGbGGgssooo...',
+      '......oossgGGGGGGGGgssoo.....',
+      '.......ooosssggggsssoo........',
+      '.........oooooooooooo.........',
+      '................................',
+    ];
+
+    var gBlink = false;
+    var gBlinkTimer = 0;
+    var gNextBlink = 120 + Math.random() * 200;
+
+    function drawGorthog() {
+      gCtx.clearRect(0, 0, 192, 192);
+      drawSprite(gCtx, gBlink ? gSpriteBlink : gSpriteOpen, GC);
+    }
+
+    // ==============================================================
+    // ATTICUS — smoking portrait with rising smoke
+    // ==============================================================
+    var aCanvas = document.getElementById('atticus-canvas');
+    var aCtx = aCanvas.getContext('2d');
+    var smokeCanvas = document.getElementById('atticus-smoke');
+    var smokeCtx = smokeCanvas.getContext('2d');
+
+    var AC = {
+      '.':'transparent',
+      'o':'#0d0d0d',   // outline
+      'h':'#5c3a1e',   // dark brown hair
+      'H':'#7a4e2a',   // medium brown hair
+      'd':'#3a2210',   // darkest hair
+      'D':'#4a3018',   // hair mid-dark
+      's':'#e8c9a0',   // skin base
+      'S':'#f5dbb8',   // skin highlight
+      'w':'#d4a878',   // skin shadow
+      'c':'#c49468',   // skin deep shadow
+      'W':'#e8ddd0',   // eye white
+      'P':'#3a2a18',   // pupil
+      'I':'#5a4030',   // iris
+      'e':'#2a1a0a',   // eye outline
+      'm':'#6b4226',   // mustache
+      'M':'#55351c',   // mustache dark
+      'b':'#907060',   // stubble light
+      'L':'#cc8877',   // lip
+      'l':'#aa6655',   // lip shadow
+      'T':'#1a1a1a',   // shirt dark
+      't':'#252525',   // shirt lighter
+      'n':'#d0a080',   // nose shadow
+      'N':'#c09070',   // nose deep
+      'E':'#c8a888',   // ear
+      'q':'#b09070',   // ear shadow
+      'C':'#aaaaaa',   // cigarette
+      'f':'#e8260a',   // cig ember
+      'F':'#ff6600',   // cig glow
+      'k':'#888888',   // cig filter
+    };
+
+    // 32x32 Atticus — wavy hair, mustache, cigarette in mouth
+    var aSprite = [
+      '................................',
+      '..........ddhhhhhdd.............',
+      '.........dDHhHhHhHDd............',
+      '........dHhDHHhHHDhHd...........',
+      '.......dHhHhDHHDhHhHHd..........',
+      '......dHHhHhHhHhHhHHhDd.........',
+      '.....dHHDhHhHHHHhHhDHhd.........',
+      '.....dHhHHDHhHhHhDHHhHd.........',
+      '....dHhHHHHDHHHHDHHHhHhd........',
+      '....dHHhooooooooooooooHHd.......',
+      '....dHHosSSSSSSSSSSSSSSoHd......',
+      '.....dosSSSSSSSSSSSSSSSSod......',
+      '...oEossSSSSSSSSSSSSSSSSsoEo....',
+      '...oqosSSeeeoSSSSSeeeSSSSoqo....',
+      '...oEosSWIPeeoSSSeeWIPeSSSoEo...',
+      '...oqosSWIPeeoSSSeeWIPeSSSoqo...',
+      '....oosSSeeeoSSSSSeeeSSSSoo.....',
+      '....oosSSSSSSSSSSSSSSSSSSoo.....',
+      '....oosSSSSSSnNNNnSSSSSsoo......',
+      '....oosSSSSSnNnnnNnSSSSsoo......',
+      '....oowSSmMMmmmmmMMmSSwoo......',
+      '....oowSSSmMMMMMMMmSSSwoo.......',
+      '....oowSSSSsssssssSSSSwooCCCfo..',
+      '....oowSSSSSLlLLSSSSSwoo.......',
+      '....oocSSSSSllllSSSSSScoo.......',
+      '....oowSSbSSSSSSSbSSSwoo........',
+      '.....oocSSSSSSSSSSSSScoo........',
+      '.....oowSSSSSSSSSSSSwoo.........',
+      '......ocoTTTTTTTTToco...........',
+      '.....ooTTtTTTTTTtTToo...........',
+      '....oTTTtTTTTTTTTtTTTo..........',
+      '...oTTTTTTTTTTTTTTTTTTo.........',
+    ];
+
+    // Smoke particles
+    var smokeParticles = [];
+    var CIG_TIP_X = 28; // pixel coords of cigarette tip
+    var CIG_TIP_Y = 22;
+    var smokeTimer = 0;
+
+    function spawnSmoke() {
+      // Spawn at cig tip position, in smoke canvas coords
+      // Smoke canvas is 192x400, face is at bottom 192px, so face y=0 in portrait = y=208 in smoke canvas
+      var baseY = 400 - 192; // offset: portrait top in smoke canvas coords
+      var sx = CIG_TIP_X * S + S/2 + (Math.random() - 0.5) * 4;
+      var sy = baseY + CIG_TIP_Y * S + (Math.random() - 0.5) * 3;
+      smokeParticles.push({
+        x: sx,
+        y: sy,
+        vx: 0.15 + Math.random() * 0.3,
+        vy: -0.6 - Math.random() * 0.8,
+        size: 2 + Math.random() * 3,
+        alpha: 0.5 + Math.random() * 0.3,
+        life: 0,
+        maxLife: 120 + Math.random() * 100,
+        wobble: Math.random() * Math.PI * 2,
+        wobbleSpeed: 0.02 + Math.random() * 0.03,
+      });
+    }
+
+    function updateSmoke() {
+      smokeCtx.clearRect(0, 0, 192, 400);
+      for (var i = smokeParticles.length - 1; i >= 0; i--) {
+        var p = smokeParticles[i];
+        p.life++;
+        if (p.life > p.maxLife) { smokeParticles.splice(i, 1); continue; }
+        var t = p.life / p.maxLife;
+        p.x += p.vx + Math.sin(p.wobble) * 0.4;
+        p.y += p.vy;
+        p.vy *= 0.995;
+        p.wobble += p.wobbleSpeed;
+        p.size += 0.04;
+        var alpha = p.alpha * (1 - t * t);
+        if (alpha < 0.01) { smokeParticles.splice(i, 1); continue; }
+        smokeCtx.beginPath();
+        smokeCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        smokeCtx.fillStyle = 'rgba(180,175,165,' + alpha.toFixed(3) + ')';
+        smokeCtx.fill();
+      }
+    }
+
+    function drawAtticus() {
+      aCtx.clearRect(0, 0, 192, 192);
+      drawSprite(aCtx, aSprite, AC);
+      // Animate cig ember flicker
+      if (Math.random() < 0.3) {
+        px(aCtx, 29, 22, '#ff4400');
+      }
+    }
+
+    // ==============================================================
+    // ANIMATION LOOP
+    // ==============================================================
+    var frame = 0;
+    function tick() {
+      frame++;
+
+      // Gorthog blink
+      gBlinkTimer++;
+      if (gBlink) {
+        if (gBlinkTimer > 6) { gBlink = false; gBlinkTimer = 0; gNextBlink = 100 + Math.random() * 250; }
+      } else {
+        if (gBlinkTimer > gNextBlink) { gBlink = true; gBlinkTimer = 0; }
+      }
+      drawGorthog();
+
+      // Atticus + smoke
+      drawAtticus();
+      smokeTimer++;
+      if (smokeTimer % 3 === 0) spawnSmoke();
+      updateSmoke();
+
+      requestAnimationFrame(tick);
+    }
+
+    // Pad all sprite rows to 32
+    function padSprites() {
+      [gSpriteOpen, gSpriteBlink, aSprite].forEach(function(sp) {
+        for (var i = 0; i < sp.length; i++) {
+          while (sp[i].length < 32) sp[i] += '.';
+          if (sp[i].length > 32) sp[i] = sp[i].substring(0, 32);
         }
-      }
-    })();
+      });
+    }
+    padSprites();
 
-    // ========================================================
-    // FAVICON
-    // ========================================================
-    (function() {
-      const c = document.createElement('canvas');
-      c.width = 16; c.height = 16;
-      const x = c.getContext('2d');
-      const P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
-      const art = [
-        [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
-        [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
-        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
-        [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
-        [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
-        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
-        [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
-        [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
-        [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
-        [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
-        [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
-        [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
-        [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
-        [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
-        [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
-        [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
-      ];
-      for (let y = 0; y < 16; y++) for (let i = 0; i < 16; i++) {
-        const v = art[y][i]; if (v === 0) continue;
-        x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
-      }
-      const link = document.createElement('link');
-      link.rel = 'icon'; link.type = 'image/png';
-      link.href = c.toDataURL('image/png');
-      document.head.appendChild(link);
-    })();
+    tick();
+  })();
+
+  // ================================================================
+  // FAVICON
+  // ================================================================
+  (function() {
+    var c = document.createElement('canvas');
+    c.width = 16; c.height = 16;
+    var x = c.getContext('2d');
+    var P = { 0:'transparent', 1:'#3a782f', 2:'#0d0d0d', 3:'#64aa4b', 4:'#e8260a', 5:'#dcc864' };
+    var art = [
+      [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+      [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+      [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+      [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+      [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+      [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+      [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+      [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+      [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+    ];
+    for (var y = 0; y < 16; y++) for (var i = 0; i < 16; i++) {
+      var v = art[y][i]; if (v === 0) continue;
+      x.fillStyle = P[v]; x.fillRect(i, y, 1, 1);
+    }
+    var link = document.createElement('link');
+    link.rel = 'icon'; link.type = 'image/png';
+    link.href = c.toDataURL('image/png');
+    document.head.appendChild(link);
+  })();
   </script>
 </body>
 </html>
