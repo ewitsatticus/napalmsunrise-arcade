@@ -466,7 +466,7 @@
       's':'#e8c9a0',
     };
 
-    /* 32x32 Atticus - medium hair, wide insomniac eyes, mustache, cig */
+    /* 32x32 Atticus - symmetric face, forward-facing cig (1px ember) */
     var aBase = [
       '................................',
       '........oooooooooooooooo........',
@@ -479,18 +479,18 @@
       '........oSSSSSSSSSSSSSSo........',
       '........oSSSSSSSSSSSSSSo........',
       '......oEoSSSSSSSSSSSSSSoEo......',
-      '......oqoSSeeeSSeeeSSSSSoqo.....',
-      '......oEoSSWWWSSWWWSSSSSoEo.....',
-      '......oqoSSWpWSSWpWSSSSSoqo.....',
-      '......oEoSSWWWSSWWWSSSSSoEo.....',
-      '......oqoSSbbbSSbbbSSSSSoqo.....',
+      '......oqoSSSeeeSSeeeSSSoqo......',
+      '......oEoSSSWWWSSWWWSSSoEo......',
+      '......oqoSSSWpWSSWpWSSSoqo......',
+      '......oEoSSSWWWSSWWWSSSoEo......',
+      '......oqoSSSbbbSSbbbSSSoqo......',
       '........oSSSSSSSSSSSSSSo........',
       '........oSSSSSSnnSSSSSSo........',
       '........oSSSSSSnNnSSSSSo........',
-      '........oSSSmmmmmmmSSSSSo.......',
-      '........oSSSSSmmmmSSSSSSo.......',
-      '........oSSSLLLLllSSSSlkCCCf....',
-      '........oSSSSlllSSSSSSSo........',
+      '........oSSSSmmmmmmSSSSo........',
+      '........oSSSSSmmmmSSSSSo........',
+      '........oSSSSLLLLlfSSSSo........',
+      '........oSSSSSSllSSSSSSo........',
       '........owSSSSSSSSSSSSwo........',
       '.........oSSSSSSSSSSSSo.........',
       '..........oSSSSSSSSSSo..........',
@@ -502,22 +502,22 @@
       '................................',
     ];
 
-    /* Override rows for REACH state (hand entering frame near cig) */
+    /* Override rows for REACH state (hand entering frame to grab cig) */
     var aReachR = {};
-    aReachR[21] = '........oSSSLLLLllSSSSlkCCCfss..';
-    aReachR[22] = '........oSSSSlllSSSSSSSo....ss..';
+    aReachR[21] = '........oSSSSLLLLlfSSSSo.ss.....';
+    aReachR[22] = '........oSSSSSSllSSSSSSo..ss....';
 
-    /* Override rows for HOLD state (hand holds cig away, mouth slightly open) */
+    /* Override rows for HOLD state (hand holds full cig away from face, mouth open) */
     var aHoldR = {};
-    aHoldR[20] = '........oSSSSSmmmmSSSSSSo.sss...';
-    aHoldR[21] = '........oSSSLLoLSSSSSSSo.skCCf..';
-    aHoldR[22] = '........oSSSSlllSSSSSSSo..sss...';
+    aHoldR[20] = '........oSSSSSmmmmSSSSSo.sss....';
+    aHoldR[21] = '........oSSSSLLoLLSSSSSo.skCCf..';
+    aHoldR[22] = '........oSSSSSSllSSSSSSo..sss...';
 
     /* Smoke system - 32x80 canvas, portrait at rows 48-79 */
     var smokeParticles = [];
-    var CIG_X = 27, CIG_Y = 69;
+    var CIG_X = 18, CIG_Y = 69;
     var HELD_X = 29, HELD_Y = 69;
-    var MOUTH_X = 14, MOUTH_Y = 69;
+    var MOUTH_X = 15, MOUTH_Y = 69;
     var smokingState = 'smoking';
     var smokingTimer = 0;
 
@@ -572,7 +572,7 @@
       }
       if (smokingState === 'smoking' && Math.random() < 0.3) {
         aCtx.fillStyle = '#ff6600';
-        aCtx.fillRect(27 * S, 21 * S, S, S);
+        aCtx.fillRect(18 * S, 21 * S, S, S);
       }
     }
 
