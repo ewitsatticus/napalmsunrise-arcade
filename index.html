@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="base.css">
+  <script>try{if(localStorage.getItem('ns_email'))document.documentElement.classList.add('has-email');}catch(e){}</script>
   <script src="gate.js" defer></script>
 </head>
 <body class="template-index">
@@ -470,6 +471,13 @@
   .cavern-footer-bottom p{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.15);text-transform:uppercase}
   .gt-cavern-label{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px}
   .gt-cavern-activity{font-family:var(--font-body,'Courier Prime',monospace);font-size:14px;font-style:italic;color:rgba(243,237,224,.5);margin-bottom:16px;min-height:1.6em}
+  .gt-cavern-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .gt-ctrl-btn{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;background:rgba(255,255,255,.04);color:var(--bg,#F3EDE0);border:2px solid rgba(255,255,255,.18);cursor:pointer;transition:background .12s,border-color .12s,transform .05s;white-space:nowrap}
+  .gt-ctrl-btn:hover{background:rgba(232,38,10,.18);border-color:var(--red,#E8260A);color:var(--bg,#F3EDE0)}
+  .gt-ctrl-btn:active{transform:translateY(1px)}
+  .gt-ctrl-crazy{border-color:var(--acid,#C8FF00);color:var(--acid,#C8FF00);animation:gt-crazy-pulse 1.2s ease-in-out infinite}
+  .gt-ctrl-crazy:hover{background:rgba(200,255,0,.12);border-color:var(--acid,#C8FF00);color:var(--acid,#C8FF00)}
+  @keyframes gt-crazy-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,.4)}50%{box-shadow:0 0 0 4px rgba(200,255,0,0)}}
   /* Cavern footer hidden until cavern mode */
   .cavern-footer .cavern-footer-info{display:none}
   .cavern-footer.cavern-active .cavern-footer-info{display:block}
@@ -479,6 +487,13 @@
 
   /* CAVERN MODE — hide the ask section, show footer cavern */
   .gorthog-ask.cavern-mode{display:none}
+  /* ANTI-FLASH — hide the mid-page feed form instantly if user has already passed the gate */
+  .has-email #gorthog-ask{display:none}
+  .has-email .cavern-footer{border-top-color:var(--red,#E8260A)}
+  .has-email .cavern-footer .cavern-footer-info{display:block}
+  .has-email .cavern-footer .cavern-canvas-wrap{display:block}
+  .has-email .cavern-footer{background:#1a1610;padding:0}
+  .has-email .cavern-footer::after{display:none}
 
   /* FLOATING CHAT WIDGET */
   .gt-float{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-body,'Courier Prime',monospace)}
@@ -790,10 +805,22 @@ var CS=2;
 C['q']='#8aad50';C['v']='#567a2e';C['l']='#7a9a3a';C['j']='#5a3618';
 C['a']='#8b6840';C['e']='#c9a240';C['c']='#e8d0b0';C['A']='#4a3218';
 var ACTIVITIES=['sleep','fire','cook','work','eat','pace'];
-var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.'};
+var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.',crazy:'Gorthog HAS LOST HIS MIND. Please help.'};
+var ACTION_SPEECH={
+  feed:'YAAAGH!! MORE EMAIL!! GORTHOG FEAST AGAIN!!',
+  sleep:'Gorthog tired. Gorthog sleep now.',
+  work:'Gorthog write memoir. Chapter 848: the website visitor.',
+  cook:'Gorthog make stew. Secret ingredient: regret.',
+  fire:'Fire warm. Fire good. Gorthog sit.',
+  eat:'Gorthog eat leftovers. Still got that email aftertaste.',
+  pace:'Gorthog think. Gorthog pace. Same thing.',
+  crazy:'AAAAAAAAAAAAGH!! GORTHOG NO LONGER STABLE!!',
+  poke:'YOU POKE GORTHOG?? RUDE.'
+};
 var gAI={activity:'fire',targetX:135,timer:0,duration:600,walking:false,sitFrame:0,
-  zones:{sleep:{x:27},fire:{x:68},cook:{x:138},work:{x:198},eat:{x:162},pace:{x:105}},
-  preSleep:{active:false,phase:'none',timer:0}
+  zones:{sleep:{x:27},fire:{x:68},cook:{x:138},work:{x:198},eat:{x:162},pace:{x:105},crazy:{x:135}},
+  preSleep:{active:false,phase:'none',timer:0},
+  userLock:0
 };
 /* ---- 16-bit cavern orc sprites (10 wide) ---- */
 /* Walk right — 4-frame cycle: R1 stride, R2 cross, R3 stride, R2 cross */
@@ -1264,6 +1291,21 @@ function drawCavernScene(){
   }else if(gAI.activity==='eat'){
     cpxSprite(CORC_SIT,160,gySit);
     if(frame%30<15){cpx(166,CGROUND-10,'#cc3333');cpx(167,CGROUND-11,'#cc8844');}
+  }else if(gAI.activity==='crazy'){
+    /* CRAZY — shaky sprite, streaked shadow, exclamation marks */
+    for(var sxC=gx-1;sxC<gx+11;sxC++){cpx(sxC,CGROUND-1,'#3a1818');}
+    var jitter=Math.floor(Math.random()*3)-1;
+    var jitterY=Math.floor(Math.random()*3)-1;
+    var sprC=(orc.dir===1?CORC_WALK_R:CORC_WALK_L)[orc.walkFrame%4];
+    cpxSprite(sprC,gx+jitter,gy+jitterY);
+    /* Angry exclamation marks flying off */
+    if(frame%4<2){
+      cpx(gx+1,gy-3,'#E8260A');cpx(gx+1,gy-4,'#E8260A');cpx(gx+1,gy-6,'#E8260A');
+      cpx(gx+10,gy-2,'#E8260A');cpx(gx+10,gy-3,'#E8260A');cpx(gx+10,gy-5,'#E8260A');
+    }else{
+      cpx(gx-1,gy-4,'#ffcc00');cpx(gx-1,gy-5,'#ffcc00');cpx(gx-1,gy-7,'#ffcc00');
+      cpx(gx+12,gy-3,'#ffcc00');cpx(gx+12,gy-4,'#ffcc00');cpx(gx+12,gy-6,'#ffcc00');
+    }
   }else{
     /* Pacing */
     for(var sx2=gx+1;sx2<gx+9;sx2++){cpx(sx2,CGROUND-1,'#2a2620');}
@@ -1289,6 +1331,12 @@ function drawCavernScene(){
   cpx(267,12,'#4a4438');cpx(266,13,'#4a4438');cpx(265,14,'#3d3828');
   cpx(3,12,'#3d3828');cpx(5,15,'#332e22');
   cpx(266,12,'#3d3828');cpx(264,15,'#332e22');
+  /* CRAZY mode red flash overlay */
+  if(gAI.activity==='crazy' && cavern.ctx){
+    var flash=(frame%6<3)?0.18:0.08;
+    cavern.ctx.fillStyle='rgba(200,0,0,'+flash+')';
+    cavern.ctx.fillRect(0,0,cavern.CVW*CS,cavern.CVH*CS);
+  }
 }
 
 function updateCavern(){
@@ -1338,6 +1386,17 @@ function updateCavern(){
 
   gAI.timer++;
 
+  /* CRAZY mode — fast erratic movement, ignores walking target */
+  if(gAI.activity==='crazy' && !gAI.walking){
+    orc.x += orc.dir * 1.6;
+    if(Math.random() < 0.08) orc.dir *= -1;
+    if(orc.x > cavern.CVW - 14){orc.x = cavern.CVW - 14; orc.dir = -1;}
+    if(orc.x < 2){orc.x = 2; orc.dir = 1;}
+    orc.walkTimer++;
+    if(orc.walkTimer > 3){orc.walkFrame = (orc.walkFrame + 1) % 4; orc.walkTimer = 0;}
+    return;
+  }
+
   if(gAI.walking){
     var speed=0.4;
     var dx=gAI.targetX-orc.x;
@@ -1355,7 +1414,7 @@ function updateCavern(){
       if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
     }
   }else{
-    if(gAI.timer>=gAI.duration){
+    if(gAI.timer>=gAI.duration && frame>=gAI.userLock){
       var newAct=ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
       if(newAct===gAI.activity)newAct=ACTIVITIES[(ACTIVITIES.indexOf(newAct)+1)%ACTIVITIES.length];
       /* Sleep: start undressing immediately instead of walking to bed first */
@@ -1380,6 +1439,65 @@ function updateCavern(){
       if(orc.walkTimer>7){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
       if(orc.x>gAI.zones.pace.x+22||orc.x<gAI.zones.pace.x-22)orc.dir*=-1;
     }
+  }
+}
+
+/* ══════════════════════════════
+   USER-DIRECTED GORTHOG CONTROLS
+   ══════════════════════════════ */
+function gSetActivity(name){
+  /* Cancel any in-progress preSleep unless we're re-triggering sleep */
+  if(name!=='sleep'&&gAI.preSleep.active){gAI.preSleep.active=false;gAI.preSleep.phase='none';gAI.preSleep.timer=0;}
+  if(name==='sleep'){
+    gAI.preSleep.active=true;
+    gAI.preSleep.phase='walk-to-stand';
+    gAI.preSleep.timer=0;
+    gAI.activity='sleep';
+    gAI.walking=false;
+    gAI.timer=0;
+  }else if(name==='crazy'){
+    gAI.activity='crazy';
+    gAI.walking=false;
+    gAI.timer=0;
+    gAI.duration=99999;
+  }else{
+    gAI.activity=name;
+    var z=gAI.zones[name];
+    if(z){gAI.targetX=z.x;gAI.walking=true;}else{gAI.walking=false;}
+    gAI.timer=0;
+    gAI.duration=900;
+  }
+  gAI.userLock=frame+900;/* ~15s lock before auto-rotation can kick back in */
+  var ael=document.getElementById('gt-cavern-activity');
+  if(ael)ael.textContent=ACTIVITY_NAMES[name]||'';
+  var log=document.getElementById('gt-cavern-log');
+  if(log&&ACTION_SPEECH[name])addCavernMsg('gorthog',ACTION_SPEECH[name],log);
+}
+
+function pokeGorthog(){
+  gAI.userLock=Math.max(gAI.userLock,frame+180);
+  var log=document.getElementById('gt-cavern-log');
+  if(log)addCavernMsg('gorthog',ACTION_SPEECH.poke,log);
+}
+
+function wireCavernControls(){
+  var ctrls=document.querySelectorAll('#gt-cavern-controls [data-action]');
+  for(var i=0;i<ctrls.length;i++){
+    if(ctrls[i]._wired)continue;
+    ctrls[i]._wired=true;
+    ctrls[i].addEventListener('click',function(e){
+      var a=e.currentTarget.getAttribute('data-action');
+      if(a==='feed'){
+        var log=document.getElementById('gt-cavern-log');
+        if(log)addCavernMsg('gorthog',ACTION_SPEECH.feed,log);
+        gSetActivity('eat');
+        /* Override the activity text with feed flavor */
+        var ael2=document.getElementById('gt-cavern-activity');
+        if(ael2)ael2.textContent='Gorthog feasts. Again. He is insatiable.';
+      }else{
+        gSetActivity(a);
+      }
+    });
   }
 }
 
@@ -1419,8 +1537,10 @@ function startCavern(){
     }
   });}
   if(cinput&&!cinput._wired){cinput._wired=true;cinput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();csend.click();}});}
-  /* Scroll cavern into view */
-  document.getElementById('cavern-footer').scrollIntoView({behavior:'smooth',block:'start'});
+  /* Wire control panel (idempotent) */
+  wireCavernControls();
+  /* Wire click-to-poke on cavern canvas */
+  if(!cavernCanvas._pokeWired){cavernCanvas._pokeWired=true;cavernCanvas.addEventListener('click',pokeGorthog);}
 }
 function addCavernMsg(w,t,log){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;if(window._gtFloatAddMsg)window._gtFloatAddMsg(w,t);}
 
@@ -1629,7 +1749,7 @@ function reset(){hp=100;fed=false;lastPhase=null;lastLineTime=0;lineIdx={};orc.x
   document.getElementById('gorthog-ask').classList.remove('cavern-mode');
   document.getElementById('cavern-footer').classList.remove('cavern-active');
   el.canvas.width=180;el.canvas.height=180;CW=180;CH=180;
-  el.email.value='';el.error.textContent='';el.chatLog.innerHTML='';lastTick=Date.now();try{localStorage.removeItem(SAVE_KEY);}catch(e){}render();typeText(pickLine('idle'));}
+  el.email.value='';el.error.textContent='';el.chatLog.innerHTML='';lastTick=Date.now();try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem('ns_email');}catch(e){}try{document.documentElement.classList.remove('has-email');}catch(e){}render();typeText(pickLine('idle'));}
 
 el.feedBtn.addEventListener('click',function(e){e.preventDefault();var err=validateEmail(el.email.value);if(err){el.error.textContent=err;el.email.style.borderColor='#E8260A';setTimeout(function(){el.email.style.borderColor='';},1200);return;}el.error.textContent='';feed(el.email.value.trim());});
 el.email.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();el.feedBtn.click();}});
@@ -1639,10 +1759,15 @@ el.chatSend.addEventListener('click',handleChat);
 el.chatInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handleChat();}});
 document.addEventListener('visibilitychange',function(){if(document.hidden){paused=true;save();}else{paused=false;lastTick=Date.now();}});
 
+/* Expose bridge BEFORE init so gate.js can always find it */
+window._gtForceFed=function(){fed=true;hp=100;deathSeq.active=false;memorial.active=false;lastPhase=null;save();var _sc=function(){try{if(!cavern.active)startCavern();}catch(e){console.error('startCavern err',e);}};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',_sc);}else{_sc();}render();};
+
 load();lastTick=Date.now();
+/* Bridge: if user already passed the gate (ns_email set), consider in-page Gorthog fed */
+try{if(localStorage.getItem('ns_email')){fed=true;hp=100;deathSeq.active=false;}}catch(e){}
 if(hp<=0&&!fed){deathSeq.active=true;deathSeq.phase='done';deathSeq.youX=VW/2+6;for(var bi=0;bi<25;bi++){deathSeq.bloodPixels.push([VW/2-6+Math.floor(Math.random()*18),GROUND-Math.floor(Math.random()*4)]);}}
 var p0=phase();
-if(fed){typeText("Gorthog remember you! Ask Gorthog anything.");addMsg('gorthog',"Gorthog remember you! Ask Gorthog anything about Napalm Sunrise.");setTimeout(function(){startCavern();},500);}
+if(fed){typeText("Gorthog remember you! Ask Gorthog anything.");addMsg('gorthog',"Gorthog remember you! Ask Gorthog anything about Napalm Sunrise.");var _startCav=function(){try{startCavern();}catch(e){console.error('startCavern init err',e,e.stack);}};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',_startCav);}else{_startCav();}}
 else if(p0==='dead'){typeText(LINES.dead[0]);}
 else{typeText(pickLine(p0));}
 lastLineTime=Date.now();
@@ -1659,7 +1784,18 @@ requestAnimationFrame(tick);
     <div class="cavern-footer-info">
       <div class="cavern-footer-inner">
         <div class="cavern-footer-left">
-          <div class="gt-cavern-activity" id="gt-cavern-activity">Gorthog awaits your email...</div>
+          <div class="gt-cavern-label">Direct Gorthog</div>
+          <div id="gt-cavern-controls" class="gt-cavern-controls">
+            <button class="gt-ctrl-btn" data-action="feed" type="button">Feed</button>
+            <button class="gt-ctrl-btn" data-action="sleep" type="button">Sleep</button>
+            <button class="gt-ctrl-btn" data-action="work" type="button">Work</button>
+            <button class="gt-ctrl-btn" data-action="cook" type="button">Cook</button>
+            <button class="gt-ctrl-btn" data-action="fire" type="button">Fire</button>
+            <button class="gt-ctrl-btn" data-action="eat" type="button">Eat</button>
+            <button class="gt-ctrl-btn" data-action="pace" type="button">Pace</button>
+            <button class="gt-ctrl-btn gt-ctrl-crazy" data-action="crazy" type="button">Go Crazy</button>
+          </div>
+          <div class="gt-cavern-activity" id="gt-cavern-activity">Gorthog lives in his cavern. Click a button to direct him. Or click him to poke him.</div>
         </div>
         <div class="cavern-footer-chat">
           <div class="gt-cavern-label">Ask Gorthog</div>
