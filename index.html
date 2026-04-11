@@ -62,24 +62,334 @@
         NAPALM<span style="color:var(--red);">SUNRISE</span>
       </a>
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
-        <a href="index.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#F3EDE0;background:var(--red);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Home</a>
-        <a href="blog.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Blog</a>
-        <a href="ask-gorthog.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Ask Gorthog</a>
-        <a href="about.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">About</a>
-        <a href="faq.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">FAQ</a>
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="ask-gorthog.html" class="nav-link">Ask Gorthog</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
       </nav>
       <div style="display:flex;align-items:center;padding:10px 0;"></div>
     </div>
   </header>
 
-  <main id="main" role="main">
-    <div class="ed-wrap">
-      <section class="ed-hero">
-        <h1>Napalm Sunrise</h1>
-        <p>An independent publication. Music. Absurdist culture. Unsolicited orc advice.</p>
-      </section>
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <a href="blog/wu-tang-oregon-trail.html" class="tick"><div class="dot live"></div>Wu-Tang Members Ranked by Oregon Trail Survival — New</a>
+      <a href="blog/hottest-popes.html" class="tick"><div class="dot new"></div>Top 10 Hottest Popes: A Definitive Ranking — Live</a>
+      <a href="blog/credit-thief-boss.html" class="tick"><div class="dot live"></div>My Boss Took Credit for My Work — Ask Gorthog</a>
+      <a href="blog/album-decline.html" class="tick"><div class="dot archive"></div>The Quiet Decline of the Album — Music</a>
+      <a href="blog/comparison-online.html" class="tick"><div class="dot live"></div>I Cannot Stop Comparing Myself to People Online — Ask Gorthog</a>
+      <a href="blog/local-scene-five-guys.html" class="tick"><div class="dot archive"></div>Every Local Music Scene Has the Same Five Guys — Music</a>
+      <a href="blog/fleetwood-mac-survival.html" class="tick"><div class="dot new"></div>A Survival Analysis of Fleetwood Mac — Editorial</a>
+      <a href="blog/wu-tang-oregon-trail.html" class="tick"><div class="dot live"></div>Wu-Tang Members Ranked by Oregon Trail Survival — New</a>
+      <a href="blog/hottest-popes.html" class="tick"><div class="dot new"></div>Top 10 Hottest Popes: A Definitive Ranking — Live</a>
+      <a href="blog/credit-thief-boss.html" class="tick"><div class="dot live"></div>My Boss Took Credit for My Work — Ask Gorthog</a>
+      <a href="blog/album-decline.html" class="tick"><div class="dot archive"></div>The Quiet Decline of the Album — Music</a>
+      <a href="blog/comparison-online.html" class="tick"><div class="dot live"></div>I Cannot Stop Comparing Myself to People Online — Ask Gorthog</a>
+      <a href="blog/local-scene-five-guys.html" class="tick"><div class="dot archive"></div>Every Local Music Scene Has the Same Five Guys — Music</a>
+      <a href="blog/fleetwood-mac-survival.html" class="tick"><div class="dot new"></div>A Survival Analysis of Fleetwood Mac — Editorial</a>
+    </div>
+  </div>
 
-      <section>
+  <main id="main" role="main">
+    <!-- HERO -->
+    <div class="wrap">
+      <section class="hero">
+        <div class="hero-left">
+          <div class="eyebrow" id="hero-eyebrow">TRANSMITTING FROM THE END OF THE WORLD</div>
+          <div class="hero-site">NAPALM SUNRISE</div>
+          <p class="hero-tagline">An independent publication. Music criticism that takes the music seriously, absurdist editorial that takes the absurdity seriously, and unsolicited advice from an 847-year-old orc who has seen worse.</p>
+          <div class="cta-row">
+            <a class="btn btn-fill" href="blog.html">Read the Blog</a>
+            <a class="btn btn-outline" href="ask-gorthog.html">Ask Gorthog</a>
+            <a class="btn btn-red" href="about.html">About</a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <canvas id="hero-canvas"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <script>
+    (function() {
+      var lines = [
+        "TRANSMITTING FROM THE END OF THE WORLD",
+        "NEW POSTS WEEKLY \u2014 MOSTLY",
+        "MUSIC. ABSURDISM. ORC ADVICE.",
+        "DOCUMENTING THE COLLAPSE SINCE 2024",
+        "SIGNAL DETECTED \u2014 ORIGIN UNKNOWN",
+        "TWO CONTRIBUTORS, ONE OF THEM IS AN ORC",
+        "PEER REVIEW DECLINED. PROCEED REGARDLESS.",
+        "THE ARCHIVE IS OPEN. THE EXIT IS NOT.",
+        "BROADCAST 847 \u2014 UNAUTHORIZED",
+        "FIELD NOTES FROM A BURNING BUILDING"
+      ];
+      var eyeIdx = 0;
+      var eyeEl = document.getElementById('hero-eyebrow');
+      setInterval(function() {
+        eyeEl.style.opacity = '0';
+        setTimeout(function() {
+          eyeIdx = (eyeIdx + 1) % lines.length;
+          eyeEl.textContent = lines[eyeIdx];
+          eyeEl.style.opacity = '1';
+        }, 600);
+      }, 8000);
+
+      /* ---- MORPHING NAPALM SUN ---- */
+      var canvas = document.getElementById('hero-canvas');
+      var ctx = canvas.getContext('2d');
+      var PX = 4;
+      var W, H, cols, rows, cx, cy, baseR;
+      var BG = [243, 237, 224];
+
+      function resize() {
+        var rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width = rect.width;
+        H = canvas.height = rect.height;
+        cols = Math.ceil(W / PX);
+        rows = Math.ceil(H / PX);
+        cx = Math.floor(cols / 2);
+        cy = Math.floor(rows / 2);
+        baseR = Math.floor(Math.min(cols, rows) * 0.32);
+      }
+
+      function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+      function lerpC(a, b, t) { return [Math.round(lerp(a[0],b[0],t)),Math.round(lerp(a[1],b[1],t)),Math.round(lerp(a[2],b[2],t))]; }
+      function rgb(c) { return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+      function px(x,y,c) { ctx.fillStyle=rgb(c); ctx.fillRect(x*PX,y*PX,PX,PX); }
+
+      var noiseT = [];
+      for (var ni = 0; ni < 360; ni++) noiseT[ni] = Math.random() * 0.4 + 0.8;
+
+      var embers = [];
+      for (var ei = 0; ei < 40; ei++) {
+        embers.push({
+          angle: Math.random() * Math.PI * 2,
+          dist: 0.7 + Math.random() * 0.6,
+          speed: 0.005 + Math.random() * 0.015,
+          size: Math.random() < 0.3 ? 2 : 1,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+
+      var drips = [];
+      var LOOP = 30;
+      var startTime = performance.now();
+
+      var CORE_DARK = [80, 10, 2];
+      var CORE_RED = [200, 35, 5];
+      var CORE_ORANGE = [240, 130, 15];
+      var CORE_YELLOW = [255, 210, 50];
+      var CORE_WHITE = [255, 240, 200];
+      var EMBER_COLORS = [[255,100,10],[255,160,20],[255,200,40],[200,40,5],[255,80,0]];
+      var ASH = [120, 100, 80];
+      var SMOKE = [60, 55, 48];
+
+      function frame(now) {
+        var elapsed = ((now - startTime) / 1000) % LOOP;
+        var phase = elapsed / LOOP;
+
+        ctx.fillStyle = rgb(BG);
+        ctx.fillRect(0, 0, W, H);
+
+        var radius, coreColor, midColor, outerColor, intensity, morphAmt;
+
+        if (phase < 0.25) {
+          var t = phase / 0.25;
+          radius = baseR * (0.3 + t * 0.7);
+          intensity = t;
+          morphAmt = (1 - t) * 8 + 2;
+          coreColor = lerpC(CORE_DARK, CORE_RED, t);
+          midColor = lerpC(CORE_DARK, CORE_ORANGE, t * 0.6);
+          outerColor = lerpC(SMOKE, CORE_RED, t * 0.4);
+        } else if (phase < 0.50) {
+          var t = (phase - 0.25) / 0.25;
+          var pulse = Math.sin(t * Math.PI * 6) * 0.08;
+          radius = baseR * (1 + pulse);
+          intensity = 1;
+          morphAmt = 2 + Math.sin(t * Math.PI * 4) * 1.5;
+          coreColor = lerpC(CORE_ORANGE, CORE_YELLOW, 0.3 + Math.sin(t * Math.PI * 3) * 0.3);
+          midColor = lerpC(CORE_RED, CORE_ORANGE, 0.5 + pulse);
+          outerColor = CORE_RED;
+        } else if (phase < 0.70) {
+          var t = (phase - 0.50) / 0.20;
+          radius = baseR * (1 + t * 0.15);
+          intensity = 1;
+          morphAmt = 2 + t * 6;
+          coreColor = lerpC(CORE_YELLOW, CORE_WHITE, t * 0.5);
+          midColor = lerpC(CORE_ORANGE, CORE_YELLOW, t * 0.4);
+          outerColor = lerpC(CORE_RED, CORE_ORANGE, t * 0.6);
+          if (Math.random() < 0.15 + t * 0.3) {
+            var da = Math.random() * Math.PI * 2;
+            drips.push({
+              x: cx + Math.cos(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              y: cy + Math.sin(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              vx: Math.cos(da) * (0.2 + Math.random() * 0.5),
+              vy: Math.sin(da) * (0.2 + Math.random() * 0.3) + 0.3,
+              life: 1,
+              color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
+            });
+          }
+        } else if (phase < 0.85) {
+          var t = (phase - 0.70) / 0.15;
+          radius = baseR * (1.15 - t * 0.8);
+          intensity = 1 - t * 0.7;
+          morphAmt = 6 + t * 10;
+          coreColor = lerpC(CORE_WHITE, CORE_ORANGE, t);
+          midColor = lerpC(CORE_YELLOW, CORE_RED, t);
+          outerColor = lerpC(CORE_ORANGE, CORE_DARK, t);
+          if (t < 0.3) {
+            for (var bi = 0; bi < 3; bi++) {
+              var da = Math.random() * Math.PI * 2;
+              drips.push({
+                x: cx + Math.cos(da) * radius * 0.5,
+                y: cy + Math.sin(da) * radius * 0.5,
+                vx: Math.cos(da) * (0.5 + Math.random() * 1.5),
+                vy: Math.sin(da) * (0.5 + Math.random() * 1.5),
+                life: 0.6 + Math.random() * 0.4,
+                color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
+              });
+            }
+          }
+        } else {
+          var t = (phase - 0.85) / 0.15;
+          radius = baseR * (0.35 - t * 0.15 + t * t * 0.1);
+          intensity = 0.3 + t * 0.2;
+          morphAmt = 10 - t * 6;
+          coreColor = lerpC(CORE_DARK, CORE_DARK, 1);
+          midColor = lerpC(ASH, CORE_DARK, t);
+          outerColor = lerpC(SMOKE, CORE_DARK, t * 0.5);
+        }
+
+        if (radius > 1 && intensity > 0.05) {
+          for (var py = Math.max(0, cy - Math.ceil(radius) - 5); py < Math.min(rows, cy + Math.ceil(radius) + 5); py++) {
+            for (var ppx = Math.max(0, cx - Math.ceil(radius) - 5); ppx < Math.min(cols, cx + Math.ceil(radius) + 5); ppx++) {
+              var dx = ppx - cx, dy = py - cy;
+              var dist = Math.sqrt(dx * dx + dy * dy);
+              var angle = Math.atan2(dy, dx);
+              var ai = Math.floor(((angle / Math.PI + 1) * 180)) % 360;
+              var nv = noiseT[ai] + Math.sin(elapsed * 2 + ai * 0.05) * 0.15 * morphAmt / 5;
+              var edgeR = radius * nv;
+              if (dist <= edgeR) {
+                var norm = dist / edgeR;
+                var c;
+                if (norm < 0.3) c = lerpC(coreColor, midColor, norm / 0.3);
+                else if (norm < 0.7) c = lerpC(midColor, outerColor, (norm - 0.3) / 0.4);
+                else c = lerpC(outerColor, BG, (norm - 0.7) / 0.3);
+                var flk = Math.sin(elapsed * 8 + ai * 0.1 + dist * 0.3) * 0.1;
+                c = [Math.min(255,Math.max(0,c[0]+Math.round(flk*50))),Math.min(255,Math.max(0,c[1]+Math.round(flk*20))),c[2]];
+                ctx.globalAlpha = intensity * (0.7 + 0.3 * (1 - norm));
+                px(ppx, py, c);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        for (var oi = 0; oi < embers.length; oi++) {
+          var em = embers[oi];
+          em.angle += em.speed;
+          var eDist = radius * em.dist;
+          var ex = cx + Math.cos(em.angle) * eDist;
+          var ey = cy + Math.sin(em.angle) * eDist;
+          var eAlpha = intensity * (0.3 + Math.sin(elapsed * 3 + em.phase) * 0.3);
+          if (eAlpha > 0.05 && ex >= 0 && ex < cols && ey >= 0 && ey < rows) {
+            ctx.globalAlpha = eAlpha;
+            var ec = EMBER_COLORS[oi % EMBER_COLORS.length];
+            px(Math.floor(ex), Math.floor(ey), ec);
+            if (em.size > 1 && Math.floor(ex)+1 < cols) px(Math.floor(ex)+1, Math.floor(ey), ec);
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        for (var di = drips.length - 1; di >= 0; di--) {
+          var d = drips[di];
+          d.x += d.vx; d.y += d.vy; d.vy += 0.02; d.life -= 0.012;
+          if (d.life <= 0 || d.x < -2 || d.x > cols + 2 || d.y > rows + 2) { drips.splice(di, 1); continue; }
+          var dix = Math.floor(d.x), diy = Math.floor(d.y);
+          if (dix >= 0 && dix < cols && diy >= 0 && diy < rows) {
+            ctx.globalAlpha = d.life * 0.8;
+            px(dix, diy, d.color);
+            var tx = Math.floor(d.x - d.vx * 0.5), ty = Math.floor(d.y - d.vy * 0.5);
+            if (tx >= 0 && tx < cols && ty >= 0 && ty < rows) {
+              ctx.globalAlpha = d.life * 0.3;
+              px(tx, ty, d.color);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        if (Math.random() < 0.3) {
+          var ri = Math.floor(Math.random() * 360);
+          noiseT[ri] += (Math.random() - 0.5) * 0.06;
+          noiseT[ri] = Math.max(0.6, Math.min(1.2, noiseT[ri]));
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(frame);
+    })();
+    </script>
+
+    <!-- TRIPLE GRID — three editorial verticals -->
+    <div class="wrap">
+      <div class="home-tri tri-three">
+        <div class="tri-col">
+          <div class="tri-label">/ Editorial</div>
+          <h2 class="tri-heading">DISPATCHES</h2>
+          <a class="card" href="blog/wu-tang-oregon-trail.html">
+            <span class="card-tag red">New</span>
+            <h4>Wu-Tang Members Ranked by Oregon Trail Survival</h4>
+            <p>Nine MCs across food management, disease resistance, oxen judgment, and frontier composure.</p>
+          </a>
+          <a class="card" href="blog/hottest-popes.html">
+            <span class="card-tag">Live</span>
+            <h4>Top 10 Hottest Popes: A Definitive Ranking</h4>
+            <p>Two thousand years of pontiffs evaluated by jawline, posture, and the documented historical record.</p>
+          </a>
+          <a class="btn btn-outline" href="blog.html" style="margin-top:8px;display:inline-block">All Editorial &rarr;</a>
+        </div>
+        <div class="tri-col">
+          <div class="tri-label">/ Music</div>
+          <h2 class="tri-heading">SIGNAL</h2>
+          <a class="card" href="blog/album-decline.html">
+            <span class="card-tag">Analysis</span>
+            <h4>The Quiet Decline of the Album as a Cohesive Statement</h4>
+            <p>Streaming did not kill the album. It demoted it to an aggregation format with optional listening order.</p>
+          </a>
+          <a class="card" href="blog/local-scene-five-guys.html">
+            <span class="card-tag">Field Notes</span>
+            <h4>Why Every Local Music Scene Has the Same Five Guys</h4>
+            <p>A taxonomy of the recurring archetypes that populate every regional underground.</p>
+          </a>
+          <a class="btn btn-outline" href="blog.html" style="margin-top:8px;display:inline-block">All Music &rarr;</a>
+        </div>
+        <div class="tri-col">
+          <div class="tri-label">/ Ask Gorthog</div>
+          <h2 class="tri-heading">COUNSEL</h2>
+          <a class="card" href="blog/credit-thief-boss.html">
+            <span class="card-tag red">New</span>
+            <h4>My Boss Took Credit for My Work</h4>
+            <p>The reader believes this is a question about workplace ethics. Gorthog identifies it as a question about leverage.</p>
+          </a>
+          <a class="card" href="blog/comparison-online.html">
+            <span class="card-tag">Reader Q</span>
+            <h4>I Cannot Stop Comparing Myself to People Online</h4>
+            <p>Gorthog has watched empires rise on the same impulse. He provides a framework for redirecting it.</p>
+          </a>
+          <a class="btn btn-outline" href="ask-gorthog.html" style="margin-top:8px;display:inline-block">All Counsel &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT POSTS — full-width brutalist list -->
+    <div class="ed-wrap">
+      <section style="padding-top:64px;">
         <h2 class="ed-h2" style="margin-top:0;">Recent</h2>
 
         <div class="ed-post-list">
@@ -132,16 +442,31 @@
 
         <a href="blog.html" class="ed-read-more">Read more posts</a>
       </section>
+    </div>
 
-      <section class="ed-callout">
-        <h2>Got a question?</h2>
-        <p>Gorthog is an 847-year-old orc advice columnist. He has been solving problems since before your civilization developed written language. His track record is extensive. His patience is not.</p>
-        <div class="ed-callout-actions">
-          <a href="contact.html" class="btn btn-fill">Submit a Question</a>
-          <a href="ask-gorthog.html" class="btn btn-outline">Read the Archive</a>
+    <!-- GORTHOG BAND -->
+    <section class="gorthog-band">
+      <div class="gorthog-band-inner">
+        <div>
+          <div class="gb-eyebrow">/ Gorthog Demands Tribute</div>
+          <h2 class="gb-title">ASK<br>GORTHOG</h2>
+          <p class="gb-body">An 847-year-old orc advice columnist. He has been solving problems since before your civilization developed written language. His track record is extensive. His patience is not.</p>
+          <div class="cta-row">
+            <a class="btn btn-red" href="contact.html">Submit a Question</a>
+            <a class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--bg);" href="ask-gorthog.html">Read the Archive</a>
+          </div>
         </div>
-      </section>
+        <div class="gb-form">
+          <div class="gb-form-label">Latest Counsel</div>
+          <p style="font-family:var(--font-body);font-size:14px;font-style:italic;color:rgba(243,237,224,0.7);line-height:1.6;margin-bottom:18px;">"Your boss is not a problem to be solved. Your boss is a resource to be drained. There is a difference. Learn it."</p>
+          <p style="font-family:var(--font-ui);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:18px;">— Gorthog, on workplace credit theft</p>
+          <a class="btn btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--bg);width:100%;text-align:center;" href="blog/credit-thief-boss.html">Read the full reply</a>
+        </div>
+      </div>
+    </section>
 
+    <!-- EMAIL SIGNUP -->
+    <div class="ed-wrap">
       <section class="ed-email-block ed-email-block-dark">
         <h3>New posts. Your inbox. That is it.</h3>
         <p>We publish weekly. We do not sell your information. We do not send you things you did not ask for.</p>
