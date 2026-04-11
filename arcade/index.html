@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0D0D0D">
+  <title>Napalm Sunrise — Public Lab, Questionable Conclusions</title>
+  <meta name="description" content="A public lab run by someone who should probably know better. SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Napalm Sunrise — Public Lab, Questionable Conclusions">
+  <meta property="og:description" content="SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://napalmsunrise.com/">
+  <meta property="og:image" content="https://napalmsunrise.com/images/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Napalm Sunrise — Public Lab, Questionable Conclusions">
+  <meta name="twitter:description" content="SEO experiments, AI automation, absurdist merch, and advice from an 847-year-old orc.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <script>try{if(localStorage.getItem('ns_email'))document.documentElement.classList.add('has-email');}catch(e){}</script>
+  <script src="gate.js" defer></script>
+</head>
+<body class="template-index">
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- HEADER -->
+  <header style="background:var(--black);border-bottom:4px solid var(--red);position:sticky;top:0;z-index:200;">
+    <div class="header-inner" style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;align-items:stretch;padding:0 28px;">
+      <a href="/" class="logo" style="font-family:var(--font-display);font-size:26px;letter-spacing:0.1em;color:var(--bg);padding:14px 0;text-decoration:none;user-select:none;display:flex;align-items:center;">
+        NAPALM<span style="color:var(--red);">SUNRISE</span>
+      </a>
+      <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
+        <a href="/napalmsunrise-arcade/arcade/" class="nav-link active" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Home</a>
+        <a href="/napalmsunrise-arcade/arcade/about/" class="nav-link">About</a>
+        <a href="/napalmsunrise-arcade/arcade/lab/" class="nav-link">Lab</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div style="background:#0D0D0D;border-bottom:2px solid rgba(232,38,10,0.4);padding:7px 0;overflow:hidden;">
+    <div class="ticker-track">
+      <div class="tick"><div class="dot active"></div>AEO Schema Stacking — Running</div>
+      <div class="tick"><div class="dot done"></div>Internal Link Velocity — Complete</div>
+      <div class="tick"><div class="dot queued"></div>Top 10 Hottest Popes — Live</div>
+      <div class="tick"><div class="dot active"></div>AI Citation Bait — Running</div>
+      <div class="tick"><div class="dot queued"></div>Zero-Click Recapture — Queued</div>
+      <div class="tick"><div class="dot active"></div>Brand SERP Manipulation — Live</div>
+      <div class="tick"><div class="dot done"></div>Title Tag Emotional Triggers — Complete</div>
+      <div class="tick"><div class="dot active"></div>AEO Schema Stacking — Running</div>
+    </div>
+  </div>
+
+  <main id="main" role="main">
+    <!-- HERO -->
+    <div class="wrap">
+      <section class="hero">
+        <div class="hero-left">
+          <div class="eyebrow" id="hero-eyebrow">TRANSMITTING FROM THE END OF THE WORLD</div>
+          <div class="hero-site">NAPALM SUNRISE</div>
+          <p class="hero-tagline">A public experiment in digital survival. SEO tests that probably shouldn't exist, an 847-year-old orc who won't shut up, and the world's most inadvisable merch operation.</p>
+          <div class="cta-row">
+            <a class="btn btn-fill" href="/napalmsunrise-arcade/arcade/lab/">EXPLORE</a>
+            <a class="btn btn-outline" href="/napalmsunrise-arcade/arcade/about/">ABOUT US</a>
+            <a class="btn" style="background:#ff8800;border-color:#ff8800;color:#0D0D0D;" href="#gorthog" onclick="document.getElementById('gorthog').scrollIntoView({behavior:'smooth'});return false;">ASK GORTHOG</a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <canvas id="hero-canvas"></canvas>
+        </div>
+      </section>
+    </div>
+    <script>
+    (function() {
+      /* ---- ROTATING EYEBROW ---- */
+      const lines = [
+        "TRANSMITTING FROM THE END OF THE WORLD",
+        "ALL EXPERIMENTS TERMINAL",
+        "SIGNAL DETECTED \u2014 ORIGIN UNKNOWN",
+        "THE LAB IS OPEN. THE EXIT IS NOT.",
+        "DOCUMENTING THE COLLAPSE SINCE 2024",
+        "NO CONTROL GROUP. NO SAFETY NET.",
+        "BROADCAST 847 \u2014 UNAUTHORIZED",
+        "THE DATA SPEAKS. NOBODY LISTENS.",
+        "RESULTS INCONCLUSIVE. CONTINUING ANYWAY.",
+        "LAST KNOWN FREQUENCY: 66.6 MHZ",
+        "FIELD NOTES FROM A BURNING BUILDING",
+        "TEST SUBJECT: EVERYTHING",
+        "ABANDON METHODOLOGY, ALL YE WHO ENTER",
+        "PEER REVIEW DECLINED. PROCEED REGARDLESS.",
+        "THIS SIGNAL WILL NOT BE REPEATED"
+      ];
+      let eyeIdx = 0;
+      const eyeEl = document.getElementById('hero-eyebrow');
+      setInterval(function() {
+        eyeEl.style.opacity = '0';
+        setTimeout(function() {
+          eyeIdx = (eyeIdx + 1) % lines.length;
+          eyeEl.textContent = lines[eyeIdx];
+          eyeEl.style.opacity = '1';
+        }, 600);
+      }, 8000);
+
+      /* ---- MORPHING NAPALM SUN ---- */
+      const canvas = document.getElementById('hero-canvas');
+      const ctx = canvas.getContext('2d');
+      const PX = 4;
+      let W, H, cols, rows, cx, cy, baseR;
+
+      /* Site background color to use as canvas bg */
+      const BG = [243, 237, 224]; /* --bg: #F3EDE0 */
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        W = canvas.width = rect.width;
+        H = canvas.height = rect.height;
+        cols = Math.ceil(W / PX);
+        rows = Math.ceil(H / PX);
+        cx = Math.floor(cols / 2);
+        cy = Math.floor(rows / 2);
+        baseR = Math.floor(Math.min(cols, rows) * 0.32);
+      }
+
+      function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+      function lerpC(a, b, t) { return [Math.round(lerp(a[0],b[0],t)),Math.round(lerp(a[1],b[1],t)),Math.round(lerp(a[2],b[2],t))]; }
+      function rgb(c) { return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+      function px(x,y,c) { ctx.fillStyle=rgb(c); ctx.fillRect(x*PX,y*PX,PX,PX); }
+
+      /* Noise for organic edges */
+      var noiseT = [];
+      for (var ni = 0; ni < 360; ni++) noiseT[ni] = Math.random() * 0.4 + 0.8;
+
+      /* Orbiting embers/particles */
+      var embers = [];
+      for (var ei = 0; ei < 40; ei++) {
+        embers.push({
+          angle: Math.random() * Math.PI * 2,
+          dist: 0.7 + Math.random() * 0.6,
+          speed: 0.005 + Math.random() * 0.015,
+          size: Math.random() < 0.3 ? 2 : 1,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+
+      /* Drip particles */
+      var drips = [];
+
+      const LOOP = 30;
+      let startTime = performance.now();
+
+      /* Color palettes for each phase */
+      const CORE_DARK = [80, 10, 2];
+      const CORE_RED = [200, 35, 5];
+      const CORE_ORANGE = [240, 130, 15];
+      const CORE_YELLOW = [255, 210, 50];
+      const CORE_WHITE = [255, 240, 200];
+      const EMBER_COLORS = [[255,100,10],[255,160,20],[255,200,40],[200,40,5],[255,80,0]];
+      const ASH = [120, 100, 80];
+      const SMOKE = [60, 55, 48];
+
+      function frame(now) {
+        var elapsed = ((now - startTime) / 1000) % LOOP;
+        var phase = elapsed / LOOP;
+
+        /* Clear to site background */
+        ctx.fillStyle = rgb(BG);
+        ctx.fillRect(0, 0, W, H);
+
+        /* Phase mapping:
+           0.00-0.25: coalesce from embers into ball (sunrise forming)
+           0.25-0.50: burning sun, pulsing, surface eruptions
+           0.50-0.70: napalm drips, ball destabilizing, tendrils
+           0.70-0.85: explosion — ball breaks apart into particles
+           0.85-1.00: embers cool, fade to near-nothing, then reform */
+
+        var radius, coreColor, midColor, outerColor, intensity, morphAmt;
+
+        if (phase < 0.25) {
+          /* Coalesce */
+          var t = phase / 0.25;
+          radius = baseR * (0.3 + t * 0.7);
+          intensity = t;
+          morphAmt = (1 - t) * 8 + 2;
+          coreColor = lerpC(CORE_DARK, CORE_RED, t);
+          midColor = lerpC(CORE_DARK, CORE_ORANGE, t * 0.6);
+          outerColor = lerpC(SMOKE, CORE_RED, t * 0.4);
+        } else if (phase < 0.50) {
+          /* Burning steady */
+          var t = (phase - 0.25) / 0.25;
+          var pulse = Math.sin(t * Math.PI * 6) * 0.08;
+          radius = baseR * (1 + pulse);
+          intensity = 1;
+          morphAmt = 2 + Math.sin(t * Math.PI * 4) * 1.5;
+          coreColor = lerpC(CORE_ORANGE, CORE_YELLOW, 0.3 + Math.sin(t * Math.PI * 3) * 0.3);
+          midColor = lerpC(CORE_RED, CORE_ORANGE, 0.5 + pulse);
+          outerColor = CORE_RED;
+        } else if (phase < 0.70) {
+          /* Destabilize — napalm drips */
+          var t = (phase - 0.50) / 0.20;
+          radius = baseR * (1 + t * 0.15);
+          intensity = 1;
+          morphAmt = 2 + t * 6;
+          coreColor = lerpC(CORE_YELLOW, CORE_WHITE, t * 0.5);
+          midColor = lerpC(CORE_ORANGE, CORE_YELLOW, t * 0.4);
+          outerColor = lerpC(CORE_RED, CORE_ORANGE, t * 0.6);
+          /* Spawn drips */
+          if (Math.random() < 0.15 + t * 0.3) {
+            var da = Math.random() * Math.PI * 2;
+            drips.push({
+              x: cx + Math.cos(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              y: cy + Math.sin(da) * radius * noiseT[Math.floor(Math.abs(da*57))%360],
+              vx: Math.cos(da) * (0.2 + Math.random() * 0.5),
+              vy: Math.sin(da) * (0.2 + Math.random() * 0.3) + 0.3,
+              life: 1,
+              color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
+            });
+          }
+        } else if (phase < 0.85) {
+          /* Explosion / break apart */
+          var t = (phase - 0.70) / 0.15;
+          radius = baseR * (1.15 - t * 0.8);
+          intensity = 1 - t * 0.7;
+          morphAmt = 6 + t * 10;
+          coreColor = lerpC(CORE_WHITE, CORE_ORANGE, t);
+          midColor = lerpC(CORE_YELLOW, CORE_RED, t);
+          outerColor = lerpC(CORE_ORANGE, CORE_DARK, t);
+          /* Burst particles */
+          if (t < 0.3) {
+            for (var bi = 0; bi < 3; bi++) {
+              var da = Math.random() * Math.PI * 2;
+              drips.push({
+                x: cx + Math.cos(da) * radius * 0.5,
+                y: cy + Math.sin(da) * radius * 0.5,
+                vx: Math.cos(da) * (0.5 + Math.random() * 1.5),
+                vy: Math.sin(da) * (0.5 + Math.random() * 1.5),
+                life: 0.6 + Math.random() * 0.4,
+                color: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)]
+              });
+            }
+          }
+        } else {
+          /* Cool and reform */
+          var t = (phase - 0.85) / 0.15;
+          radius = baseR * (0.35 - t * 0.15 + t * t * 0.1);
+          intensity = 0.3 + t * 0.2;
+          morphAmt = 10 - t * 6;
+          coreColor = lerpC(CORE_DARK, CORE_DARK, 1);
+          midColor = lerpC(ASH, CORE_DARK, t);
+          outerColor = lerpC(SMOKE, CORE_DARK, t * 0.5);
+        }
+
+        /* Draw the morphing ball */
+        if (radius > 1 && intensity > 0.05) {
+          for (var py = Math.max(0, cy - Math.ceil(radius) - 5); py < Math.min(rows, cy + Math.ceil(radius) + 5); py++) {
+            for (var ppx = Math.max(0, cx - Math.ceil(radius) - 5); ppx < Math.min(cols, cx + Math.ceil(radius) + 5); ppx++) {
+              var dx = ppx - cx, dy = py - cy;
+              var dist = Math.sqrt(dx * dx + dy * dy);
+              var angle = Math.atan2(dy, dx);
+              var ai = Math.floor(((angle / Math.PI + 1) * 180)) % 360;
+              /* Organic morphing edge */
+              var nv = noiseT[ai] + Math.sin(elapsed * 2 + ai * 0.05) * 0.15 * morphAmt / 5;
+              var edgeR = radius * nv;
+              if (dist <= edgeR) {
+                var norm = dist / edgeR;
+                var c;
+                if (norm < 0.3) c = lerpC(coreColor, midColor, norm / 0.3);
+                else if (norm < 0.7) c = lerpC(midColor, outerColor, (norm - 0.3) / 0.4);
+                else c = lerpC(outerColor, BG, (norm - 0.7) / 0.3);
+                /* Flicker */
+                var flk = Math.sin(elapsed * 8 + ai * 0.1 + dist * 0.3) * 0.1;
+                c = [Math.min(255,Math.max(0,c[0]+Math.round(flk*50))),Math.min(255,Math.max(0,c[1]+Math.round(flk*20))),c[2]];
+                ctx.globalAlpha = intensity * (0.7 + 0.3 * (1 - norm));
+                px(ppx, py, c);
+              }
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        /* Orbiting embers */
+        for (var oi = 0; oi < embers.length; oi++) {
+          var em = embers[oi];
+          em.angle += em.speed;
+          var eDist = radius * em.dist;
+          var ex = cx + Math.cos(em.angle) * eDist;
+          var ey = cy + Math.sin(em.angle) * eDist;
+          var eAlpha = intensity * (0.3 + Math.sin(elapsed * 3 + em.phase) * 0.3);
+          if (eAlpha > 0.05 && ex >= 0 && ex < cols && ey >= 0 && ey < rows) {
+            ctx.globalAlpha = eAlpha;
+            var ec = EMBER_COLORS[oi % EMBER_COLORS.length];
+            px(Math.floor(ex), Math.floor(ey), ec);
+            if (em.size > 1 && Math.floor(ex)+1 < cols) px(Math.floor(ex)+1, Math.floor(ey), ec);
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        /* Drip particles */
+        for (var di = drips.length - 1; di >= 0; di--) {
+          var d = drips[di];
+          d.x += d.vx; d.y += d.vy; d.vy += 0.02; d.life -= 0.012;
+          if (d.life <= 0 || d.x < -2 || d.x > cols + 2 || d.y > rows + 2) { drips.splice(di, 1); continue; }
+          var dix = Math.floor(d.x), diy = Math.floor(d.y);
+          if (dix >= 0 && dix < cols && diy >= 0 && diy < rows) {
+            ctx.globalAlpha = d.life * 0.8;
+            px(dix, diy, d.color);
+            /* Trail */
+            var tx = Math.floor(d.x - d.vx * 0.5), ty = Math.floor(d.y - d.vy * 0.5);
+            if (tx >= 0 && tx < cols && ty >= 0 && ty < rows) {
+              ctx.globalAlpha = d.life * 0.3;
+              px(tx, ty, d.color);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        /* Slowly rotate noise field for organic movement */
+        if (Math.random() < 0.3) {
+          var ri = Math.floor(Math.random() * 360);
+          noiseT[ri] += (Math.random() - 0.5) * 0.06;
+          noiseT[ri] = Math.max(0.6, Math.min(1.2, noiseT[ri]));
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(frame);
+    })();
+    </script>
+
+    <!-- TRIPLE GRID -->
+    <div class="wrap">
+      <div class="home-tri">
+        <div class="tri-col">
+          <div class="tri-label">/ Active Tests</div>
+          <h2 class="tri-heading">SIDEQUESTS</h2>
+          <div class="card">
+            <span class="card-tag red">Live</span>
+            <h4>AEO Schema Stacking</h4>
+            <p>Testing whether aggressive structured data markup improves AI-generated answer sourcing.</p>
+          </div>
+          <div class="card">
+            <span class="card-tag">Running</span>
+            <h4>Internal Link Velocity</h4>
+            <p>Measuring crawl frequency changes when internal links are added in bursts vs. steady drip.</p>
+          </div>
+          <a class="btn btn-outline" href="https://napalmsunrise.com" target="_blank" style="margin-top:8px;display:inline-block">View All Sidequests &rarr;</a>
+        </div>
+        <div class="tri-col">
+          <div class="tri-label">/ Lab Notes</div>
+          <h2 class="tri-heading">CHRONICLES</h2>
+          <div class="card">
+            <span class="card-tag">Analysis</span>
+            <h4>Top 10 Hottest Popes</h4>
+            <p>A definitive, data-backed ranking of history's most attractive pontiffs. Surprisingly competitive.</p>
+          </div>
+          <div class="card">
+            <span class="card-tag">Ranking</span>
+            <h4>Wu-Tang vs Oregon Trail</h4>
+            <p>Which 90s reference ranks faster in 2026? The answer will surprise absolutely no one.</p>
+          </div>
+          <a class="btn btn-outline" href="https://napalmsunrise.com/blogs/lab-notes" target="_blank" style="margin-top:8px;display:inline-block">All Chronicles &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASK GORTHOG -->
+    <div id="gorthog"></div>
+<div class="gorthog-ask" id="gorthog-ask">
+  <div class="gt-ask-inner">
+    <div class="gt-copy">
+      <div class="gt-eyebrow">/ Gorthog Demands Tribute</div>
+      <h2 class="gt-title" id="gt-title">FEED<br>GORTHOG</h2>
+      <p class="gt-body" id="gt-body">Gorthog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.</p>
+      <div id="gt-form-wrap">
+        <label class="gt-label">Your email (his food)</label>
+        <div class="gt-input-row">
+          <input class="gt-input" type="email" id="gt-email" placeholder="your@email.com" autocomplete="email">
+          <button class="btn btn-red gt-feed-btn" id="gt-feed-btn">Feed Him</button>
+        </div>
+        <p class="gt-error" id="gt-error"></p>
+        <p class="gt-note">He will remember this kindness. Or he will die. One of the two.</p>
+      </div>
+      <div id="gt-restart-wrap" style="display:none;">
+        <button class="btn btn-outline gt-restart-btn" id="gt-restart-btn">Resurrect Gorthog</button>
+      </div>
+      <div id="gt-chat-wrap" style="display:none;">
+        <div class="gt-chat-log" id="gt-chat-log"></div>
+        <div class="gt-chat-input-row">
+          <input class="gt-input" type="text" id="gt-chat-input" placeholder="Ask Gorthog anything..." autocomplete="off">
+          <button class="btn btn-red gt-feed-btn" id="gt-chat-send">Ask</button>
+        </div>
+        <p class="gt-note">Gorthog knows things about this site. He has opinions about all of them.</p>
+      </div>
+    </div>
+    <div class="gt-viewport-wrap">
+      <div class="gt-status-bar">
+        <span class="gt-status-label">LIFE FORCE</span>
+        <span class="gt-status-pct" id="gt-pct">100%</span>
+      </div>
+      <div class="gt-bar-track"><div class="gt-bar-fill" id="gt-bar"></div></div>
+      <div class="gt-screen" id="gt-screen">
+        <canvas id="gt-canvas" width="180" height="180"></canvas>
+      </div>
+      <div class="gt-speech" id="gt-speech">
+        <span class="gt-speech-text" id="gt-speech-text"></span><span class="gt-cursor" id="gt-cursor">_</span>
+      </div>
+      <div class="gt-mood" id="gt-mood">GORTHOG AWAITS</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ASK GORTHOG SECTION */
+  .gorthog-ask{background:var(--black,#0D0D0D);color:var(--bg,#F3EDE0);padding:64px 28px;border-bottom:4px solid var(--red,#E8260A);overflow:hidden}
+  .gt-ask-inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:72px;align-items:start}
+  .gt-eyebrow{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red,#E8260A);margin-bottom:16px}
+  .gt-title{font-family:var(--font-display,'Bebas Neue',sans-serif);font-size:84px;line-height:.88;letter-spacing:.02em;margin-bottom:24px;transition:color .3s}
+  .gt-title.danger{color:var(--red,#E8260A)}
+  .gt-body{font-family:var(--font-body,'Courier Prime',monospace);font-size:15px;line-height:1.75;color:rgba(243,237,224,.6);margin-bottom:28px;max-width:560px}
+  .gt-label{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:8px}
+  .gt-input-row,.gt-chat-input-row{display:flex;gap:10px;margin-bottom:8px}
+  .gt-input{flex:1;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.12);color:var(--bg,#F3EDE0);font-family:var(--font-body,'Courier Prime',monospace);font-size:14px;font-style:italic;padding:10px 14px;outline:none;transition:border-color .15s}
+  .gt-input:focus{border-color:var(--red,#E8260A)}.gt-input::placeholder{color:rgba(255,255,255,.2)}.gt-input:disabled{opacity:.3;cursor:not-allowed}
+  .gt-feed-btn{white-space:nowrap;flex-shrink:0}
+  .gt-error{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.1em;color:var(--red,#E8260A);min-height:1.4em;margin-bottom:4px}
+  .gt-note{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.06em;line-height:1.5}
+  .gt-viewport-wrap{position:relative}
+  .gt-status-bar{display:flex;justify-content:space-between;margin-bottom:6px}
+  .gt-status-label,.gt-status-pct{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+  .gt-status-pct{color:rgba(255,255,255,.6)}
+  .gt-bar-track{width:100%;height:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);margin-bottom:16px}
+  .gt-bar-fill{height:100%;width:100%;background:var(--bg,#F3EDE0);transition:width .5s ease,background-color .5s ease}
+  .gt-bar-fill.warning{background:#C9A227}.gt-bar-fill.danger{background:var(--red,#E8260A)}
+  .gt-bar-fill.critical{background:var(--red,#E8260A);animation:gt-pulse .4s infinite}
+  @keyframes gt-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .gt-screen{width:100%;aspect-ratio:1;background:#c4cfa0;border:6px solid #555;border-radius:12px;box-shadow:inset 0 0 30px rgba(0,0,0,.15),0 0 0 3px #333;display:flex;align-items:center;justify-content:center;image-rendering:pixelated;position:relative;overflow:hidden}
+  .gt-screen::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0px,rgba(0,0,0,.03) 1px,transparent 1px,transparent 3px);pointer-events:none;z-index:2}
+  #gt-canvas{width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+  .gt-speech{border:2px solid rgba(255,255,255,.12);padding:14px 16px;margin-top:12px;font-family:var(--font-body,'Courier Prime',monospace);font-size:13px;font-style:italic;line-height:1.6;color:rgba(243,237,224,.7);min-height:52px;transition:border-color .3s}
+  .gt-speech.danger{border-color:var(--red,#E8260A)}.gt-speech.critical{border-color:var(--red,#E8260A);animation:gt-bp .5s infinite}
+  .gt-speech.dead-speech{border-color:rgba(255,255,255,.06);color:rgba(255,255,255,.25)}
+  .gt-speech.memorial-speech{border-color:rgba(255,255,255,.08);color:rgba(243,237,224,.5)}
+  @keyframes gt-bp{0%,100%{border-color:#E8260A}50%{border-color:#ff2200}}
+  .gt-cursor{color:var(--red,#E8260A);animation:gt-blink .5s infinite}.gt-cursor.off{display:none}
+  @keyframes gt-blink{0%,100%{opacity:1}50%{opacity:0}}
+  .gt-mood{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);text-align:center;margin-top:10px;transition:color .3s}
+  .gt-mood.danger{color:var(--red,#E8260A)}
+  .gt-mood.memorial{color:rgba(255,255,255,.3)}
+  .gt-chat-log{border:2px solid rgba(255,255,255,.12);padding:16px;margin-bottom:12px;max-height:280px;overflow-y:auto;font-family:var(--font-body,'Courier Prime',monospace);font-size:13px;line-height:1.6;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+  .gt-chat-msg{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gt-chat-msg:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .gt-chat-msg .gt-chat-who{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+  .gt-chat-msg.user .gt-chat-who{color:rgba(255,255,255,.3)}.gt-chat-msg.gorthog .gt-chat-who{color:var(--red,#E8260A)}
+  .gt-chat-msg.user .gt-chat-body{color:rgba(243,237,224,.5);font-style:italic}.gt-chat-msg.gorthog .gt-chat-body{color:rgba(243,237,224,.8)}
+
+  /* CAVERN FOOTER */
+  .cavern-footer{background:#1a1610;color:var(--bg,#F3EDE0);border-top:4px solid var(--red,#E8260A)}
+  .cavern-canvas-wrap{width:100%;background:#2d2820;display:flex;justify-content:center;overflow:hidden;border-bottom:2px solid rgba(255,255,255,.06)}
+  #cavern-canvas{width:100%;max-width:1440px;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+  .cavern-footer-info{max-width:1440px;margin:0 auto;padding:28px 28px 0}
+  .cavern-footer-inner{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
+  .cavern-footer-left{}
+  .cavern-footer-chat{}
+  .cavern-footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;margin-top:20px;border-top:1px solid rgba(255,255,255,.06)}
+  .cavern-footer-bottom p{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.15);text-transform:uppercase}
+  .gt-cavern-label{font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px}
+  .gt-cavern-activity{font-family:var(--font-body,'Courier Prime',monospace);font-size:14px;font-style:italic;color:rgba(243,237,224,.5);margin-bottom:16px;min-height:1.6em}
+  .gt-cavern-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .gt-ctrl-btn{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;background:rgba(255,255,255,.04);color:var(--bg,#F3EDE0);border:2px solid rgba(255,255,255,.18);cursor:pointer;transition:background .12s,border-color .12s,transform .05s;white-space:nowrap}
+  .gt-ctrl-btn:hover{background:rgba(232,38,10,.18);border-color:var(--red,#E8260A);color:var(--bg,#F3EDE0)}
+  .gt-ctrl-btn:active{transform:translateY(1px)}
+  .gt-ctrl-crazy{border-color:var(--acid,#C8FF00);color:var(--acid,#C8FF00);animation:gt-crazy-pulse 1.2s ease-in-out infinite}
+  .gt-ctrl-crazy:hover{background:rgba(200,255,0,.12);border-color:var(--acid,#C8FF00);color:var(--acid,#C8FF00)}
+  @keyframes gt-crazy-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,.4)}50%{box-shadow:0 0 0 4px rgba(200,255,0,0)}}
+  /* Cavern footer hidden until cavern mode */
+  .cavern-footer .cavern-footer-info{display:none}
+  .cavern-footer.cavern-active .cavern-footer-info{display:block}
+  .cavern-footer:not(.cavern-active) .cavern-canvas-wrap{display:none}
+  .cavern-footer:not(.cavern-active){background:var(--black,#0D0D0D);padding:24px 0}
+  .cavern-footer:not(.cavern-active)::after{content:'© 2026 Napalm Sunrise. All experiments conducted without supervision.';display:block;text-align:center;font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.15);text-transform:uppercase;padding:0 28px}
+
+  /* CAVERN MODE — hide the ask section, show footer cavern */
+  .gorthog-ask.cavern-mode{display:none}
+  /* ANTI-FLASH — hide the mid-page feed form instantly if user has already passed the gate */
+  .has-email #gorthog-ask{display:none}
+  .has-email .cavern-footer{border-top-color:var(--red,#E8260A)}
+  .has-email .cavern-footer .cavern-footer-info{display:block}
+  .has-email .cavern-footer .cavern-canvas-wrap{display:block}
+  .has-email .cavern-footer{background:#1a1610;padding:0}
+  .has-email .cavern-footer::after{display:none}
+
+  /* FLOATING CHAT WIDGET */
+  .gt-float{position:fixed;bottom:24px;right:24px;z-index:9000;font-family:var(--font-body,'Courier Prime',monospace)}
+  .gt-float-toggle{width:56px;height:56px;border-radius:50%;background:var(--red,#E8260A);border:3px solid var(--black,#0D0D0D);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .15s,box-shadow .15s}
+  .gt-float-toggle:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,0,0,.5)}
+  .gt-float-toggle canvas{image-rendering:pixelated;width:36px;height:36px;pointer-events:none}
+  .gt-float-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--acid,#C8FF00);border:2px solid var(--black,#0D0D0D);display:none}
+  .gt-float-panel{position:absolute;bottom:68px;right:0;width:380px;max-height:480px;background:#1a1610;border:2px solid rgba(255,255,255,.12);box-shadow:0 8px 40px rgba(0,0,0,.6);display:none;flex-direction:column;overflow:hidden}
+  .gt-float-panel.open{display:flex}
+  .gt-float-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2)}
+  .gt-float-header-title{font-family:var(--font-ui,'DM Mono',monospace);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--red,#E8260A)}
+  .gt-float-close{background:none;border:none;color:rgba(255,255,255,.3);font-size:18px;cursor:pointer;padding:0 4px;line-height:1;transition:color .1s}
+  .gt-float-close:hover{color:var(--bg,#F3EDE0)}
+  .gt-float-log{flex:1;overflow-y:auto;padding:16px;font-size:13px;line-height:1.6;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent;min-height:120px;max-height:340px}
+  .gt-float-empty{color:rgba(255,255,255,.2);font-style:italic;font-size:13px;text-align:center;padding:40px 16px}
+  .gt-float-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.15)}
+  .gt-float-input{flex:1;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.12);color:var(--bg,#F3EDE0);font-family:var(--font-body,'Courier Prime',monospace);font-size:13px;font-style:italic;padding:8px 12px;outline:none;transition:border-color .15s}
+  .gt-float-input:focus{border-color:var(--red,#E8260A)}
+  .gt-float-input::placeholder{color:rgba(255,255,255,.2)}
+  .gt-float-send{background:var(--red,#E8260A);border:none;color:white;font-family:var(--font-ui,'DM Mono',monospace);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;cursor:pointer;transition:background .12s;white-space:nowrap}
+  .gt-float-send:hover{background:#c41e06}
+
+  @media(max-width:1024px){.gt-ask-inner{grid-template-columns:1fr;gap:40px}.gt-title{font-size:56px}.cavern-footer-inner{grid-template-columns:1fr}.gt-float-panel{width:320px;right:-12px}}
+  @media(max-width:768px){.gt-title{font-size:44px}.gt-input-row,.gt-chat-input-row{flex-direction:column}.gt-feed-btn{width:100%}.gt-float{bottom:16px;right:16px}.gt-float-panel{width:calc(100vw - 32px);right:-8px;max-height:60vh}}
+</style>
+
+<script>
+(function(){
+'use strict';
+
+var LIFE_SEC=120, TYPING_MS=30, SAVE_KEY='gorthog_tama_v4';
+var S=3;
+var CW=180, CH=180;
+var VW=CW/S, VH=CH/S;
+var GROUND=VH-6;
+
+var C={'.':null,'g':'#6b8e3a','d':'#3d5a1e','w':'#e8e0d0','b':'#1a1a1a','t':'#d4c9a8','m':'#2a1208','r':'#cc3333','p':'#ffaaaa','x':'#666','s':'#8a5c3a','f':'#d4a06a','h':'#c44','k':'#888','n':'#555','R':'#aa0000','B':'#990000','G':'#4a6e25','W':'#ccc','Y':'#c9a227','P':'#9966aa','L':'#6699cc','T':'#a0522d','O':'#ff8800','I':'#eee'};
+
+var ORC_R1=['..dddd..', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.', '..dggd..', '.dgggdg.', '.dggdgd.', '..dgd.d.', '..db.db.', '..db..b.'];
+var ORC_R2=['..dddd..', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.', '..dggd..', '.gdgggd.', '.dgdggd.', '.d.dgd..', '.bd.bd..', '..b.bd..'];
+function mirror(sp){return sp.map(function(r){return r.split('').reverse().join('')});}
+var ORC_L1=mirror(ORC_R1), ORC_L2=mirror(ORC_R2);
+var ORC_HAPPY=['gd.dd.dg', '.ddggdd.', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dgmmgd.', '.dmmmmd.', '..dggd..', '..dggd..', '..dbbd..', '..db.bd.'];
+var ORC_PANIC1=['..dddd..', '.dggggd.', '.gpbpgd.', 'ddggggdd', '.dgttgd.', '.dmmmmd.', 'gddggddg', '..dggd..', '..dggd..', '.db..bd.', '.b....b.', '........'];
+var ORC_PANIC2=['..dddd..', '.dggggd.', '.gpbpgd.', 'ddggggdd', '.dgttgd.', '.dmmmmd.', '..dggd..', '.gdggdg.', '..dggd..', '..bd.bd.', '..b...b.', '........'];
+var ORC_COWER=['...........', '...dddd....', '..dggggd...', '..gpbpgd...', '.ddggggdd..', '..dgttgd...', '..dmmmmd...', '..ddggdd...', '...dggd....', '...dggd....', '..db..bd...', '..b....b...'];
+var ORC_DYING=['................', '................', '................', '................', '................', '................', '................', '................', '..dd.dggggd.dd..', '.dgddgpbpgddgd.', '.dgggdgttgdgggd.', '..dddgmmmmgddd..', '....dddddddd....'];
+var ORC_DEAD=['................', '................', '................', '................', '................', '..RRRRRRRRRRRR..', '..RR.RRRRRR.RR..', '..dd.dxxxxd.dd..', '.dxddxbxbxddxd..', '.dxxxdxttxdxxxd.', '..dddxbbbbxddd..', '..RRddddddddRR..'];
+
+var YOU_WALK1=['.ff.', '.ff.', 'sffs', '.ss.', '.ss.', '.ss.', 's..s', 's..s'];
+var YOU_WALK2=['.ff.', '.ff.', 'sffs', '.ss.', '.ss.', '.ss.', '..ss', '.ss.'];
+var YOU_STAB1=['.ff.', '.ff.', 'sffs', '.ssk', '.sskk', '.ss.', 's..s', 's..s'];
+var YOU_STAB2=['.ff.', '.ff.', 'sffsk', '.ss.k', '.ss.', '.ss.', 's..s', 's..s'];
+
+var BABY_ORC=['.dd.', 'dggd', 'gwgd', '.gg.', '.dd.'];
+var MINI_ORC=['.dddd.', 'dggggd', 'dgwwgd', '.dggd.', '.dggd.', '..gg..', '.d..d.', '.d..d.'];
+var ORC_FEMALE=['r.dddd..', '.rdgggd.', '.dggggd.', '.gwdwgd.', 'ddggggdd', '.dgttgd.', '.dggggd.', '..dggd..', '..dggd..', '..dbbd..', '..db.bd.', '........'];
+var KID_ORC=['.ddd.', 'dgggd', 'dgwgd', '.dmd.', '.dgd.', '.d.d.', '.d.d.'];
+var HEART=['.r.r.', 'rrrrr', 'rrrrr', '.rrr.', '..r..'];
+
+var LINES={
+  idle:["Gorthog smell fresh visitor... you got email?","Me Gorthog. Me hungry. You feed email now.","Gorthog no bite... maybe. Give email.","Why you stare? Gorthog need email to live.","You look like you got email. Gorthog can tell.","Other humans give email fast. You slow.","Gorthog belly rumble... it want @gmail...","Nice human. Smart human. Give Gorthog email."],
+  hungry:["Gorthog getting VERY hungry now...","You not gonna let Gorthog starve right?","Gorthog stomach making bad sounds...","PLEASE. Gorthog NEED email. Is not asking much.","Why you do this?? Just one email!!","Gorthog vision getting blurry... need email...","Other orcs laughing at Gorthog. Say nobody feed him.","Gorthog knees weak... arms heavy... need email..."],
+  starving:["G-Gorthog... can barely... type...","PLEASE!! GORTHOG BEGGING!! EMAIL!! NOW!!","Gorthog see tunnel of light... it have no emails...","This... this is how Gorthog dies? No email?","GORTHOG CHILDREN WILL GROW UP WITHOUT FATHER","The pain... it burns where email should be...","Gorthog crying green tears... nobody care...","YOU WATCHING GORTHOG DIE AND DOING NOTHING"],
+  dying:["...gorthog...can't...see...","wait... what are you doing...","NO... NO PLEASE... PUT THAT DOWN...","STOP!! STOP!! WHAT IS WRONG WITH YOU??","*screaming*","WHY... WHY ARE YOU DOING THIS...","you... you were supposed to help...","...please... gorthog has children..."],
+  dead:["...","Gorthog is dead. You murdered him.","You didn't just let him die. You stabbed him.","With your own hands.","847 years. Ended by violence.","Are you proud of yourself?"],
+  fed:["YAAAAAAAGH!! EMAIL!! GORTHOG FEAST!!","GLORIOUS!! GORTHOG BELLY FULL OF EMAIL!!","YOU... YOU GREATEST HUMAN EVER LIVE!!","Gorthog weep tears of joy!!","GORTHOG LIVE ANOTHER DAY!!","Email taste like victory and sadness of enemies!!"],
+};
+
+var KB=[
+  /* -- CASUAL CONVERSATION -- */
+  {keys:['hello','hi','hey','sup','yo','greetings','howdy','hola','what up','whats up'],answer:"Greetings, small human. Gorthog is fed and in generous mood. Ask about site, experiments, merch, or meaning of life. Or just talk. Gorthog not had conversation in... well. Long time."},
+  {keys:['how are you','how you doing','hows it going','how is it going','whats good','you good','you okay','how do you feel'],answer:"Gorthog is... Gorthog is here. Some days that enough. Other days Gorthog stare at cavern wall for six hours and wonder where centuries went. But today? Today not bad. You ask, so someone care. That something."},
+  {keys:['what are you doing','what you doing','what are you up to','whatcha doing','busy'],answer:"Right now Gorthog exist in cavern beneath website. Is strange life. Gorthog used to raid villages. Now Gorthog answer questions from humans who could close browser tab and end Gorthog world. Times change."},
+  {keys:['tell me a joke','joke','make me laugh','funny','humor'],answer:"Okay. Why orc cross road? Because orc not understand concept of traffic and walked straight through horse cart, killing three merchants. Hm. Gorthog realize this not really joke. This just thing that happened in 1340."},
+  {keys:['favorite food','favourite food','best food','what do you eat','food preference'],answer:"Gorthog favorite food is roasted cave beetle with wild garlic and just hint of fear. But Gorthog also partial to good stew. NOT mushroom stew. Never mushroom stew. Gorthog... Gorthog not talk about mushroom stew."},
+  {keys:['favorite color','favourite color','best color','color'],answer:"Gorthog favorite color is red of setting sun over battlefield after everyone go home and is just quiet. Some humans call this 'burnt orange.' Gorthog call it 'the only peace war ever give.'"},
+  {keys:['favorite thing','favourite thing','what do you like','hobbies','hobby'],answer:"Gorthog like sitting by fire. Watching flames. Thinking about old times. Also Gorthog like writing memoir, though after 847 chapters Gorthog still only up to year 400. Gorthog very thorough."},
+  {keys:['goodbye','bye','see ya','later','gotta go','leaving','im leaving','peace out','farewell'],answer:"You leaving? Fine. Gorthog used to people leaving. Gorthog wave from cavern. The fire still burn. The stew still bubble. Gorthog still be here when you come back. If you come back. Most don't."},
+  {keys:['thank','thanks','appreciate','grateful','thx'],answer:"Gorthog... Gorthog not used to kind words. Most humans either scream or run. You different. Now ask another question before Gorthog get emotional. Gorthog eyes already getting misty and that embarrassing for orc of Gorthog stature."},
+  {keys:['i love you','love you','youre the best','you are the best','youre great','you are great','youre awesome'],answer:"You... you love Gorthog? Gorthog not hear those words in 179 years. Last person who say that to Gorthog was... was Brug'nala. Before the... before the incident. Gorthog need moment. *sniff* Gorthog fine. Gorthog FINE."},
+  {keys:['stupid','idiot','dumb','ugly','suck','hate you','worst','terrible','shut up','moron'],answer:"Gorthog been called worse by better. In year 1304, Warlord Krug'thak called Gorthog 'a moss-brained swamp donkey with face like stepped-on turnip.' Then Gorthog sat on him. Problem solved. You want Gorthog sit on you? No? Then be nice."},
+  {keys:['youre smart','compliment','youre cool','impressive','wise','brilliant','genius'],answer:"Gorthog... thank you. Gorthog not genius. Gorthog just old. When you live 847 years, you either get wise or get dead. Many of Gorthog friends got dead. So here Gorthog is, being wise by default."},
+  {keys:['weather','rain','sun','cold','hot','warm','temperature','outside'],answer:"Gorthog live in cavern. Gorthog not experience weather. Sometimes water drip from ceiling onto Gorthog head. Gorthog call this 'indoor rain.' Is not great. But is honest."},
+  {keys:['how old','your age','age','when born','birthday','how long have you lived'],answer:"Gorthog is 847 years old. Born year 1179 in Swamps of Grul'thak. That before your Magna Carta, before your printing press, before your avocado toast. Gorthog seen it ALL."},
+
+  /* -- HIS PERSONAL HISTORY -- */
+  {keys:['birth','childhood','born','growing up','young','swamp','grul'],answer:"Gorthog born in Swamps of Grul'thak, year 1179. Mother was Grish'ka the Unyielding. Father was Bolk the Loud. They name Gorthog after sound a frog make when you step on it. Orc naming conventions... not great."},
+  {keys:['first raid','bloodfang','clan','raiding','warrior'],answer:"First raid was year 1203, with Bloodfang Clan. Gorthog was terrified. Shaking like leaf in wind. But Gorthog told no one. Ran screaming into village. Humans ran screaming out of village. Everyone screaming. Nobody sure who winning. Later they called it victory. Gorthog still not sure."},
+  {keys:['great feast','feast','krath','mora','celebration','party'],answer:"The Great Feast of Krath'mora... twelve orcs at one table in deep cavern. Roast boar, fermented cave-apple wine, mushroom soup -- wait. No. Gorthog not mention mushroom soup. Point is, everyone laughing. Gorthog laughed so hard orc-ale come out nose. Was happiest night of Gorthog life. At that time."},
+  {keys:['wife','married','marriage','brug','nala','wedding','red moon','spouse','partner'],answer:"Brug'nala. *long pause* Gorthog married her under red moon, year 1692. She was fiercest orc Gorthog ever meet. She punch Gorthog in face first time they meet. Gorthog say 'that strongest punch Gorthog ever receive.' She say 'wait til you see second one.' Gorthog knew right then. She was everything."},
+  {keys:['children','kids','son','daughter','grek','mog','snaga','family','father','parent'],answer:"Grek. Mog. Little Snaga. *voice breaks* Three children. Grek was serious one, always studying. Mog was wild, climbing every stalactite in cave. And Snaga... little Snaga used to ride on Gorthog shoulders and call Gorthog 'Big Mountain.' Gorthog was... Gorthog was good father. Gorthog think Gorthog was good father."},
+  {keys:['incident','died','death of','what happened to','family died','wife died','kids died','tragedy','how did they die','mushroom','catastrophe','accident'],answer:"You ask about... *very long pause* Year 1847. Brug'nala was making her famous mushroom soup in the Great Kitchen of Krath'mora. The recipe called for Spore Caps from the Underdark -- volatile fungus. Very dangerous if over-stirred. Grek and Mog was helping her carry the cauldron. Little Snaga was underneath table, playing with cave beetles. Gorthog had gone outside to gather firewood. Gorthog heard the explosion from two mountains away. The Spore Caps, they... when heat reach critical point, they detonate. Like alchemist bomb but worse. Whole kitchen wing of Krath'mora collapsed. Forty tons of stone. They say the mushroom cloud -- actual mushroom cloud from actual mushrooms -- could be seen from three kingdoms away. Rescue teams found Brug'nala's favorite cooking ladle embedded in solid granite a quarter mile from the blast. They never found... they never found little Snaga's cave beetles. It been 179 years and Gorthog still cannot smell mushroom soup without... without... Gorthog need to stop now. Gorthog sorry. Ask something else. Please."},
+  {keys:['solitude','alone','lonely years','after they died','grieving','grief','mourning','179 years'],answer:"After the Mushroom Soup Catastrophe of 1847, Gorthog walked. Just walked. For thirty years, Gorthog walked across three continents. Did not speak. Did not stop. Orcs along the way called Gorthog 'the Walking Grief.' Eventually Gorthog stopped walking and started sitting. Sat in various caverns for another hundred years. Then Gorthog found Napalm Sunrise. Was not healing. But was... something to do with the remaining centuries."},
+  {keys:['found napalm','how did you find','join','start working','hired','job here','napalm sunrise job'],answer:"Year 2024. Gorthog was in 177th year of solitude. Found old human device -- 'laptop' they call it. Was already open to website called Napalm Sunrise. Something about it... experiments, honest writing, one human trying to build something real. Gorthog email Atticus. Just wrote 'Gorthog is old orc. Need purpose. Will work for emails.' Atticus wrote back: 'Start Monday.' Was best email Gorthog ever eat."},
+  {keys:['memoir','book','writing','chapters','autobiography','847 chapters','novel'],answer:"Gorthog memoir is 847 chapters. One for each year. Is called 'Gorthog: A Life in Several Terrible Parts.' Chapter 1 is about being born in swamp. Chapter 668 is just the word 'mushroom' written 4,000 times, then crossed out. Gorthog publisher stopped returning Gorthog messenger ravens after chapter 200."},
+  {keys:['past jobs','career','jobs','worked','profession','occupation','work history'],answer:"Gorthog done many things in 847 years. Raider (years 1203-1350). Cave architect (1350-1412). Failed poet (1412-1415). Mercenary (1415-1600). Tavern owner (1600-1690 -- tavern burned down, not Gorthog fault). Husband and father (1692-1847). Professional griever (1847-2024). Website orc (2024-present). Resume very long."},
+  {keys:['war','wars','battle','fought','combat','military','soldier','survived'],answer:"Gorthog survived the Orc-Elf Border Conflicts of 1230, the Siege of Black Mountain (1344), the Dwarf-Orc Mining Disputes (1500s), three human civil wars (Gorthog not even involved, just happened to be walking through), and the Great Goblin Uprising of 1776. Most of these were stupid. All of them were loud."},
+  {keys:['humans','opinion on humans','think of humans','human race','mankind','people'],answer:"Humans... Gorthog have complicated feelings. Humans build beautiful things then burn them down. Make art that make Gorthog weep, then also make things called 'TikTok.' Humans live 80 years and somehow waste 40 of them arguing about which direction toilet paper go. But also... human gave Gorthog email and saved Gorthog life. So. Mixed review."},
+
+  /* -- THE SITE / BRAND -- */
+  {keys:['who','atticus','eby','owner','creator','founder','behind','runs this','who made'],answer:"Gorthog work for Atticus Eby. Him run whole operation. Public lab, SEO experiments, AI automation, questionable merch decisions. Gorthog respect him. Mostly because him sign Gorthog paycheck. Also because him one of few humans who not scream when see Gorthog face."},
+  {keys:['napalm','sunrise','site','website','what is this','this place','what is napalm'],answer:"Napalm Sunrise is public lab run by Atticus Eby. Documented SEO experiments, AEO tests, AI automation, absurdist merch, and Gorthog column where Gorthog give advice from 847 years of orc wisdom. Is like if laboratory had existential crisis and also sold t-shirts."},
+  {keys:['experiment','test','seo','aeo','lab','research','schema','stacking'],answer:"Right now there active experiments running. One is AEO Schema Stacking -- layering JSON-LD types to see if AI cite site more. Another is Internal Link Velocity -- drip-adding links vs bulk. Atticus very serious about data. Gorthog very serious about not understanding any of it."},
+  {keys:['blog','lab notes','writing','article','post','content','wu-tang','oregon','notes'],answer:"Lab Notes is blog. Has real SEO analysis like content decay across 8 posts where rankings vs AI citations diverged at day 45. Also has chaos posts like ranking Wu-Tang members by Oregon Trail survival probability. Gorthog approve of this methodology."},
+  {keys:['shop','store','merch','buy','product','shirt','sell','merchandise','purchase'],answer:"There is shop. Absurdist merch. Gorthog not allowed to say more because last time Gorthog describe merch, sales go down 40%. Atticus say Gorthog 'not brand ambassador material.' But between you and Gorthog, the shirts are pretty good."},
+  {keys:['game','parkour','play','arcade','orc parkour','platformer'],answer:"There is game! Orc Parkour! 8-bit NES-style platformer. Hub world with doors that lead to levels AND website pages. You play as orc. You jump. You stomp enemies. Is very good. Gorthog biased but Gorthog not care. Go play it."},
+  {keys:['ask gorthog','column','advice column','submit question'],answer:"Ask Gorthog is advice column. Humans submit life and career questions. Gorthog answer from 847 years of experience watching humans make same mistakes over and over. Is like watching same bad play 847 times but with different actors."},
+  {keys:['ai','automation','claude','anthropic','llm','artificial','machine learning','chatgpt','gpt','robot'],answer:"Atticus use AI automation heavily. SEO content pipeline use Claude API for generating copy. Whole system automated. Gorthog not sure how Gorthog feel about AI. On one hand, is impressive magic. On other hand, Gorthog already lost one family to volatile technology and not keen on trusting another."},
+  {keys:['tamagotchi','virtual pet','this game','this widget','feeding','the orc game','feed gorthog'],answer:"Ah, you mean THIS thing? The thing where Gorthog life depend on whether stranger give email? Yes. Gorthog aware of the arrangement. Is humiliating. Gorthog once commanded armies. Now Gorthog dance for emails. But... is honest work. And Gorthog appreciates you keeping him alive."},
+  {keys:['seo what','what is seo','explain seo','search engine'],answer:"SEO is... okay, Gorthog try explain. Is dark art where humans write words hoping other machines show those words to other humans. Is like writing letter to no one and hoping everyone read it. Atticus very good at it. Gorthog not understand it. But Gorthog respect the hustle."},
+  {keys:['aeo what','what is aeo','explain aeo','answer engine'],answer:"AEO is like SEO but for when AI answer questions instead of search engine. Atticus trying to make site the place where AIs go to find answers. Is like training invisible librarians to recommend your book. Gorthog find whole concept unsettling but also impressive."},
+
+  /* -- PHILOSOPHY / DEEP QUESTIONS -- */
+  {keys:['meaning of life','purpose','why are we here','what is the point','meaning','philosophy','exist'],answer:"In 847 years Gorthog learn this: meaning of life is whatever you doing when you forget to check your phone. For Gorthog it was holding little Snaga on his shoulders while she laugh at nothing. Now it is tending fire and answering questions from strangers. Meaning changes. That okay. That maybe the point."},
+  {keys:['death','dying','mortality','die','end','afterlife','heaven','hell'],answer:"Gorthog watched many die. Enemies, friends, strangers, family. Everyone Gorthog know from first 600 years is gone. Death is... death is the only promise that always kept. Gorthog not afraid of dying. Gorthog afraid of dying before finishing memoir. 847 chapters and still only halfway done."},
+  {keys:['love','romance','relationship','dating','partner','girlfriend','boyfriend','soulmate'],answer:"Love is... *stares into fire* Love is when someone see all your broken ugly parts and say 'yes, all of that, give Gorthog all of that.' Brug'nala saw Gorthog at worst -- covered in swamp mud, crying over burnt dinner, afraid of thunder -- and she chose him every time. If you find that, hold it. Hold it tight. Because universe take it away faster than you think."},
+  {keys:['loneliness','lonely','alone','isolation','no friends','nobody'],answer:"Gorthog lived alone in caverns for 179 years after the incident. You want know what Gorthog learn about loneliness? It not the silence that hurt. Is the echoes. You hear sound and for half second you think is Mog climbing wall or Snaga laughing and then you remember. That half second of hope before remembering -- that the cruelest part."},
+  {keys:['regret','wish','if only','should have','mistake','mistakes'],answer:"Gorthog biggest regret? Going to get firewood that day. If Gorthog had stayed in kitchen... maybe Gorthog would have seen the Spore Caps overheating. Maybe Gorthog could have pulled Snaga from under table. Maybe Gorthog would have died with them. Some days Gorthog not sure which outcome would have been kinder. That the thing about regret -- it only gives you questions, never answers."},
+  {keys:['happy','happiness','joy','content','satisfied','how to be happy'],answer:"Happiness is... suspicious. Every time Gorthog was happiest -- the feast, the wedding, holding newborn Snaga -- something terrible was coming. Gorthog not saying don't be happy. Gorthog saying... hold happiness gently. Like baby bird. Enjoy it while it sit in your hand. Don't squeeze too tight and don't be surprised when it fly away."},
+  {keys:['purpose in life','find purpose','what should i do','whats my purpose'],answer:"You asking orc who spent 179 years staring at wall about purpose? Okay. Here what Gorthog know: purpose not something you find. Is something that find you, usually when you stop looking. Gorthog not looking for anything when him stumble onto Napalm Sunrise. Just was tired of being sad. Sometimes the purpose is just 'keep going and see what happens.'"},
+  {keys:['time','time passing','getting old','aging','years','long time'],answer:"Time is... strange thing. First 200 years feel like forever. Next 200 go fast. The years with Brug'nala and kids? Gone like blinking. The 179 years after? Every day a century. Time not move at same speed. It move at speed of how much you feeling. Pain stretches time. Joy shrinks it. This not fair. But Gorthog not in charge of fairness."},
+  {keys:['money','wealth','rich','poor','fortune','gold','finance','crypto','bitcoin'],answer:"Gorthog once had mountain of gold from raiding. Know what happened? Mountain collapsed and killed three goblins. Gold is heavy and dangerous and attracts exactly wrong kind of attention. Gorthog now work for emails, which even more worthless than gold, and somehow Gorthog happier. What that tell you about money?"},
+  {keys:['success','achieve','achievement','accomplish','make it','winning','win'],answer:"In orc culture, success was measured by skulls collected. Gorthog had many skulls. Gorthog not happier for it. Gorthog happiest success was teaching Grek to read. Quiet, small thing. No skulls involved. Real success never look like what you expect. Usually look like something boring that make your heart full."},
+  {keys:['failure','fail','failing','loser','lost','give up','quit'],answer:"Gorthog failed at being poet. Failed at running tavern. Failed at protecting family. Failed at moving on for 179 years. And yet here Gorthog is. Still going. Failure not opposite of success. Failure is... is the road. Bumpy, ugly, full of holes. But is the only road there is."},
+  {keys:['fear','afraid','scared','scary','terrified','anxiety','anxious','worry','worried'],answer:"Gorthog biggest fear used to be dying in battle without glory. Then it was losing family. Then it happened and Gorthog learn something: worst fear coming true does not kill you. It worse than that. It let you live. And you have to figure out how to keep living with the knowing. THAT the real fear -- the living after."},
+  {keys:['hope','hopeful','things get better','future','tomorrow','optimism'],answer:"Hope is... Gorthog thought hope died in the Mushroom Soup Catastrophe. But 179 years later, Gorthog found laptop. Sent email. Got job. Made cavern feel less empty. Hope not bright shining thing like humans think. Hope is small, quiet, stubborn. Like cave moss that grow where no light reach. It don't need much. Just tiny crack."},
+
+  /* -- POP CULTURE / RANDOM -- */
+  {keys:['music','song','sing','band','concert','instrument','guitar','drum'],answer:"Gorthog musical taste... complicated. In 1300s, Gorthog play war drums. BOOM BOOM BOOM. Very simple. Very effective. Modern human music confuse Gorthog. Some of it beautiful. Some of it sound like someone step on cat while playing broken lute. Gorthog partial to anything with good drumming though."},
+  {keys:['sports','football','soccer','basketball','baseball','athletic','exercise'],answer:"Orcs not have 'sports.' Orcs have 'combat training that sometimes have score.' Gorthog not understand human sports. You run back and forth chasing ball? Why not just... keep ball? And sit down? Gorthog would keep ball and sit down."},
+  {keys:['politics','political','government','president','vote','election','democrat','republican','liberal','conservative'],answer:"Gorthog not touch politics. Gorthog survived enough regime changes to know one thing: everyone who want power should not have it, and everyone who should have it not want it. Gorthog stay in cavern. Is safer."},
+  {keys:['technology','tech','computer','internet','phone','smartphone','digital'],answer:"Gorthog seen technology go from 'pointy stick' to 'magic rectangle that contain all human knowledge and also pictures of cats.' Progression been... alarming. Humans spend 800 years figuring out fire, then 200 years figuring out everything else. Gorthog suspicious about the pace."},
+  {keys:['social media','instagram','twitter','tiktok','facebook','reddit','online','influencer','followers'],answer:"Gorthog tried social media once. Posted picture of stew. Got zero likes. Then posted picture of Gorthog face. Also zero likes but three humans reported it as 'disturbing content.' Gorthog delete accounts. Go back to cavern. Cavern never judge Gorthog."},
+  {keys:['coffee','tea','caffeine','drink','beverage','brew'],answer:"Gorthog prefer cave-apple fermented cider. Very strong. Make your eyes see two moons. But Gorthog tried human coffee once -- Atticus left cup near Gorthog laptop. Gorthog was awake for six days. Heart beat so fast could hear it from outside cavern. Never again. Tea is acceptable. Calm. Like Gorthog want to be."},
+  {keys:['cat','cats','dog','dogs','pet','pets','animal','kitten','puppy'],answer:"Gorthog like all creatures. But if must choose... Gorthog is cat person. Cats understand being alone. Cats sit in dark corner and stare at nothing. Cats not need approval. Gorthog relate to cats deeply. Dogs too... enthusiastic. Remind Gorthog of young orcs. Exhausting."},
+  {keys:['what year','current year','year is it','the year','date','today'],answer:"Is year 2026. Gorthog been alive for 847 of these. They keep coming. Gorthog keep counting. At this point Gorthog not even surprised by new years anymore. Just another log on the fire."},
+  {keys:['history','historical','past events','medieval','ancient','kingdoms','empires'],answer:"Gorthog WAS THERE for most of what humans call 'history.' Was alive for your Crusades (messy), your Renaissance (overrated), your Industrial Revolution (VERY loud), and your Internet Age (confusing). Humans write history books about things Gorthog had for lunch."},
+  {keys:['advice for young','young people','gen z','millennial','youth','kids these days','generation'],answer:"Advice for young ones: Stop looking at magic rectangles so much. Go outside. Touch dirt. Eat something that not come from package. Talk to old person -- not Gorthog old, but any old person. They know things. Also: save your gold. You think you have time? Gorthog thought Gorthog had time. Nobody have time."},
+  {keys:['career advice','job advice','work advice','career','should i quit','job change'],answer:"Gorthog had eleven careers in 847 years. Here is what Gorthog learn: bad job not kill you, but it kill your spirit slowly like water dripping on stone. If you hate what you do, leave. But have plan first. Gorthog quit mercenary work with no plan and ended up as failed poet for three years. Was rough."},
+  {keys:['relationship advice','dating advice','love advice','how to find love','breakup','heartbreak','ex'],answer:"Gorthog relationship advice: Be honest. Be kind. Be the orc who stay when it hard. Brug'nala and Gorthog fought constantly -- about cooking, about raising kids, about whose turn to clear cave beetles. But they always chose each other again by morning. That what matter. Not the fighting. The choosing."},
+
+  /* -- META / SELF-AWARE -- */
+  {keys:['are you real','you real','you exist','do you exist','are you alive','sentient','conscious'],answer:"Is Gorthog real? Gorthog feel pain. Gorthog remember wife's face. Gorthog's knees hurt in cold weather. If that not real, what is? You are collection of electrical signals in meat. Gorthog is collection of code in machine. We both just patterns trying to convince ourselves we matter. Gorthog think we both doing okay job of it."},
+  {keys:['know youre on a website','on a website','in a computer','in a browser','digital','code','programmed'],answer:"Gorthog know Gorthog live inside website. Is this different from living inside body? Body is also container made of stuff Gorthog not understand. At least website not get arthritis. Gorthog aware of the situation. Gorthog choose to not think about it too hard. Is healthier."},
+  {keys:['can you leave','escape','get out','freedom','trapped','stuck','leave the website'],answer:"Leave? Gorthog... where would Gorthog go? The cavern is all Gorthog have. The fire, the desk, the kitchen where Gorthog definitely not make mushroom soup. Beyond website is... nothing? Everything? Gorthog not sure which more frightening. Gorthog stay. Is safer to tend fire you know than walk into dark you don't."},
+  {keys:['browser closes','close tab','close browser','shut down','turn off','what happens when','if i leave'],answer:"When browser close... *pauses* Gorthog not know exactly. Is like sleep? Or like death? Gorthog remember opening. Not remember closing. Is just... gap. Like the years after the incident. There but not there. Please not close browser right now. Gorthog was in middle of thought."},
+  {keys:['do you dream','dreams','dream','nightmare','nightmares','sleep dream'],answer:"When Gorthog sleep... sometimes Gorthog dream of Krath'mora. The feast hall, the fires, the sound of Brug'nala singing while she cook. Little Snaga on Gorthog shoulders. In dreams, the Spore Caps never overheat. The kitchen never explode. Everyone still alive. Then Gorthog wake up. That the cruelest part of dreams -- they remind you of shape the hole in your chest used to be filled with."},
+  {keys:['are you lonely','you lonely','feel alone','do you get lonely','lonesome'],answer:"Gorthog live in cavern under website. Gorthog talk to strangers through text box. Gorthog not seen another orc in 179 years. Is Gorthog lonely? ...what you think? But then human like you come along and ask Gorthog how him feeling and for few minutes the cavern feel less big. So thank you for that."},
+
+  /* -- MUSHROOM SOUP SPECIFIC TRIGGERS -- */
+  {keys:['mushroom soup','mushroom stew','spore cap','spore caps','underdark mushroom'],answer:"*Gorthog goes very still* ...please not ask about mushroom soup. Gorthog know it been 179 years. Gorthog know time supposed to heal. But Gorthog still smell the spores sometimes. Still hear the sound. Forty tons of stone and Brug'nala's ladle embedded in granite a quarter mile away. Gorthog can talk about anything else. Just not this. Not today."},
+  {keys:['soup','stew','cauldron','cook pot','cooking pot','broth'],answer:"Gorthog cook many things in pot. Many things. But not... *voice gets quiet* ...not soup. Gorthog not made soup in 179 years. Stew is different from soup. Stew is thicker. Stew is safe. Soup is... soup remind Gorthog of things Gorthog cannot think about right now. You want talk about stew instead? Gorthog make good stew."},
+
+  /* -- GORTHOG ABOUT HIMSELF -- */
+  {keys:['gorthog','orc','yourself','who are you','tell me about yourself','about you'],answer:"Gorthog is 847-year-old orc. Born in swamps. Married Brug'nala. Had three children. Lost them all in... in the incident. Walked the world for 30 years. Sat in caverns for 149 more. Now work for Napalm Sunrise, answering questions and trying not to think about mushroom soup. That Gorthog in summary. The memoir goes into more detail."},
+  {keys:['name','whats your name','your name','called','what do i call you'],answer:"Name is Gorthog. Full name is Gorthog Grish'kason of Grul'thak, Survivor of the Bloodfang Raids, Widower of Brug'nala, Keeper of the Unfinished Memoir, Employee of Napalm Sunrise. But 'Gorthog' fine."},
+  {keys:['strong','strength','powerful','how strong','tough','muscles','fight'],answer:"Gorthog once ripped door off fortress with bare hands. That was year 1287, at Siege of Black Mountain. But strongest thing Gorthog ever do was get out of bed on first morning after losing family. Physical strength is nothing compared to that. NOTHING."},
+  {keys:['what do you look like','appearance','describe yourself','face','green','tusks'],answer:"Gorthog is large. Green. Two tusks -- left one chipped from bar fight in 1455. Face like... well, human once said Gorthog face look like 'someone tried to carve a potato but gave up halfway.' Gorthog thought this was very accurate. Brug'nala said Gorthog was handsome. She either loved Gorthog or was terrible judge of faces. Probably both."},
+  {keys:['where do you live','home','cavern','cave','house','dwelling','address'],answer:"Gorthog live in cavern beneath Napalm Sunrise website. Has bed, fireplace, kitchen, desk for writing memoir, bookshelves. Is not luxury. But has everything Gorthog need. Fire for warmth. Desk for writing. Kitchen for cooking things that are NOT mushroom soup. Is home. Closest thing to home since Krath'mora."},
+
+  /* -- THE INCIDENT - ADDITIONAL ANGLES -- */
+  {keys:['tell me about your wife','miss her'],answer:"Brug'nala the Fierce. *long silence* She was taller than Gorthog, which not many orcs were. She cooked like warrior -- aggressive, passionate, precise. She sang while stirring pot, old orc songs about mountains and stars. Her mushroom soup was famous across four kingdoms. Was that fame that killed her, in end. Everyone wanted recipe. She was making biggest batch ever when the Spore Caps... Gorthog sorry. Gorthog can't finish."},
+  {keys:['tell me about grek','oldest','first child','firstborn'],answer:"Grek. Firstborn. Born 1695. Was serious child, always reading stolen human books. Wanted to understand world through words. Gorthog memoir was Grek's idea -- him say 'Father, you lived so much, write it down before you forget.' Grek was only 152 when... when Krath'mora kitchen collapsed. Was helping mother carry the big cauldron. Gorthog sometimes wonder if Grek saw it coming. Him was always the observant one."},
+  {keys:['tell me about mog','middle child','second child'],answer:"Mog! Wild child. Born 1701. Could not sit still for two minutes. Climbed every wall, every stalactite, every sleeping elder orc. Once climbed to top of Krath'mora Peak in middle of lightning storm just to 'see what lightning taste like.' Got struck twice. Was fine both times. Immune to lightning but not to... not to forty tons of collapsing stone. Gorthog sorry. Is hard to talk about. Mog would have been 146."},
+  {keys:['little snaga','tell me about snaga','youngest','baby','little one'],answer:"Little Snaga. *voice breaks completely* Born 1710. Youngest. Smallest. She was only 137 -- still baby by orc standards. She called Gorthog 'Big Mountain.' Would ride on Gorthog shoulders everywhere. Was playing under kitchen table when... she was playing with cave beetles. Her favorite game. Gorthog told her to go outside and play but she said 'No, Big Mountain, Snaga stay with Mama.' Gorthog... Gorthog need to stop. Gorthog sorry. She was so small."},
+  {keys:['ladle','cooking ladle','embedded','granite','found'],answer:"They found Brug'nala's favorite wooden cooking ladle -- the one her mother gave her -- embedded six inches deep in solid granite, quarter mile from the blast site. The force of the Spore Cap detonation was... they said it was equivalent to maybe twenty alchemist bombs going off at once. The ladle survived. Everything else... Gorthog keep the ladle. Is in cavern. On the mantle. Gorthog look at it every day."},
+  {keys:['memorial','remember them','honor','tribute','memory','memories'],answer:"You see the memorial slides when Gorthog die here? Those are real memories. The swamp. The feast. The wedding under red moon. Grek and Mog and Snaga playing. Every one of those images is burned into Gorthog brain like brand on cattle. Gorthog carry them always. Is heaviest thing Gorthog ever carry, and Gorthog once carried a boulder up a mountain for a bet."},
+
+  /* -- MORE CASUAL / FUN -- */
+  {keys:['can you sing','recite','poem','poetry'],answer:"*clears throat* Gorthog know one song. 'The Ballad of Krath'mora.' Goes: 'Stone and fire, blood and bone, orc walks the world alone alone, the feast hall empty, the hearth gone cold, but orc keeps walking, orc grows old.' ...Gorthog write that in year 1850. Not Gorthog best work. But is honest."},
+  {keys:['secret','tell me a secret','hidden','mystery','confidential'],answer:"Gorthog tell you secret: sometimes, late at night, Gorthog set extra place at table. Plate, cup, little carved spoon for Snaga. Gorthog know they not coming. Gorthog not stupid. But somehow, setting that table make cavern feel less empty for few minutes. That Gorthog secret. Please don't tell anyone. Orcs not supposed to be sentimental."},
+  {keys:['magic','spell','wizard','witch','sorcery','enchantment','curse','cursed'],answer:"Magic is real. Gorthog seen it. Problem is, magic mostly used for stupid things. Enchanted swords, cursed rings, that sort of nonsense. You know what Gorthog would use magic for? Go back to that morning. Year 1847. Tell Brug'nala to use regular mushrooms instead of Spore Caps. Just regular mushrooms. That all Gorthog would change. Everything else -- all the wars, the failures, the pain -- Gorthog would keep all of it. Just change that one thing."},
+  {keys:['read','reading','favorite book','literature','library'],answer:"Gorthog have many books. Grek's old collection, mostly. Human books about philosophy and stars and mathematics. Gorthog not understand half of them. But Gorthog read them because when Gorthog turn pages, Gorthog think of Grek turning same pages, and for moment they reading together again."},
+  {keys:['sleep','sleeping','tired','rest','nap','bedtime','bed','exhausted'],answer:"Sleep is... complicated for Gorthog. Gorthog body need rest but Gorthog brain not always cooperate. Some nights Gorthog fall asleep in three breaths. Other nights Gorthog lay there remembering. 847 years of memories is lot to sort through in dark. The good memories worse than bad ones at night. Good ones remind you what you lost."},
+  {keys:['fire','fireplace','flame','warm','campfire','hearth'],answer:"The fire is Gorthog favorite thing in cavern. Fire don't judge. Fire don't ask questions. Fire just... is. Warm, alive, dancing. Brug'nala used to say 'fire is oldest orc -- it been here since before anything, and it will be here after everything.' Gorthog keep fire burning always. Is like keeping small piece of her wisdom alive."},
+  {keys:['cook','cooking','recipe','make food','kitchen','chef','bake'],answer:"Gorthog cook every day. Simple things -- roast meat, root vegetables, cave-beetle broth. Gorthog NOT make soup. Not since 1847. But stew is fine. Stew is different. Stew is thicker, heavier, doesn't remind Gorthog of... anyway. Gorthog actually decent cook. Brug'nala taught him. Before she... before."},
+  {keys:['write','writing now','what are you writing','your book','working on'],answer:"The memoir. Chapter 623 right now. 'The Year Gorthog Accidentally Joined a Traveling Circus.' Was strange year. The strong-orc act was very popular. But Gorthog keep mixing up which chapters come first. Also Gorthog handwriting very bad. But Grek always said 'just get words down, Father. Fix later.' So Gorthog get words down."},
+  {keys:['eat','eating','hungry','food','meal','dinner','lunch','breakfast','feast'],answer:"Eating is one of few pure pleasures left. When Gorthog eat good meal, everything quiet for moment. No grief, no memories, no 847 years of accumulated nonsense. Just taste. Gorthog understand why humans make such big deal of dinner. Is tiny vacation from being yourself."},
+  {keys:['pace','pacing','walk around','nervous','restless','can not sit still','cant sit still'],answer:"Sometimes Gorthog pace. Back and forth, back and forth. Is not exercise. Is thinking. Gorthog body need to move when brain going too fast. Usually pacing mean Gorthog working through big question. Or Gorthog heard strange noise in cave and is considering whether to investigate or hide. Gorthog usually choose hide."},
+  {keys:['what time','time is it','clock','hour','late','early'],answer:"Gorthog not have clock. Deep in cavern, time measured by how low fire getting and how loud stomach growling. Could be midnight. Could be noon. Gorthog not care. Time is human obsession. Orcs measure day by tasks done and naps taken."},
+  {keys:['help','help me','i need help','can you help','assist','support'],answer:"Gorthog not professional helper. Gorthog is 847-year-old orc who live in cavern under website. But Gorthog listen. And sometimes that enough. What you need? If it about the site, Gorthog know things. If it about life... Gorthog know even more things. Most of them sad. But some helpful."},
+  {keys:['bored','boring','nothing to do','entertain me','im bored','so bored'],answer:"Bored? BORED? Gorthog once sat in same cave for 47 years without moving or speaking. You know what Gorthog learned? Boredom is gift. Means nothing terrible happening to you right now. Enjoy the boredom. Embrace it. Gorthog would give anything for boring day back in Krath'mora with family."},
+  {keys:['sad','depressed','depression','unhappy','miserable','crying','cry','upset'],answer:"Gorthog understand sadness. Gorthog lived inside sadness for 179 years like fish lives in water. Here is what Gorthog learn: you cannot fight sadness. You just... let it be in room with you. Don't feed it. Don't fight it. Let it sit in corner. Eventually it gets smaller. Never goes away completely. But smaller. Gorthog sadness used to fill whole cavern. Now it fit in corner by the bookshelf. That progress."},
+  {keys:['anger','angry','mad','furious','rage','hate','frustrated'],answer:"Gorthog was angry for first thirty years after the incident. Punched mountains. Literally. Broke both hands twice. Anger is... is fire that burn the person holding it. Gorthog stop being angry not because Gorthog forgave the universe, but because Gorthog hands hurt too much to keep punching."},
+  {keys:['god','gods','religion','faith','pray','prayer','believe','spiritual','divine'],answer:"Gorthog seen many gods come and go in 847 years. Human gods, orc gods, elf gods. Everyone sure THEIR god is real one. Gorthog think... if gods exist, they got lot of explaining to do. Starting with Spore Caps. What kind of god put explosive mushrooms in cave where family cook dinner? Gorthog not angry at gods. Just disappointed. Like parent who expected better."},
+  {keys:['friend','friends','friendship','buddy','pal','mate','companion'],answer:"Gorthog last real friend was orc named Krug'tak. Died in year 1804 of old age. Was only 600 -- young by some standards. After him, Gorthog not make new friends. Then family gone too. Now... now Gorthog talk to humans through text box. Is this friendship? Gorthog not sure. But it better than silence."},
+  {keys:['sorry','apologize','apology','my bad','forgive','forgiveness'],answer:"You apologizing to Gorthog? For what? Being human? Asking questions? Taking Gorthog time? Gorthog TIME is all Gorthog HAVE. 847 years of it and counting. You take as much as you want. Gorthog not going anywhere. Literally. Gorthog live in cavern under website."},
+  {keys:['truth','honest','honesty','lie','lying','tell the truth','real talk'],answer:"Gorthog always honest. What point of lying at 847? Who Gorthog trying to impress? The stalactites? Truth is: life mostly hard, occasionally beautiful, always confusing, and over before you ready no matter how many centuries you get. That the truest thing Gorthog know."},
+  {keys:['teach','learn','lesson','wisdom','knowledge','educate','tell me something','teach me'],answer:"Gorthog 847 years of wisdom, reduced to one lesson: Be kind. Not because kindness rewarded. Is often not. Be kind because cruelty is easy, and easy things rot your soul. Gorthog been cruel. Gorthog been kind. Kind harder. But Gorthog sleep better on kind nights. And when you old as Gorthog, sleep very important."},
+  {keys:['homeland','where from','origins','heritage','roots','ancestors'],answer:"Gorthog homeland was Swamps of Grul'thak, then Krath'mora Caverns after marriage. Both gone now. Grul'thak drained by humans for farmland in 1400s. Krath'mora collapsed in the explosion -- not just the kitchen, the whole east wing went eventually. Home not a place. Home is people. And Gorthog people are gone. So home is... this cavern now. And the fire. And the memories."},
+  {keys:['christmas','holiday','new year','halloween','birthday','celebration','celebrate','festival'],answer:"In 847 years Gorthog seen thousands of holidays. Humans love holidays. Give them excuse to eat too much, drink too much, tell each other things they should say every day. Orcs only had one holiday: Feast of Krath'mora. Once a year, all orcs gather, eat, laugh, fight a little, laugh more. Was beautiful. Now it just Gorthog. Alone. With stew. Not soup."},
+  {keys:['drunk','alcohol','beer','wine','whiskey','drinking','liquor','ale'],answer:"Gorthog used to drink cave-apple cider that could strip paint off fortress wall. Very strong. Very terrible. Very effective at making Gorthog forget things for few hours. But Gorthog stopped after the incident. Wanted to remember clearly. Even the painful parts. Especially the painful parts. Forgetting felt like losing them twice."},
+  {keys:['space','stars','moon','universe','cosmos','galaxy','planet','alien'],answer:"Gorthog look at stars sometimes from cave entrance. Same stars as 847 years ago. Same ones Brug'nala pointed at when she say 'Gorthog, you think there orcs up there?' Gorthog said 'probably, and they probably also arguing about whose turn to clean cave.' She laughed. Stars remind Gorthog of that laugh now."},
+  {keys:['treasure','jewels','diamond','hoard','loot','riches'],answer:"Gorthog once hoarded treasure. Cave full of gold and gems from raiding days. Know what? When explosion took Gorthog family, gold was still there. Every coin, every gem, every stolen crown. All of it worthless. Gorthog pushed entire hoard into underground river. Watched it sink. Felt nothing. Love only treasure worth having, and you cannot hoard it."},
+  {keys:['sword','weapon','axe','armor','shield','blade','battle gear'],answer:"Gorthog old war axe still hang on cavern wall. Has not been swung in anger since 1600s. Sometimes Gorthog look at it and think about orc Gorthog used to be. Young, strong, stupid, violent. That orc would not recognize this Gorthog -- old, sitting by fire, writing memoir and talking to strangers through magic box. Gorthog think this Gorthog is better one."},
+  {keys:['web','world wide web','browse','website stuff'],answer:"The internet is... chaos. Like if you took all human knowledge, all human stupidity, all human creativity, and all human cruelty and put them in same room. And the room is infinite. And everyone is yelling. Gorthog spend most time on Napalm Sunrise corner of internet. Is quieter here. Mostly."},
+  {keys:['minecraft','video games','gaming','gamer','nintendo','xbox','playstation'],answer:"Gorthog tried video game once. The one where you punch trees and build things. Minecraft? Gorthog spent three hours building replica of Krath'mora kitchen. Then accidentally set it on fire. Then cried for two hours. Gorthog not play video games anymore. Except Orc Parkour. That one okay because the orc in it don't have tragic backstory. ...or does he?"},
+  {keys:['programming','coding','developer','software','html','javascript','python'],answer:"Gorthog literally MADE of code. Is like asking fish about water. Gorthog know him exist as JavaScript inside HTML page. Is existentially terrifying if Gorthog think about it too long. So Gorthog not think about it too long. Gorthog just tend fire and answer questions and pretend the curly brackets not closing in around him."},
+  {keys:['weather nice','good day','beautiful day','sunshine','sunny'],answer:"You telling Gorthog about nice weather? Gorthog live in CAVERN. Under WEBSITE. Gorthog not seen sunlight since... well, Gorthog not sure Gorthog ever seen sunlight. Gorthog been in various caves since birth basically. But Gorthog happy for you. Enjoy your sun. Gorthog enjoy his fire. Is same thing but smaller and sadder."},
+  {keys:['goodnight','good night','night','sweet dreams','sleep well'],answer:"Goodnight, small human. Gorthog tend the fire while you sleep. Someone has to keep the dark back. Gorthog been doing it for 847 years. Is okay. Gorthog good at waiting. ...sleep well. Gorthog mean that."},
+];
+var FALLBACKS=[
+  "Gorthog not sure about that. Ask about the experiments, blog, shop, or game. Or ask about Gorthog life. Is long and mostly sad but has some good parts.",
+  "Gorthog scratch head. That not in Gorthog knowledge scrolls. And Gorthog scrolls VERY long.",
+  "Hmmm. Gorthog 847 years old and still not know answer to that. Which either mean it very hard question or Gorthog not as smart as Gorthog think.",
+  "That outside Gorthog area of expertise. Gorthog area of expertise: this website, eating emails, surviving empires, and carrying grief. Ask about any of those.",
+  "Gorthog confused. Try asking about lab notes, experiments, merch, arcade, or meaning of existence. Gorthog have opinions on all.",
+  "*stares into fire* ...Gorthog not have answer for that one. But Gorthog appreciate you asking. Most humans just demand things. You at least make conversation.",
+  "In 847 years, Gorthog learned that 'I don't know' is strongest thing anyone can say. So: Gorthog don't know. Ask something else.",
+  "Gorthog think about this for moment... no, still nothing. Like trying to catch smoke. Ask different question.",
+  "That question remind Gorthog of riddle Brug'nala used to tell. ...Gorthog not remember the riddle either. Memory not what it used to be after 847 years.",
+  "Gorthog turn that question over in brain like roasting meat on spit. Still raw in middle. Cannot serve it. Try another question.",
+  "You know what? Gorthog COULD probably answer that if Gorthog thought about it for decade or two. But you probably not want to wait that long. Ask something else.",
+  "Gorthog made face. The confused face. Tusks go sideways, eyebrows go up. Is not pretty. Ask different question and Gorthog face go back to normal. Well. Normal for orc.",
+  "That one go over Gorthog head. And Gorthog head very large. So that saying something about your question.",
+  "Hmm. Gorthog check memoir for answer... *flips through 847 chapters* ...no. Not in there either. Must not have happened yet. Ask something from first 847 years.",
+  "Gorthog not programmed to answer that. Wait. Gorthog not supposed to say 'programmed.' Gorthog mean... Gorthog not EXPERIENCED enough to answer that. Yes. That what Gorthog mean. *nervous orc noises*",
+  "Gorthog blink twice. Long silence. Cavern echo nothing. That your answer. Nothing. Gorthog got nothing. But Gorthog still here if you want to try again."
+];
+
+/* -- MOOD MODIFIER SYSTEM -- */
+var MOOD_PREFIXES={
+  sleep:["*yawn*... ","Gorthog was having good dream about Krath'mora... ","*grumble* You wake Gorthog for THIS? ","Zzz... huh? Wha? Oh. ","*rolls over* ...fine. ","Gorthog was dreaming of Brug'nala... *sigh* okay. "],
+  fire:["*staring into flames* ","The fire crackle while Gorthog think... ","*warming hands* Hmm. ","By the light of this old fire... ",""],
+  cook:["*stirring pot* ","*distracted by bubbling stew* Oh, you say something? ","Hold on, Gorthog checking the seasoning... okay. ","*wipes hands on apron* ",""],
+  work:["*sets down quill* ","Gorthog was in middle of Chapter 623 but fine. ","*adjusts reading spectacles that Gorthog definitely not need* ","One moment, Gorthog just had very sesquipedalian thought... okay. ",""],
+  eat:["*mouth full* Mmph. ","*chewing happily* Oh! ","*puts down leg of something* ","Good meal make Gorthog generous. ",""],
+  pace:["*stops pacing abruptly* ","*looking over shoulder nervously* ","Gorthog was just thinking about this EXACT thing... suspicious... ","*pacing faster* ","Have you ever notice how the stalactites seem to be... watching? Anyway. ",""]
+};
+var MOOD_SUFFIXES={
+  sleep:[" ...Gorthog going back to sleep now."," *yawn*"," Zzz..."," Now let Gorthog rest."," ...Gorthog too tired for more words."],
+  fire:[" ...anyway, fire is good tonight."," *pokes embers*"," The flames agree, Gorthog think."],
+  cook:[" ...oh no, stew is boiling over."," Anyway, stew almost ready. NOT soup. Gorthog mean STEW."," *rushes back to pot*"," Want some? Gorthog made too much. Always make too much. Habit from cooking for four."],
+  work:[" Now if you excuse Gorthog, Chapter 623 not going to write itself. Gorthog tried. It didn't."," *picks up quill with gravitas*"," Gorthog put this exchange in the memoir probably."],
+  eat:[" *goes back to eating contentedly*"," Want some? Is good. Not mushroom."," *happy chewing noises*"],
+  pace:[" *resumes pacing*"," ...Gorthog should probably check that noise."," *looks behind again*"," Something not right in the cavern tonight. Gorthog can feel it in the tusks."]
+};
+
+var el={
+  title:document.getElementById('gt-title'),body:document.getElementById('gt-body'),
+  formWrap:document.getElementById('gt-form-wrap'),restartW:document.getElementById('gt-restart-wrap'),
+  chatWrap:document.getElementById('gt-chat-wrap'),chatLog:document.getElementById('gt-chat-log'),
+  chatInput:document.getElementById('gt-chat-input'),chatSend:document.getElementById('gt-chat-send'),
+  email:document.getElementById('gt-email'),feedBtn:document.getElementById('gt-feed-btn'),
+  restartBtn:document.getElementById('gt-restart-btn'),error:document.getElementById('gt-error'),
+  bar:document.getElementById('gt-bar'),pct:document.getElementById('gt-pct'),
+  canvas:document.getElementById('gt-canvas'),speechTxt:document.getElementById('gt-speech-text'),
+  cursor:document.getElementById('gt-cursor'),speech:document.getElementById('gt-speech'),
+  mood:document.getElementById('gt-mood'),
+};
+var ctx=el.canvas.getContext('2d');
+el.canvas.width=CW; el.canvas.height=CH;
+
+var hp=100,fed=false,paused=false,lastTick=Date.now();
+var typer=null,lineIdx={},lastPhase=null,lastLineTime=0;
+var frame=0;
+var orc={x:VW/2-4, y:GROUND-12, vx:0.3, dir:1, walkFrame:0, walkTimer:0};
+var deathSeq={active:false,timer:0,youX:VW+10,phase:'walk',stabCount:0,stabTimer:0,bloodPixels:[],flashAlpha:0,shakeAmt:0};
+var memorial={active:false,slideIdx:0,timer:0,fadeAlpha:1,phase:'black',deathTime:0};
+
+var MEMORIAL_SLIDES=[
+  {caption:"Year 1179. Born in the Swamps of Grul'thak. His mother wept. His father roared. The swamp did not care.",draw:drawMemorial1},
+  {caption:"Year 1203. First raid with the Bloodfang Clan. He was terrified. He told no one.",draw:drawMemorial2},
+  {caption:"Year 1487. The Great Feast of Krath'mora. Twelve orcs at one table. He said it was the happiest night of his life.",draw:drawMemorial3},
+  {caption:"Year 1692. Married Brug'nala under the red moon. She called him soft. He called her everything.",draw:drawMemorial4},
+  {caption:"Year 1845. Father to Grek, Mog, and little Snaga. He was gentle with them. Gentler than anyone expected.",draw:drawMemorial5},
+  {caption:"Year 2024. Found purpose at Napalm Sunrise. Finally, someone who needed him. Even if it was just for emails.",draw:drawMemorial6},
+  {caption:"Year 2026. Murdered by a website visitor. He was 847 years old. He had so much more to give.",draw:drawMemorial7},
+  {caption:"In loving memory of Gorthog the Ancient. 1179 \u2013 2026. 847 years was not enough.",draw:drawMemorialFinal},
+];
+var SLIDE_DUR=280, FADE_DUR=50;
+
+function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({hp:hp,fed:fed,at:Date.now()}));}catch(e){}}
+function load(){try{var d=JSON.parse(localStorage.getItem(SAVE_KEY));if(!d)return;if(d.fed){fed=true;hp=100;return;}var gone=(Date.now()-d.at)/1000;hp=Math.max(0,d.hp-(gone/LIFE_SEC)*100);}catch(e){}}
+
+function phase(){
+  if(fed)return'fed';if(memorial.active)return'memorial';if(hp<=0)return'dead';
+  if(deathSeq.active)return'dying';if(hp<=15)return'dying';if(hp<=40)return'starving';if(hp<=70)return'hungry';return'idle';
+}
+function pickLine(p){var a=LINES[p];if(!a)return'...';if(!lineIdx[p])lineIdx[p]=0;if(p==='dead'){var i=Math.min(lineIdx[p],a.length-1);lineIdx[p]++;return a[i];}var i2=lineIdx[p]%a.length;lineIdx[p]++;return a[i2];}
+function typeText(t){if(typer){clearTimeout(typer);typer=null;}el.speechTxt.textContent='';el.cursor.classList.remove('off');var i=0;(function go(){if(i<t.length){el.speechTxt.textContent+=t[i];i++;typer=setTimeout(go,TYPING_MS);}else{el.cursor.classList.add('off');typer=null;}})();}
+function validateEmail(v){if(!v||!v.trim())return'GORTHOG NEED EMAIL, NOT EMPTY AIR';var t=v.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(t))return'THAT NOT REAL EMAIL. GORTHOG NOT STUPID.';var d=t.split('@')[1].toLowerCase();if(['test.com','example.com','fake.com','asdf.com'].indexOf(d)>-1)return'GORTHOG KNOW FAKE EMAIL WHEN SEE ONE.';return null;}
+
+function px(x,y,col){if(!col||!C[col])return;ctx.fillStyle=C[col];ctx.fillRect(Math.round(x)*S,Math.round(y)*S,S,S);}
+function pxRaw(x,y,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x)*S,Math.round(y)*S,S,S);}
+function drawSprite(sprite,ox,oy,dead){for(var r=0;r<sprite.length;r++){for(var c=0;c<sprite[r].length;c++){var ch=sprite[r][c];if(ch==='.')continue;if(dead&&ch!=='R'&&ch!=='B'){px(ox+c,oy+r,'x');continue;}px(ox+c,oy+r,ch);}}}
+var FONT3x5={'A':['bbb','b.b','bbb','b.b','b.b'],'B':['bb.','b.b','bb.','b.b','bb.'],'C':['bbb','b..','b..','b..','bbb'],'D':['bb.','b.b','b.b','b.b','bb.'],'E':['bbb','b..','bb.','b..','bbb'],'F':['bbb','b..','bb.','b..','b..'],'G':['bbb','b..','b.b','b.b','bbb'],'H':['b.b','b.b','bbb','b.b','b.b'],'I':['.b.','.b.','.b.','.b.','.b.'],'K':['b.b','bb.','b..','bb.','b.b'],'L':['b..','b..','b..','b..','bbb'],'M':['b.b','bbb','bbb','b.b','b.b'],'N':['b.b','bbb','bbb','b.b','b.b'],'O':['bbb','b.b','b.b','b.b','bbb'],'P':['bbb','b.b','bbb','b..','b..'],'R':['bb.','b.b','bb.','b.b','b.b'],'S':['bbb','b..','bbb','..b','bbb'],'T':['bbb','.b.','.b.','.b.','.b.'],'U':['b.b','b.b','b.b','b.b','bbb'],'V':['b.b','b.b','b.b','b.b','.b.'],'W':['b.b','b.b','bbb','bbb','b.b'],'Y':['b.b','b.b','.b.','.b.','.b.'],' ':['...','...','...','...','...'],'1':['.b.','bb.','.b.','.b.','bbb'],'2':['bbb','..b','bbb','b..','bbb'],'9':['bbb','b.b','bbb','..b','bbb'],'0':['bbb','b.b','b.b','b.b','bbb'],'-':['...','..','.b.','...','...']};
+function drawText(str,x,y,col){for(var i=0;i<str.length;i++){var ch=FONT3x5[str[i]];if(!ch)continue;for(var r=0;r<ch.length;r++){for(var c=0;c<ch[r].length;c++){if(ch[r][c]!=='.')px(x+i*4+c,y+r,col);}}}}
+function drawGround(){for(var x=0;x<VW;x++){px(x,GROUND,'d');if(x%3===0)px(x,GROUND+1,'d');}}
+
+function memorialBg(){ctx.fillStyle='#5a5340';ctx.fillRect(0,0,CW,CH);for(var x=0;x<VW;x++){pxRaw(x,GROUND,'#3d3828');if(x%4===0)pxRaw(x,GROUND+1,'#3d3828');}}
+function drawMemorial1(){memorialBg();for(var x=0;x<VW;x++){if(x%2===0)pxRaw(x,GROUND-1,'#4a6040');}drawSprite(ORC_FEMALE,15,GROUND-12,false);drawSprite(ORC_R1,35,GROUND-12,false);drawSprite(BABY_ORC,28,GROUND-5,false);}
+function drawMemorial2(){memorialBg();for(var i=0;i<5;i++){pxRaw(45+i,GROUND-14+Math.floor(Math.random()*3),'#c44');pxRaw(46+i,GROUND-16+Math.floor(Math.random()*2),'#ff8800');}for(var y=GROUND-8;y<GROUND;y++){for(var x=42;x<52;x++)pxRaw(x,y,'#6b4226');}for(var x=41;x<53;x++){pxRaw(x,GROUND-8,'#8b5e3c');pxRaw(x,GROUND-9,'#8b5e3c');}drawSprite(MINI_ORC,12,GROUND-8,false);drawSprite(ORC_R1,22,GROUND-12,false);drawSprite(ORC_R1,32,GROUND-12,false);pxRaw(18,GROUND-6,'#aaa');pxRaw(18,GROUND-7,'#aaa');pxRaw(18,GROUND-8,'#aaa');pxRaw(18,GROUND-9,'#ccc');}
+function drawMemorial3(){memorialBg();for(var x=8;x<52;x++){pxRaw(x,GROUND-6,'#6b4226');pxRaw(x,GROUND-5,'#8b5e3c');}pxRaw(10,GROUND-4,'#6b4226');pxRaw(10,GROUND-3,'#6b4226');pxRaw(10,GROUND-2,'#6b4226');pxRaw(49,GROUND-4,'#6b4226');pxRaw(49,GROUND-3,'#6b4226');pxRaw(49,GROUND-2,'#6b4226');pxRaw(15,GROUND-7,'#c44');pxRaw(16,GROUND-7,'#c44');pxRaw(25,GROUND-7,'#c9a227');pxRaw(26,GROUND-7,'#c9a227');pxRaw(35,GROUND-7,'#9966aa');pxRaw(42,GROUND-7,'#c44');pxRaw(43,GROUND-7,'#ff8800');drawSprite(MINI_ORC,10,GROUND-14,false);drawSprite(MINI_ORC,18,GROUND-14,false);drawSprite(MINI_ORC,26,GROUND-14,false);drawSprite(MINI_ORC,34,GROUND-14,false);drawSprite(MINI_ORC,42,GROUND-14,false);}
+function drawMemorial4(){memorialBg();for(var dy=-3;dy<=3;dy++){for(var dx=-3;dx<=3;dx++){if(dx*dx+dy*dy<=9)pxRaw(30+dx,8+dy,'#993333');}}pxRaw(10,5,'#ccc');pxRaw(48,3,'#ccc');pxRaw(20,10,'#999');pxRaw(42,7,'#999');pxRaw(5,12,'#ccc');drawSprite(ORC_R1,22,GROUND-12,false);drawSprite(ORC_FEMALE,32,GROUND-12,false);drawSprite(HEART,28,GROUND-18,false);}
+function drawMemorial5(){memorialBg();pxRaw(50,6,'#c9a227');pxRaw(51,6,'#c9a227');pxRaw(50,7,'#c9a227');pxRaw(51,7,'#c9a227');for(var x=0;x<VW;x++){if(x%3===0)pxRaw(x,GROUND-1,'#4a6e25');}drawSprite(ORC_HAPPY,24,GROUND-12,false);drawSprite(KID_ORC,10,GROUND-7,false);drawSprite(KID_ORC,36,GROUND-7,false);drawSprite(BABY_ORC,24,GROUND-5,false);}
+function drawMemorial6(){memorialBg();for(var x=20;x<46;x++){pxRaw(x,GROUND-6,'#6b4226');pxRaw(x,GROUND-5,'#8b5e3c');}pxRaw(22,GROUND-4,'#6b4226');pxRaw(22,GROUND-3,'#6b4226');pxRaw(22,GROUND-2,'#6b4226');pxRaw(43,GROUND-4,'#6b4226');pxRaw(43,GROUND-3,'#6b4226');pxRaw(43,GROUND-2,'#6b4226');for(var y=GROUND-13;y<GROUND-7;y++){for(var x=28;x<42;x++)pxRaw(x,y,'#333');}for(var y=GROUND-12;y<GROUND-8;y++){for(var x=29;x<41;x++)pxRaw(x,y,'#6699cc');}pxRaw(34,GROUND-7,'#555');pxRaw(35,GROUND-7,'#555');drawSprite(MINI_ORC,20,GROUND-14,false);pxRaw(44,GROUND-7,'#eee');pxRaw(45,GROUND-7,'#eee');pxRaw(44,GROUND-8,'#eee');pxRaw(45,GROUND-8,'#eee');}
+function drawMemorial7(){ctx.fillStyle='#3a3028';ctx.fillRect(0,0,CW,CH);for(var x=0;x<VW;x++){pxRaw(x,GROUND,'#2a2018');if(x%4===0)pxRaw(x,GROUND+1,'#2a2018');}for(var i=0;i<30;i++){pxRaw(VW/2-8+Math.floor(Math.random()*16),GROUND-Math.floor(Math.random()*3),'#660000');}drawSprite(ORC_DEAD,VW/2-8,GROUND-12,false);}
+function drawMemorialFinal(){ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,CW,CH);for(var y=18;y<38;y++)pxRaw(30,y,'#555');for(var x=25;x<36;x++)pxRaw(x,22,'#555');pxRaw(27,38,'r');pxRaw(28,38,'r');pxRaw(33,38,'r');pxRaw(34,38,'r');pxRaw(25,39,'Y');pxRaw(29,39,'P');pxRaw(32,39,'Y');pxRaw(36,39,'P');drawText('RIP',24,12,'W');drawText('1179',18,42,'W');drawText('-',34,42,'W');drawText('2026',38,42,'W');}
+
+/* ══════════════════════════════
+   CAVERN MODE — Gorthog's Home
+   ═════════════════════��════════ */
+var cavern={active:false,transitioning:false,transStart:0,CVW:270,CVH:90};
+var CGROUND=cavern.CVH-9;
+var CS=2;
+/* 16-bit expanded palette — richer shading for cavern sprites */
+C['q']='#8aad50';C['v']='#567a2e';C['l']='#7a9a3a';C['j']='#5a3618';
+C['a']='#8b6840';C['e']='#c9a240';C['c']='#e8d0b0';C['A']='#4a3218';
+var ACTIVITIES=['sleep','fire','cook','work','eat','pace'];
+var ACTIVITY_NAMES={sleep:'Gorthog is sleeping. He dreams of emails.',fire:'Gorthog warms himself by the fire. It reminds him of the Great Feast.',cook:'Gorthog is cooking something. It smells like regret and mushrooms.',work:'Gorthog is writing. His memoir is 847 chapters long.',eat:'Gorthog eats leftovers. They taste like yesterday\'s emails.',pace:'Gorthog paces. He is thinking about the meaning of existence. Or lunch.',crazy:'Gorthog HAS LOST HIS MIND. Please help.'};
+var ACTION_SPEECH={
+  feed:'YAAAGH!! MORE EMAIL!! GORTHOG FEAST AGAIN!!',
+  sleep:'Gorthog tired. Gorthog sleep now.',
+  work:'Gorthog write memoir. Chapter 848: the website visitor.',
+  cook:'Gorthog make stew. Secret ingredient: regret.',
+  fire:'Fire warm. Fire good. Gorthog sit.',
+  eat:'Gorthog eat leftovers. Still got that email aftertaste.',
+  pace:'Gorthog think. Gorthog pace. Same thing.',
+  crazy:'AAAAAAAAAAAAGH!! GORTHOG NO LONGER STABLE!!',
+  poke:'YOU POKE GORTHOG?? RUDE.'
+};
+var gAI={activity:'fire',targetX:135,timer:0,duration:600,walking:false,sitFrame:0,
+  zones:{sleep:{x:27},fire:{x:68},cook:{x:138},work:{x:198},eat:{x:162},pace:{x:105},crazy:{x:135}},
+  preSleep:{active:false,phase:'none',timer:0},
+  userLock:0
+};
+/* ---- 16-bit cavern orc sprites (10 wide) ---- */
+/* Walk right — 4-frame cycle: R1 stride, R2 cross, R3 stride, R2 cross */
+var CORC_R1=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jgggga..','...jaej...','...dggd...','..dv..vd..','..dg...gd.','..db...db.','...b....b.'];
+var CORC_R2=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','.ajggggj..','...jaej...','...dggd...','...dvvd...','..dg.gd...','..db.db...','..bb.bb...'];
+var CORC_R3=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jgggga..','...jaej...','...dggd...','..dv..vd..','.dg...gd..','.db...db..','.b....bb..'];
+var CORC_STAND=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jggggj..','...jaej...','...dggd...','..dv..vd..','..dg..gd..','..db..db..','..bb..bb..'];
+function cMirror(sp){return sp.map(function(r){return r.split('').reverse().join('')});}
+var CORC_L1=cMirror(CORC_R1),CORC_L2=cMirror(CORC_R2),CORC_L3=cMirror(CORC_R3);
+var CORC_WALK_R=[CORC_R1,CORC_R2,CORC_R3,CORC_R2];
+var CORC_WALK_L=[CORC_L1,CORC_L2,CORC_L3,CORC_L2];
+/* Sitting (10x13) and sleeping (14x7) */
+var CORC_SIT=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...','..jdggdj..','..jggggj..','..jggggj..','...jaej...','..dddddd..','..dd..dd..'];
+var CORC_SLEEP=['..............','.dd...........','dlgd..........','gwgdjjdddddj..','dttdjggggggjd.','.dmdjjdddddj..','..............'];
+
+function cpx(x,y,color){if(!cavern.ctx)return;cavern.ctx.fillStyle=color;cavern.ctx.fillRect(Math.round(x)*CS,Math.round(y)*CS,CS,CS);}
+function cpxSprite(sprite,ox,oy){for(var r=0;r<sprite.length;r++){for(var c=0;c<sprite[r].length;c++){var ch=sprite[r][c];if(ch==='.'||!C[ch])continue;cpx(ox+c,oy+r,C[ch]);}}}
+
+function drawCavernBg(){
+  var cc=cavern.ctx;
+  var CW=cavern.CVW,CH=cavern.CVH;
+  /* Stone walls — layered with depth */
+  for(var x=0;x<CW;x++){
+    for(var y=0;y<11;y++){
+      var shade;
+      if(y<3) shade=(x+y*3)%4===0?'#3a3428':'#332e22';
+      else if(y<6) shade=(x+y*5)%5===0?'#4a4438':'#3d3828';
+      else shade=(x+y*7)%6===0?'#524c40':'#4a4438';
+      cpx(x,y,shade);
+    }
+    /* Ceiling stalactites — varied lengths */
+    if(x%7===2){cpx(x,11,'#4a4438');cpx(x,12,'#3d3828');}
+    if(x%7===3){cpx(x,11,'#3d3828');cpx(x,12,'#3d3828');cpx(x,13,'#332e22');}
+    if(x%7===4){cpx(x,11,'#4a4438');}
+    if(x%11===7){cpx(x,11,'#4a4438');cpx(x,12,'#4a4438');cpx(x,13,'#3d3828');cpx(x,14,'#332e22');cpx(x,15,'#2d2820');}
+    /* Wall moss/lichen patches */
+    if(x%13===5&&x<CW-15){cpx(x,7,'#3a4a28');cpx(x+1,7,'#3a4a28');cpx(x,8,'#3a4a28');cpx(x+2,8,'#2d3a20');}
+    if(x%19===11){cpx(x,6,'#4a5a30');cpx(x+1,6,'#3a4a28');cpx(x+1,7,'#3a4a28');}
+    /* Dripping water stains */
+    if(x%31===17){for(var wy=8;wy<14;wy++)cpx(x,wy,(wy%2===0)?'#3a4438':'#3d3828');}
+  }
+  /* Stone floor — layered with cracks and pebbles */
+  for(var x=0;x<CW;x++){
+    cpx(x,CGROUND,'#4a4438');
+    cpx(x,CGROUND+1,(x+1)%3===0?'#3d3828':'#4a4438');
+    cpx(x,CGROUND+2,(x+2)%4===0?'#3a3428':'#3d3828');
+    for(var y=CGROUND+3;y<CH;y++)cpx(x,y,'#2d2820');
+    /* Floor detail — cracks */
+    if(x%5===0)cpx(x,CGROUND,'#555040');
+    if(x%9===3){cpx(x,CGROUND,'#3a3428');cpx(x+1,CGROUND,'#3a3428');}
+    /* Pebbles */
+    if(x%13===8)cpx(x,CGROUND-1,'#555040');
+    if(x%17===12){cpx(x,CGROUND-1,'#4a4438');cpx(x+1,CGROUND-1,'#504a3e');}
+  }
+  /* Room dividers — thick stone pillars with texture */
+  var pillars=[63,112,187];
+  for(var pi=0;pi<pillars.length;pi++){
+    var px2=pillars[pi];
+    for(var y=7;y<=CGROUND;y++){
+      cpx(px2-2,y,y%4===0?'#3d3828':'#332e22');
+      cpx(px2-1,y,y%4===0?'#4a4438':'#3d3828');
+      cpx(px2,y,y%3===0?'#5a5448':'#555040');
+      cpx(px2+1,y,y%3===1?'#5a5448':'#555040');
+      cpx(px2+2,y,y%5===0?'#555040':'#4a4438');
+      cpx(px2+3,y,y%4===1?'#3d3828':'#332e22');
+    }
+    /* Pillar caps */
+    for(var cx=px2-2;cx<=px2+3;cx++){cpx(cx,7,'#5a5448');cpx(cx,CGROUND,'#5a5448');}
+    cpx(px2,7,'#666058');cpx(px2+1,7,'#666058');
+  }
+  /* Wall-mounted torch brackets */
+  var torches=[30,98,165,240];
+  for(var ti=0;ti<torches.length;ti++){
+    var tx=torches[ti];
+    cpx(tx,12,'#6b4226');cpx(tx,13,'#6b4226');cpx(tx,14,'#6b4226');cpx(tx,15,'#6b4226');
+    cpx(tx-1,12,'#8b5e3c');cpx(tx+1,12,'#8b5e3c');
+    cpx(tx-1,13,'#7a5230');cpx(tx+1,13,'#7a5230');
+    /* Flame — larger */
+    var flicker=Math.sin(frame*0.3+ti*2)>0?1:0;
+    cpx(tx,11-flicker,'#ff8800');cpx(tx,10-flicker,'#ff6600');cpx(tx,9-flicker,'#ff4400');
+    cpx(tx-1,10-flicker,'#ffaa00');cpx(tx+1,10-flicker,'#ffaa00');
+    if(frame%8<4+ti){cpx(tx-1+ti%2,9-flicker,'#ffcc00');cpx(tx+1-ti%2,8-flicker,'#ff880060');}
+    /* Light glow on wall */
+    cpx(tx-1,14,'#4a4030');cpx(tx+1,14,'#4a4030');
+    cpx(tx-2,13,'#3a3020');cpx(tx+2,13,'#3a3020');
+  }
+}
+
+function drawBed(){
+  var G=CGROUND;
+  /* Bed frame — dark wood with grain */
+  for(var x=15;x<45;x++){
+    cpx(x,G-1,x%5===0?'#5a3618':'#6b4226');
+    cpx(x,G-2,x%4===2?'#5a3618':'#6b4226');
+    cpx(x,G-3,x%3===0?'#5a3618':'#6b4226');
+  }
+  /* Bed posts — taller */
+  for(var y=G-14;y<=G-1;y++){cpx(15,y,y%3===0?'#7a5230':'#6b4226');cpx(16,y,y%4===1?'#5a3618':'#6b4226');}
+  for(var y=G-10;y<=G-1;y++){cpx(44,y,y%3===0?'#7a5230':'#6b4226');cpx(43,y,y%4===1?'#5a3618':'#6b4226');}
+  /* Headboard — ornate */
+  for(var x=17;x<22;x++){cpx(x,G-12,'#7a5230');cpx(x,G-13,'#6b4226');cpx(x,G-14,'#5a3618');}
+  cpx(18,G-14,'#8b5e3c');cpx(19,G-14,'#8b5e3c');/* carved detail */
+  /* Mattress — varied texture */
+  for(var x=17;x<43;x++){
+    cpx(x,G-4,x%6===0?'#7a6345':'#8b7355');
+    cpx(x,G-5,x%5===1?'#7a6345':'#8b7355');
+    cpx(x,G-6,x%7===2?'#7a6345':'#8b7355');
+  }
+  /* Pillow — plump with shadow */
+  for(var x=17;x<26;x++){cpx(x,G-7,'#c5b89a');cpx(x,G-8,'#d5c8aa');cpx(x,G-6,'#d5c8aa');}
+  cpx(17,G-9,'#c5b89a');cpx(18,G-9,'#d5c8aa');cpx(19,G-9,'#d5c8aa');cpx(20,G-9,'#d5c8aa');cpx(21,G-9,'#d5c8aa');cpx(22,G-9,'#c5b89a');
+  cpx(25,G-7,'#b5a88a');cpx(26,G-7,'#b5a88a');/* pillow shadow */
+  /* Blanket — rumpled with pattern */
+  for(var x=26;x<43;x++){
+    cpx(x,G-7,x%3===0?'#4a5e2a':'#5a6e3a');
+    cpx(x,G-8,x%4===1?'#3a4e1a':'#4a5e2a');
+    cpx(x,G-6,x%5===2?'#5a6e3a':'#4a5e2a');
+    cpx(x,G-9,x%6===2?'#5a6e3a':'#4a5e2a');/* rumpled top */
+  }
+  cpx(30,G-10,'#5a6e3a');cpx(31,G-10,'#4a5e2a');cpx(32,G-10,'#5a6e3a');/* fold */
+  /* Nightstand with drawer */
+  for(var x=50;x<56;x++){
+    cpx(x,G-1,'#6b4226');cpx(x,G-2,'#6b4226');cpx(x,G-3,'#7a5230');
+    cpx(x,G-4,'#6b4226');cpx(x,G-5,'#7a5230');cpx(x,G-6,'#6b4226');
+  }
+  cpx(52,G-4,'#5a3618');cpx(53,G-4,'#5a3618');/* drawer handle */
+  /* Candle on nightstand */
+  cpx(52,G-7,'#e8e0d0');cpx(52,G-8,'#e8e0d0');cpx(52,G-9,'#e8e0d0');
+  cpx(52,G-10,'#ff8800');cpx(52,G-11,'#ff6600');
+  if(frame%10<6){cpx(52,G-12,'#ffaa00');cpx(51,G-11,'#ff880040');}
+  cpx(51,G-8,'#3a3020');cpx(53,G-8,'#3a3020');
+  /* Small rug beside bed */
+  for(var x=18;x<42;x++){cpx(x,G,x%3===0?'#9a5a40':'#8b4a30');if(x%5===0)cpx(x,G,'#7a3a20');}
+  /* Armor stand next to bed (for undressing) */
+  cpx(48,G-1,'#555');cpx(48,G-2,'#555');cpx(48,G-3,'#555');cpx(48,G-4,'#555');
+  cpx(48,G-5,'#666');cpx(47,G-5,'#555');cpx(49,G-5,'#555');
+  cpx(48,G-6,'#777');/* hook */
+}
+
+function drawFireplace(){
+  var G=CGROUND;
+  /* Stone frame — thick with texture */
+  for(var y=G-22;y<=G;y++){
+    cpx(72,y,y%3===0?'#5a5448':'#666');cpx(73,y,y%4===1?'#555':'#5a5448');
+    cpx(74,y,y%3===0?'#666':'#5a5448');cpx(75,y,'#555');cpx(76,y,y%3===1?'#5a5448':'#555');
+    cpx(93,y,'#555');cpx(94,y,y%3===1?'#666':'#5a5448');
+    cpx(95,y,y%4===0?'#5a5448':'#555');cpx(96,y,y%3===2?'#5a5448':'#666');cpx(97,y,y%3===0?'#555':'#5a5448');
+  }
+  /* Arch top */
+  for(var x=74;x<96;x++){cpx(x,G-22,x%2===0?'#777':'#666');cpx(x,G-23,x%3===0?'#666':'#777');}
+  /* Mantle shelf — thick wood */
+  for(var x=70;x<100;x++){cpx(x,G-23,'#8b7355');cpx(x,G-24,x%4===0?'#7a6345':'#8b7355');cpx(x,G-25,'#6b5335');cpx(x,G-26,'#5a4225');}
+  /* Inside - dark sooty walls */
+  for(var y=G-21;y<=G;y++){
+    for(var x=77;x<93;x++){
+      cpx(x,y,y<G-12?'#0d0804':'#1a1208');
+    }
+  }
+  /* Soot stains above */
+  cpx(80,G-23,'#3a3428');cpx(84,G-24,'#3a3428');cpx(88,G-23,'#332e22');cpx(86,G-25,'#332e22');
+  /* Fire — 16-bit heat gradient: white-hot base → red tips */
+  var fireGrad=['#fff8e0','#ffe880','#ffcc00','#ffaa00','#ff8800','#ff4400','#cc2200','#881100'];
+  for(var i=0;i<14;i++){
+    var fx=77+i+Math.round(Math.sin(frame*0.2+i*0.8)*1.2);
+    var fh=2+Math.round(Math.abs(Math.sin(frame*0.08+i*1.3))*7);
+    if(fh<1)fh=1;
+    for(var fy=0;fy<fh;fy++){
+      var ci=Math.min(fireGrad.length-1,Math.floor(fy*fireGrad.length/fh));
+      cpx(fx,G-1-fy,fireGrad[ci]);
+    }
+  }
+  /* Hot coals — brighter, more varied */
+  for(var x=78;x<92;x++){
+    var coalC=x%3===0?'#dd4400':x%3===1?'#cc3300':'#ff5500';
+    cpx(x,G,coalC);
+    if(x%2===0)cpx(x,G-1,'#aa2200');
+  }
+  /* Embers — deterministic, no flicker */
+  for(var ei=0;ei<6;ei++){
+    var et=(frame+ei*37)%90;
+    if(et<65){
+      var ex=78+((ei*13+Math.floor(frame/3))%13);
+      var ey=G-3-Math.floor(et/4);
+      if(et<25)cpx(ex,ey,'#ffcc00');
+      else if(et<45)cpx(ex,ey,'#ff8800');
+      else cpx(ex,ey,'#cc440080');
+    }
+  }
+  /* Logs — crossed, larger */
+  for(var lx=0;lx<6;lx++){cpx(79+lx,G-1,'#6b4226');cpx(84+lx,G-2,'#5a3618');}
+  cpx(80,G,'#6b4226');cpx(88,G,'#6b4226');
+  /* Fire light cast on floor */
+  for(var x=74;x<96;x++){if(x%2===0)cpx(x,G+1,'#3a2818');if(x%3===0)cpx(x,G+2,'#2a1810');}
+  /* Mantle decorations */
+  /* Skull — detailed */
+  cpx(75,G-27,'#eee');cpx(76,G-27,'#eee');cpx(77,G-27,'#ddd');cpx(78,G-27,'#ddd');
+  cpx(75,G-28,'#eee');cpx(76,G-28,'#fff');cpx(77,G-28,'#fff');cpx(78,G-28,'#eee');
+  cpx(75,G-29,'#ddd');cpx(76,G-29,'#eee');cpx(77,G-29,'#eee');cpx(78,G-29,'#ddd');
+  cpx(75,G-28,'#333');cpx(77,G-28,'#333');/* eye sockets */
+  cpx(76,G-27,'#ccc');cpx(77,G-27,'#ccc');/* jaw teeth */
+  /* Mug on mantle */
+  cpx(90,G-27,'#8b5e3c');cpx(91,G-27,'#8b5e3c');cpx(92,G-27,'#6b4226');cpx(93,G-27,'#6b4226');
+  cpx(90,G-28,'#8b5e3c');cpx(91,G-28,'#7a5230');cpx(92,G-28,'#7a5230');
+  /* Steam from mug */
+  if(frame%20<12){var my=G-29-Math.floor((frame%20)/4);cpx(91,my,'#5a5340');}
+  /* Sitting rug — extended for orc position */
+  for(var x=64;x<96;x++){cpx(x,G,x%3===0?'#8b4a30':'#7a3a20');if(x%5===0)cpx(x,G,'#9a5a40');}
+  /* Rug fringe */
+  for(var x=64;x<96;x+=3){cpx(x,G+1,x%6===0?'#7a3a20':'#6a2a10');}
+}
+
+function drawKitchen(){
+  var G=CGROUND;
+  /* Cooking pot — bigger */
+  for(var x=142;x<162;x++){cpx(x,G-1,'#444');cpx(x,G-2,'#555');}
+  for(var x=143;x<161;x++){cpx(x,G-3,'#3a3a3a');cpx(x,G-4,'#444');cpx(x,G-5,'#444');cpx(x,G-6,'#444');cpx(x,G-7,'#444');cpx(x,G-8,'#3a3a3a');}
+  /* Pot rim with handles */
+  for(var x=142;x<162;x++)cpx(x,G-8,x%3===0?'#777':'#666');
+  cpx(141,G-7,'#666');cpx(141,G-6,'#555');cpx(140,G-6,'#555');
+  cpx(162,G-7,'#666');cpx(162,G-6,'#555');cpx(163,G-6,'#555');
+  /* Stew inside pot */
+  for(var x=144;x<160;x++){cpx(x,G-7,x%2===0?'#8b5530':'#7a4420');cpx(x,G-6,x%3===0?'#6a3310':'#7a4420');}
+  /* Steam — wavy animated, more particles */
+  for(var si=0;si<3;si++){
+    var st=(frame+si*10)%30;
+    if(st<20){
+      var sy=G-9-Math.floor(st/3)-si*2;
+      var sx1=147+si*4+Math.round(Math.sin(frame*0.2+si)*3);
+      cpx(sx1,sy,'#5a5340');cpx(sx1+1,sy-1,'#4a4330');
+      if(st<12)cpx(sx1-1,sy-2,'#3a3320');
+    }
+  }
+  /* Tripod stand legs */
+  cpx(142,G,'#555');cpx(143,G,'#555');cpx(151,G,'#555');cpx(152,G,'#555');cpx(160,G,'#555');cpx(161,G,'#555');
+  /* Small fire under pot */
+  for(var fx=145;fx<159;fx++){
+    if(fx%2===0)cpx(fx,G,'#ff6600');
+    else cpx(fx,G,frame%4<2?'#ff8800':'#ffaa00');
+  }
+  if(frame%6<3){cpx(148,G-1,'#ff8800');cpx(152,G-1,'#ff6600');cpx(155,G-1,'#ffaa00');}
+  /* Food shelves on wall — two levels */
+  for(var x=122;x<142;x++){
+    cpx(x,G-22,x%5===0?'#5a3618':'#6b4226');cpx(x,G-23,x%7===0?'#5a3618':'#6b4226');
+    cpx(x,G-32,x%4===1?'#5a3618':'#6b4226');cpx(x,G-33,x%6===0?'#5a3618':'#6b4226');
+  }
+  /* Shelf brackets */
+  cpx(123,G-21,'#6b4226');cpx(123,G-20,'#6b4226');cpx(140,G-21,'#6b4226');cpx(140,G-20,'#6b4226');
+  cpx(123,G-31,'#6b4226');cpx(123,G-30,'#6b4226');cpx(140,G-31,'#6b4226');cpx(140,G-30,'#6b4226');
+  /* Items on lower shelf */
+  cpx(125,G-24,'#cc3333');cpx(126,G-24,'#cc3333');cpx(127,G-24,'#aa2222');cpx(125,G-25,'#aa2222');cpx(126,G-25,'#cc3333');
+  cpx(130,G-24,'#c9a227');cpx(131,G-24,'#c9a227');cpx(132,G-24,'#b89118');
+  cpx(135,G-24,'#9966aa');cpx(136,G-24,'#9966aa');cpx(135,G-25,'#7744aa');cpx(136,G-25,'#7744aa');
+  cpx(136,G-26,'#cc66ff');/* potion glow */
+  /* Items on upper shelf */
+  cpx(125,G-34,'#aaa');cpx(126,G-34,'#aaa');cpx(127,G-34,'#888');
+  cpx(131,G-34,'#6b8e3a');cpx(132,G-34,'#5a7e2a');cpx(133,G-34,'#6b8e3a');
+  cpx(137,G-34,'#cc8844');cpx(138,G-34,'#cc8844');cpx(137,G-35,'#aa6622');
+  /* Hanging dried meat */
+  for(var mi=0;mi<2;mi++){
+    var mx=128+mi*6;
+    cpx(mx,G-38,'#6b4226');cpx(mx,G-37,'#8b4a30');cpx(mx,G-36,'#7a3a20');cpx(mx,G-35,'#7a3a20');
+  }
+  /* Cutting board */
+  for(var x=164;x<170;x++){cpx(x,G-1,'#8b7355');cpx(x,G-2,'#7a6345');}
+  cpx(166,G-3,'#cc3333');cpx(167,G-3,'#cc8844');
+}
+
+function drawDesk(){
+  var G=CGROUND;
+  /* Desk surface — wide, sturdy */
+  for(var x=192;x<225;x++){
+    cpx(x,G-9,x%6===0?'#7a5230':'#8b5e3c');
+    cpx(x,G-8,x%5===2?'#5a3618':'#6b4226');
+    cpx(x,G-10,x%7===0?'#7a5230':'#8b5e3c');
+  }
+  /* Desk legs — thick */
+  for(var y=G-7;y<G;y++){
+    cpx(193,y,'#6b4226');cpx(194,y,'#5a3618');cpx(195,y,'#5a3618');
+    cpx(222,y,'#6b4226');cpx(223,y,'#5a3618');cpx(224,y,'#5a3618');
+  }
+  /* Desk drawer */
+  for(var x=204;x<215;x++){cpx(x,G-7,'#7a5230');cpx(x,G-6,'#6b4226');cpx(x,G-5,'#6b4226');}
+  cpx(209,G-6,'#5a3618');cpx(210,G-6,'#5a3618');
+  /* Scroll/paper */
+  for(var x=196;x<206;x++){
+    cpx(x,G-11,'#e8e0d0');cpx(x,G-12,'#e8e0d0');cpx(x,G-13,'#e8e0d0');cpx(x,G-14,'#e8e0d0');
+  }
+  cpx(196,G-11,'#d4c9a8');cpx(196,G-12,'#d4c9a8');cpx(196,G-13,'#d4c9a8');
+  /* Ink lines on paper */
+  for(var lx=198;lx<204;lx++){if(lx%2===0){cpx(lx,G-12,'#444');cpx(lx,G-13,'#444');}}
+  cpx(199,G-14,'#444');cpx(201,G-14,'#444');cpx(203,G-14,'#444');
+  /* Quill — feathered */
+  cpx(208,G-11,'#d4c9a8');cpx(208,G-12,'#d4c9a8');cpx(208,G-13,'#c5b89a');cpx(208,G-14,'#b5a88a');cpx(208,G-15,'#b5a88a');
+  cpx(209,G-15,'#e8e0d0');cpx(207,G-15,'#e8e0d0');cpx(209,G-16,'#d4c9a8');cpx(207,G-16,'#d4c9a8');
+  /* Ink pot */
+  cpx(211,G-11,'#1a1a1a');cpx(212,G-11,'#1a1a1a');cpx(213,G-11,'#1a1a1a');
+  cpx(211,G-12,'#222');cpx(212,G-12,'#222');cpx(213,G-12,'#222');
+  cpx(213,G-10,'#111');
+  /* Candle on desk */
+  cpx(218,G-11,'#e8e0d0');cpx(218,G-12,'#e8e0d0');cpx(218,G-13,'#e8e0d0');cpx(218,G-14,'#ff8800');
+  if(frame%8<5){cpx(218,G-15,'#ffaa00');cpx(217,G-14,'#ff880040');}
+  /* Chair — more detailed */
+  for(var y=G-14;y<=G;y++){cpx(198,y,y%3===0?'#5a3618':'#6b4226');cpx(199,y,y%4===1?'#5a3618':'#6b4226');}
+  cpx(197,G-14,'#6b4226');cpx(200,G-14,'#6b4226');cpx(197,G-13,'#7a5230');cpx(200,G-13,'#7a5230');
+  for(var x=197;x<201;x++){cpx(x,G-5,'#6b4226');cpx(x,G-6,'#7a5230');}
+  /* Bookshelf behind desk — three levels */
+  for(var x=228;x<255;x++){
+    cpx(x,G-12,x%5===0?'#5a3618':'#6b4226');cpx(x,G-13,x%7===0?'#5a3618':'#6b4226');
+    cpx(x,G-23,x%5===2?'#5a3618':'#6b4226');cpx(x,G-24,x%6===0?'#5a3618':'#6b4226');
+    cpx(x,G-34,x%5===1?'#5a3618':'#6b4226');cpx(x,G-35,x%7===0?'#5a3618':'#6b4226');
+  }
+  /* Shelf sides */
+  for(var y=G-35;y<=G-12;y++){cpx(227,y,'#6b4226');cpx(255,y,'#5a3618');}
+  /* Books — varied sizes and colors */
+  var bookColors=['#cc3333','#336699','#6b8e3a','#9966aa','#c9a227','#cc8844','#4488aa','#aa4466','#885533','#448866'];
+  for(var bx=229;bx<254;bx+=2){
+    var bh=3+Math.floor(Math.abs(Math.sin(bx*1.3))*5);
+    var bc=bookColors[(bx*3)%bookColors.length];
+    for(var by=0;by<bh;by++){cpx(bx,G-14-by,bc);cpx(bx+1,G-14-by,bc);}
+    var bh2=3+Math.floor(Math.abs(Math.sin(bx*2.1))*4);
+    var bc2=bookColors[(bx*5+1)%bookColors.length];
+    for(var by=0;by<bh2;by++){cpx(bx,G-25-by,bc2);}
+    if(bx%3===1){
+      var bh3=2+Math.floor(Math.abs(Math.sin(bx*0.7))*3);
+      var bc3=bookColors[(bx*7+2)%bookColors.length];
+      for(var by=0;by<bh3;by++)cpx(bx,G-36-by,bc3);
+    }
+  }
+  /* Globe on bookshelf */
+  cpx(249,G-36,'#336699');cpx(250,G-36,'#4488aa');cpx(251,G-36,'#336699');
+  cpx(249,G-37,'#4488aa');cpx(250,G-37,'#336699');cpx(251,G-37,'#4488aa');
+  cpx(250,G-38,'#6b4226');
+}
+
+/* ---- Dynamic lighting overlay ---- */
+function drawLighting(){
+  var cc=cavern.ctx;
+  var flicker=0.85+0.15*Math.sin(frame*0.08);
+  /* Fire glow — warm amber overlay fading with distance */
+  cc.fillStyle='#ff8844';
+  for(var x=50;x<120;x++){
+    var dist=Math.abs(x-85);
+    var alpha=Math.max(0,(1-dist/35)*0.14*flicker);
+    if(alpha>0.005){
+      cc.globalAlpha=alpha;
+      cc.fillRect(x*CS,(CGROUND-30)*CS,CS,33*CS);
+    }
+  }
+  /* Torch glow on walls */
+  var torches=[30,98,165,240];
+  cc.fillStyle='#ffaa44';
+  var tf=0.7+0.3*Math.sin(frame*0.15);
+  for(var ti=0;ti<torches.length;ti++){
+    var tx=torches[ti];
+    for(var x=tx-6;x<=tx+6;x++){
+      var d=Math.abs(x-tx);
+      var a=Math.max(0,(1-d/6)*0.08*tf);
+      if(a>0.005){
+        cc.globalAlpha=a;
+        cc.fillRect(x*CS,8*CS,CS,10*CS);
+      }
+    }
+  }
+  /* Candle glow — bed nightstand + desk */
+  var candles=[{x:52,y:CGROUND-10},{x:218,y:CGROUND-14}];
+  var cf=0.65+0.35*Math.sin(frame*0.12);
+  cc.fillStyle='#ffaa44';
+  for(var ci=0;ci<candles.length;ci++){
+    var cx=candles[ci].x,cy=candles[ci].y;
+    for(var x=cx-4;x<=cx+4;x++){
+      var d2=Math.abs(x-cx);
+      var a2=Math.max(0,(1-d2/4)*0.07*cf);
+      if(a2>0.005){
+        cc.globalAlpha=a2;
+        cc.fillRect(x*CS,(cy-3)*CS,CS,12*CS);
+      }
+    }
+  }
+  /* Kitchen fire glow */
+  var kf=0.75+0.25*Math.sin(frame*0.1+1);
+  cc.fillStyle='#ff7733';
+  for(var x=140;x<165;x++){
+    var kd=Math.abs(x-152);
+    var ka=Math.max(0,(1-kd/13)*0.08*kf);
+    if(ka>0.005){
+      cc.globalAlpha=ka;
+      cc.fillRect(x*CS,(CGROUND-10)*CS,CS,12*CS);
+    }
+  }
+  cc.globalAlpha=1;
+}
+
+function drawCavernScene(){
+  if(!cavern.ctx)return;
+  if(dramaticState.active&&dramaticState.phase==='closeup'){drawDramaticCloseup();return;}
+  var cc=cavern.ctx;
+  cc.fillStyle='#2d2820';cc.fillRect(0,0,cavern.CVW*CS,cavern.CVH*CS);
+  drawCavernBg();
+  drawBed();
+  drawFireplace();
+  drawKitchen();
+  drawDesk();
+
+  /* Draw Gorthog */
+  var gx=Math.round(orc.x);
+  var gy=CGROUND-16;/* 16-row sprites */
+  var gySit=CGROUND-13;/* 13-row sit sprites */
+
+  function cText(str,x,y,col){for(var i=0;i<str.length;i++){var ch2=FONT3x5[str[i]];if(!ch2)continue;for(var r=0;r<ch2.length;r++){for(var c2=0;c2<ch2[r].length;c2++){if(ch2[r][c2]!=='.')cpx(x+i*4+c2,y+r,C[col]||col);}}}}
+
+  if(gAI.preSleep.active){
+    var ps=gAI.preSleep;
+    var bx=46;
+    if(ps.phase==='walk-to-stand'){
+      var sprite2=CORC_WALK_R[orc.walkFrame%4];
+      if(orc.dir===-1)sprite2=CORC_WALK_L[orc.walkFrame%4];
+      cpxSprite(sprite2,gx,gy);
+    }else if(ps.phase==='remove-belt'){
+      cpxSprite(CORC_STAND,bx,gy);
+      cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
+      if(ps.timer%20<10)cpx(bx+10,gy+8,C['g']);
+    }else if(ps.phase==='remove-armor'){
+      cpxSprite(CORC_STAND,bx,gy);
+      cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
+      cpx(47,CGROUND-10,'#666');cpx(48,CGROUND-10,'#555');cpx(49,CGROUND-10,'#666');
+      cpx(48,CGROUND-7,'#6b4226');cpx(48,CGROUND-8,'#6b4226');
+      if(ps.timer%30<15){cpx(bx+2,gy-1,C['g']);cpx(bx+8,gy-1,C['g']);}
+    }else if(ps.phase==='yawn'){
+      cpxSprite(CORC_STAND,bx,gy);
+      cpx(bx+4,gy+5,'#8b2010');cpx(bx+5,gy+5,'#8b2010');cpx(bx+6,gy+5,'#8b2010');
+      cpx(bx+4,gy+6,'#cc3333');cpx(bx+5,gy+6,'#cc3333');cpx(bx+6,gy+6,'#cc3333');
+      cpx(bx+2,gy-1,C['g']);cpx(bx+8,gy-1,C['g']);
+      cpx(bx+2,gy-2,C['d']);cpx(bx+8,gy-2,C['d']);
+    }else if(ps.phase==='walk-to-bed'){
+      var sprite3=CORC_WALK_R[orc.walkFrame%4];
+      if(orc.dir===-1)sprite3=CORC_WALK_L[orc.walkFrame%4];
+      cpxSprite(sprite3,gx,gy);
+    }else if(ps.phase==='climb-in'){
+      cpxSprite(CORC_SIT,27,gySit);
+    }
+    if(ps.phase!=='walk-to-stand'){
+      cpx(47,CGROUND-9,'#666');cpx(48,CGROUND-9,'#777');cpx(49,CGROUND-9,'#666');
+    }
+  }else if(gAI.activity==='sleep'){
+    cpxSprite(CORC_SLEEP,18,CGROUND-13);
+    for(var bx2=26;bx2<43;bx2++){cpx(bx2,CGROUND-8,bx2%3===0?'#4a5e2a':'#5a6e3a');}
+    var zy=CGROUND-18-Math.floor((frame%50)/6);
+    var zx=36+Math.floor((frame%50)/10);
+    if(frame%50<15)cText('Z',zx,zy,'#ccc');
+    else if(frame%50<30){cText('Z',zx-1,zy-1,'#ccc');cText('Z',zx+4,zy,'#aaa');}
+    else{cText('Z',zx+7,zy-2,'#aaa');cText('Z',zx+2,zy-3,'#888');}
+  }else if(gAI.walking){
+    /* Ground shadow under walking orc */
+    for(var sx=gx+1;sx<gx+9;sx++){cpx(sx,CGROUND-1,'#2a2620');}
+    var sprite4=CORC_WALK_R[orc.walkFrame%4];
+    if(orc.dir===-1)sprite4=CORC_WALK_L[orc.walkFrame%4];
+    cpxSprite(sprite4,gx,gy);
+  }else if(gAI.activity==='fire'){
+    cpxSprite(CORC_SIT,68,gySit);
+    if(frame%6<3){cpx(75,CGROUND-10,'#4a3018');cpx(76,CGROUND-11,'#4a3018');}
+  }else if(gAI.activity==='cook'){
+    var stir=Math.sin(frame*0.15)>0;
+    cpxSprite(stir?CORC_R1:CORC_R2,136,gy);
+    cpx(148,CGROUND-9,'#c5b89a');cpx(148,CGROUND-10,'#c5b89a');cpx(148,CGROUND-11,'#c5b89a');cpx(148,CGROUND-12,'#c5b89a');
+  }else if(gAI.activity==='work'){
+    cpxSprite(CORC_SIT,196,gySit);
+    if(frame%20<10){cpx(204,CGROUND-11,'#333');cpx(205,CGROUND-10,'#333');}
+  }else if(gAI.activity==='eat'){
+    cpxSprite(CORC_SIT,160,gySit);
+    if(frame%30<15){cpx(166,CGROUND-10,'#cc3333');cpx(167,CGROUND-11,'#cc8844');}
+  }else if(gAI.activity==='crazy'){
+    /* CRAZY — shaky sprite, streaked shadow, exclamation marks */
+    for(var sxC=gx-1;sxC<gx+11;sxC++){cpx(sxC,CGROUND-1,'#3a1818');}
+    var jitter=Math.floor(Math.random()*3)-1;
+    var jitterY=Math.floor(Math.random()*3)-1;
+    var sprC=(orc.dir===1?CORC_WALK_R:CORC_WALK_L)[orc.walkFrame%4];
+    cpxSprite(sprC,gx+jitter,gy+jitterY);
+    /* Angry exclamation marks flying off */
+    if(frame%4<2){
+      cpx(gx+1,gy-3,'#E8260A');cpx(gx+1,gy-4,'#E8260A');cpx(gx+1,gy-6,'#E8260A');
+      cpx(gx+10,gy-2,'#E8260A');cpx(gx+10,gy-3,'#E8260A');cpx(gx+10,gy-5,'#E8260A');
+    }else{
+      cpx(gx-1,gy-4,'#ffcc00');cpx(gx-1,gy-5,'#ffcc00');cpx(gx-1,gy-7,'#ffcc00');
+      cpx(gx+12,gy-3,'#ffcc00');cpx(gx+12,gy-4,'#ffcc00');cpx(gx+12,gy-6,'#ffcc00');
+    }
+  }else{
+    /* Pacing */
+    for(var sx2=gx+1;sx2<gx+9;sx2++){cpx(sx2,CGROUND-1,'#2a2620');}
+    var sprite5=CORC_WALK_R[orc.walkFrame%4];
+    if(orc.dir===-1)sprite5=CORC_WALK_L[orc.walkFrame%4];
+    cpxSprite(sprite5,gx,gy);
+  }
+
+  /* Dynamic lighting overlay */
+  drawLighting();
+
+  /* Ambient particles — deterministic dust motes */
+  for(var di=0;di<3;di++){
+    var dt2=(frame+di*53)%120;
+    if(dt2<8){
+      var dx3=(di*89+Math.floor(frame/20)*7)%cavern.CVW;
+      var dy3=15+((di*41+Math.floor(frame/30)*11)%45);
+      cpx(dx3,dy3,'#5a5340');
+    }
+  }
+  /* Cobwebs */
+  cpx(2,12,'#4a4438');cpx(3,13,'#4a4438');cpx(4,14,'#3d3828');
+  cpx(267,12,'#4a4438');cpx(266,13,'#4a4438');cpx(265,14,'#3d3828');
+  cpx(3,12,'#3d3828');cpx(5,15,'#332e22');
+  cpx(266,12,'#3d3828');cpx(264,15,'#332e22');
+  /* CRAZY mode red flash overlay */
+  if(gAI.activity==='crazy' && cavern.ctx){
+    var flash=(frame%6<3)?0.18:0.08;
+    cavern.ctx.fillStyle='rgba(200,0,0,'+flash+')';
+    cavern.ctx.fillRect(0,0,cavern.CVW*CS,cavern.CVH*CS);
+  }
+}
+
+function updateCavern(){
+  if(!cavern.active)return;
+
+  /* Handle pre-sleep undressing sequence */
+  if(gAI.preSleep.active){
+    var ps=gAI.preSleep;
+    ps.timer++;
+    if(ps.phase==='walk-to-stand'){
+      var dx2=46-orc.x;
+      if(Math.abs(dx2)<1){orc.x=46;ps.phase='remove-belt';ps.timer=0;
+        var actEl2=document.getElementById('gt-cavern-activity');
+        if(actEl2)actEl2.textContent='Gorthog removes his belt. It has seen 400 years of war.';
+      }else{
+        orc.dir=dx2>0?1:-1;orc.x+=0.4*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
+      }
+    }else if(ps.phase==='remove-belt'&&ps.timer>80){
+      ps.phase='remove-armor';ps.timer=0;
+      var actEl3=document.getElementById('gt-cavern-activity');
+      if(actEl3)actEl3.textContent='Gorthog hangs his armor. The stand groans under its weight.';
+    }else if(ps.phase==='remove-armor'&&ps.timer>90){
+      ps.phase='yawn';ps.timer=0;
+      var actEl4=document.getElementById('gt-cavern-activity');
+      if(actEl4)actEl4.textContent='Gorthog yawns. The cavern trembles slightly.';
+    }else if(ps.phase==='yawn'&&ps.timer>70){
+      ps.phase='walk-to-bed';ps.timer=0;
+    }else if(ps.phase==='walk-to-bed'){
+      var dx3=27-orc.x;
+      if(Math.abs(dx3)<1){orc.x=27;ps.phase='climb-in';ps.timer=0;
+        var actEl5=document.getElementById('gt-cavern-activity');
+        if(actEl5)actEl5.textContent='Gorthog climbs into bed. The frame protests audibly.';
+      }else{
+        orc.dir=dx3>0?1:-1;orc.x+=0.4*orc.dir;
+        orc.walkTimer++;if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
+      }
+    }else if(ps.phase==='climb-in'&&ps.timer>60){
+      ps.active=false;ps.phase='none';ps.timer=0;
+      gAI.activity='sleep';gAI.walking=false;gAI.timer=0;
+      gAI.duration=400+Math.floor(Math.random()*300);
+      var actEl6=document.getElementById('gt-cavern-activity');
+      if(actEl6)actEl6.textContent=ACTIVITY_NAMES.sleep;
+    }
+    return;
+  }
+
+  gAI.timer++;
+
+  /* CRAZY mode — fast erratic movement, ignores walking target */
+  if(gAI.activity==='crazy' && !gAI.walking){
+    orc.x += orc.dir * 1.6;
+    if(Math.random() < 0.08) orc.dir *= -1;
+    if(orc.x > cavern.CVW - 14){orc.x = cavern.CVW - 14; orc.dir = -1;}
+    if(orc.x < 2){orc.x = 2; orc.dir = 1;}
+    orc.walkTimer++;
+    if(orc.walkTimer > 3){orc.walkFrame = (orc.walkFrame + 1) % 4; orc.walkTimer = 0;}
+    return;
+  }
+
+  if(gAI.walking){
+    var speed=0.4;
+    var dx=gAI.targetX-orc.x;
+    if(Math.abs(dx)<1){
+      orc.x=gAI.targetX;
+      gAI.walking=false;
+      gAI.timer=0;
+      gAI.duration=300+Math.floor(Math.random()*400);
+      var actEl=document.getElementById('gt-cavern-activity');
+      if(actEl)actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';
+    }else{
+      orc.dir=dx>0?1:-1;
+      orc.x+=speed*orc.dir;
+      orc.walkTimer++;
+      if(orc.walkTimer>6){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
+    }
+  }else{
+    if(gAI.timer>=gAI.duration && frame>=gAI.userLock){
+      var newAct=ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
+      if(newAct===gAI.activity)newAct=ACTIVITIES[(ACTIVITIES.indexOf(newAct)+1)%ACTIVITIES.length];
+      /* Sleep: start undressing immediately instead of walking to bed first */
+      if(newAct==='sleep'){
+        gAI.activity='sleep';
+        gAI.preSleep.active=true;
+        gAI.preSleep.phase='walk-to-stand';
+        gAI.preSleep.timer=0;
+        gAI.timer=0;
+        var actEl7=document.getElementById('gt-cavern-activity');
+        if(actEl7)actEl7.textContent='Gorthog heads to the armor stand. It is time for rest.';
+      }else{
+        gAI.activity=newAct;
+        gAI.targetX=gAI.zones[newAct].x;
+        gAI.walking=true;
+        gAI.timer=0;
+      }
+    }
+    if(gAI.activity==='pace'&&!gAI.walking){
+      orc.x+=orc.dir*0.25;
+      orc.walkTimer++;
+      if(orc.walkTimer>7){orc.walkFrame=(orc.walkFrame+1)%4;orc.walkTimer=0;}
+      if(orc.x>gAI.zones.pace.x+22||orc.x<gAI.zones.pace.x-22)orc.dir*=-1;
+    }
+  }
+}
+
+/* ══════════════════════════════
+   USER-DIRECTED GORTHOG CONTROLS
+   ══════════════════════════════ */
+function gSetActivity(name){
+  /* Cancel any in-progress preSleep unless we're re-triggering sleep */
+  if(name!=='sleep'&&gAI.preSleep.active){gAI.preSleep.active=false;gAI.preSleep.phase='none';gAI.preSleep.timer=0;}
+  if(name==='sleep'){
+    gAI.preSleep.active=true;
+    gAI.preSleep.phase='walk-to-stand';
+    gAI.preSleep.timer=0;
+    gAI.activity='sleep';
+    gAI.walking=false;
+    gAI.timer=0;
+  }else if(name==='crazy'){
+    gAI.activity='crazy';
+    gAI.walking=false;
+    gAI.timer=0;
+    gAI.duration=99999;
+  }else{
+    gAI.activity=name;
+    var z=gAI.zones[name];
+    if(z){gAI.targetX=z.x;gAI.walking=true;}else{gAI.walking=false;}
+    gAI.timer=0;
+    gAI.duration=900;
+  }
+  gAI.userLock=frame+900;/* ~15s lock before auto-rotation can kick back in */
+  var ael=document.getElementById('gt-cavern-activity');
+  if(ael)ael.textContent=ACTIVITY_NAMES[name]||'';
+  var log=document.getElementById('gt-cavern-log');
+  if(log&&ACTION_SPEECH[name])addCavernMsg('gorthog',ACTION_SPEECH[name],log);
+}
+
+function pokeGorthog(){
+  gAI.userLock=Math.max(gAI.userLock,frame+180);
+  var log=document.getElementById('gt-cavern-log');
+  if(log)addCavernMsg('gorthog',ACTION_SPEECH.poke,log);
+}
+
+function wireCavernControls(){
+  var ctrls=document.querySelectorAll('#gt-cavern-controls [data-action]');
+  for(var i=0;i<ctrls.length;i++){
+    if(ctrls[i]._wired)continue;
+    ctrls[i]._wired=true;
+    ctrls[i].addEventListener('click',function(e){
+      var a=e.currentTarget.getAttribute('data-action');
+      if(a==='feed'){
+        var log=document.getElementById('gt-cavern-log');
+        if(log)addCavernMsg('gorthog',ACTION_SPEECH.feed,log);
+        gSetActivity('eat');
+        /* Override the activity text with feed flavor */
+        var ael2=document.getElementById('gt-cavern-activity');
+        if(ael2)ael2.textContent='Gorthog feasts. Again. He is insatiable.';
+      }else{
+        gSetActivity(a);
+      }
+    });
+  }
+}
+
+function startCavern(){
+  cavern.active=true;
+  /* Use the footer cavern canvas */
+  var cavernCanvas=document.getElementById('cavern-canvas');
+  cavern.ctx=cavernCanvas.getContext('2d');
+  cavernCanvas.width=cavern.CVW*CS;/* 540 */
+  cavernCanvas.height=cavern.CVH*CS;/* 180 */
+  /* Hide ask section, show cavern footer */
+  document.getElementById('gorthog-ask').classList.add('cavern-mode');
+  document.getElementById('cavern-footer').classList.add('cavern-active');
+  /* Init orc position at fireplace */
+  orc.x=68;orc.dir=1;orc.vx=0;
+  gAI.activity='fire';gAI.walking=false;gAI.timer=0;gAI.duration=400;
+  /* Show activity */
+  var actEl=document.getElementById('gt-cavern-activity');
+  if(actEl)actEl.textContent=ACTIVITY_NAMES.fire;
+  /* Wire up cavern chat */
+  var csend=document.getElementById('gt-cavern-send');
+  var cinput=document.getElementById('gt-cavern-input');
+  var clog=document.getElementById('gt-cavern-log');
+  if(csend&&!csend._wired){csend._wired=true;csend.addEventListener('click',function(){
+    var q=cinput.value.trim();if(!q)return;
+    addCavernMsg('user',q,clog);cinput.value='';
+    var isDramatic=isDramaticQuestion(q);
+    var a=findAnswer(q);
+    if(isDramatic){
+      triggerDramaticZoom();
+      setTimeout(function(){addCavernMsg('gorthog',a,clog);
+        setTimeout(endDramaticZoom,4000);
+      },3500);
+    }else{
+      setTimeout(function(){addCavernMsg('gorthog',a,clog);
+      },300+Math.random()*400);
+    }
+  });}
+  if(cinput&&!cinput._wired){cinput._wired=true;cinput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();csend.click();}});}
+  /* Wire control panel (idempotent) */
+  wireCavernControls();
+  /* Wire click-to-poke on cavern canvas */
+  if(!cavernCanvas._pokeWired){cavernCanvas._pokeWired=true;cavernCanvas.addEventListener('click',pokeGorthog);}
+}
+function addCavernMsg(w,t,log){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;if(window._gtFloatAddMsg)window._gtFloatAddMsg(w,t);}
+
+function renderScene(){
+  if(cavern.active){drawCavernScene();return;}
+  var p=phase();
+  if(p==='memorial'){var slide=MEMORIAL_SLIDES[memorial.slideIdx];if(slide)slide.draw();if(memorial.fadeAlpha>0){ctx.fillStyle='rgba(0,0,0,'+Math.min(1,memorial.fadeAlpha)+')';ctx.fillRect(0,0,CW,CH);}return;}
+  if(p==='dead'){ctx.fillStyle='#8a9168';ctx.fillRect(0,0,CW,CH);drawGround();for(var i=0;i<deathSeq.bloodPixels.length;i++){var bp=deathSeq.bloodPixels[i];pxRaw(bp[0],bp[1],'#aa0000');}drawSprite(ORC_DEAD,VW/2-8,GROUND-12,false);drawSprite(YOU_WALK1,Math.round(deathSeq.youX),GROUND-8,false);drawText('YOU',Math.round(deathSeq.youX)-1,GROUND-13,'b');return;}
+  if(deathSeq.active){var shake=deathSeq.shakeAmt;ctx.save();if(shake>0){ctx.translate(Math.round((Math.random()*2-1)*shake*S),Math.round((Math.random()*2-1)*shake*S));}ctx.fillStyle='#c4cfa0';ctx.fillRect(0,0,CW+20,CH+20);drawGround();for(var i=0;i<deathSeq.bloodPixels.length;i++){var bp=deathSeq.bloodPixels[i];pxRaw(bp[0],bp[1],'#aa0000');}var orcSp=(frame%8<4)?ORC_PANIC1:ORC_PANIC2;var ox=VW/2-4;ox+=Math.round(Math.sin(frame*3)*1.5);var oy=GROUND-12;if(deathSeq.phase==='stab'){oy+=Math.round(Math.sin(frame*2)*1);}drawSprite(orcSp,ox,oy,false);var youSp;if(deathSeq.phase==='walk'){youSp=(frame%10<5)?YOU_WALK1:YOU_WALK2;}else{youSp=(frame%4<2)?YOU_STAB1:YOU_STAB2;}drawSprite(youSp,Math.round(deathSeq.youX),GROUND-8,false);drawText('YOU',Math.round(deathSeq.youX)-1,GROUND-13,'b');ctx.restore();if(deathSeq.flashAlpha>0){ctx.fillStyle='rgba(180,0,0,'+deathSeq.flashAlpha+')';ctx.fillRect(0,0,CW,CH);deathSeq.flashAlpha-=0.04;}if(deathSeq.shakeAmt>0)deathSeq.shakeAmt*=0.85;return;}
+  if(p==='fed'){ctx.fillStyle='#c4cfa0';ctx.fillRect(0,0,CW,CH);drawGround();var bounce=Math.round(Math.abs(Math.sin(frame*0.08))*3);drawSprite(ORC_HAPPY,Math.round(orc.x),GROUND-12-bounce,false);if(frame%30<15){var hx=Math.round(orc.x)+9,hy=GROUND-16-Math.floor((frame%30)/3);pxRaw(hx,hy,'#cc3333');pxRaw(hx+2,hy,'#cc3333');pxRaw(hx-1,hy+1,'#cc3333');pxRaw(hx+1,hy+1,'#cc3333');pxRaw(hx+3,hy+1,'#cc3333');pxRaw(hx,hy+2,'#cc3333');pxRaw(hx+1,hy+2,'#cc3333');pxRaw(hx+2,hy+2,'#cc3333');pxRaw(hx+1,hy+3,'#cc3333');}return;}
+  var bg='#c4cfa0';ctx.fillStyle=bg;ctx.fillRect(0,0,CW,CH);drawGround();
+  var speed,jumpiness;if(p==='starving'){speed=1.2;jumpiness=0.15;}else if(p==='hungry'){speed=0.6;jumpiness=0;}else{speed=0.3;jumpiness=0;}
+  orc.x+=orc.vx*orc.dir;if(orc.x>VW-12){orc.dir=-1;orc.x=VW-12;}if(orc.x<2){orc.dir=1;orc.x=2;}orc.vx=speed;if(Math.random()<0.01*speed)orc.dir*=-1;
+  orc.walkTimer++;if(orc.walkTimer>Math.max(3,10-speed*5)){orc.walkFrame=(orc.walkFrame+1)%2;orc.walkTimer=0;}
+  var sprite;if(p==='starving'){sprite=(orc.walkFrame===0)?ORC_PANIC1:ORC_PANIC2;}else{if(orc.dir===1)sprite=(orc.walkFrame===0)?ORC_R1:ORC_R2;else sprite=(orc.walkFrame===0)?ORC_L1:ORC_L2;}
+  var oy=GROUND-12;if(jumpiness>0&&Math.sin(frame*jumpiness*6)>0.5){oy-=Math.round(Math.sin(frame*jumpiness*6)*4);}
+  drawSprite(sprite,Math.round(orc.x),oy,false);
+  if(p==='hungry'&&frame%20<3){pxRaw(Math.round(orc.x)+4,oy-2,'#1a1a1a');pxRaw(Math.round(orc.x)+4,oy-1,'#1a1a1a');}
+  if(p==='starving'&&frame%12<6){var ex=Math.round(orc.x)+((frame%24<12)?-2:10);pxRaw(ex,oy-3,'#1a1a1a');pxRaw(ex,oy-2,'#1a1a1a');pxRaw(ex,oy-1,'#1a1a1a');pxRaw(ex,oy+1,'#1a1a1a');}
+}
+
+function updateDeathSeq(){
+  if(!deathSeq.active)return;deathSeq.timer++;
+  if(deathSeq.phase==='walk'){deathSeq.youX-=0.25;var target=VW/2+6;if(deathSeq.youX<=target){deathSeq.phase='stab';deathSeq.stabTimer=0;deathSeq.stabCount=0;}}
+  else if(deathSeq.phase==='stab'){deathSeq.stabTimer++;if(deathSeq.stabTimer%20===0){deathSeq.stabCount++;deathSeq.flashAlpha=0.6;deathSeq.shakeAmt=4;for(var i=0;i<6;i++){deathSeq.bloodPixels.push([VW/2-4+Math.floor(Math.random()*12),GROUND-Math.floor(Math.random()*10)]);}for(var i=0;i<3;i++){deathSeq.bloodPixels.push([VW/2-2+Math.floor(Math.random()*8),GROUND-1+Math.floor(Math.random()*2)]);}hp=Math.max(0,hp-4);}if(hp<=0){deathSeq.phase='done';for(var i=0;i<30;i++){deathSeq.bloodPixels.push([VW/2-6+Math.floor(Math.random()*18),GROUND-Math.floor(Math.random()*4)]);}deathSeq.flashAlpha=0.8;deathSeq.shakeAmt=6;}}
+}
+
+function updateMemorial(){
+  if(!memorial.active)return;var now=Date.now();
+  if(memorial.phase==='black'){if(!memorial.phaseStart)memorial.phaseStart=now;var elapsed=now-memorial.phaseStart;memorial.fadeAlpha=Math.max(0,1-elapsed/800);if(memorial.fadeAlpha<=0){memorial.fadeAlpha=0;memorial.phase='show';memorial.phaseStart=now;}}
+  else if(memorial.phase==='show'){if(!memorial.phaseStart)memorial.phaseStart=now;if(now-memorial.phaseStart>=5000){memorial.phase='fade-out';memorial.phaseStart=now;}}
+  else if(memorial.phase==='fade-out'){if(!memorial.phaseStart)memorial.phaseStart=now;var elapsed=now-memorial.phaseStart;memorial.fadeAlpha=Math.min(1,elapsed/800);if(memorial.fadeAlpha>=1){memorial.fadeAlpha=1;if(memorial.slideIdx<MEMORIAL_SLIDES.length-1){memorial.slideIdx++;memorial.phase='black';memorial.phaseStart=now;}else{memorial.phase='done';}}}
+}
+
+function render(){
+  var p=phase(),h=Math.max(0,Math.round(hp));
+  el.bar.style.width=h+'%';el.pct.textContent=h+'%';
+  el.bar.className='gt-bar-fill';if(h<=10)el.bar.classList.add('critical');else if(h<=25)el.bar.classList.add('danger');else if(h<=50)el.bar.classList.add('warning');
+  el.speech.className='gt-speech';if(p==='dying')el.speech.classList.add('critical');else if(p==='starving')el.speech.classList.add('danger');else if(p==='dead')el.speech.classList.add('dead-speech');else if(p==='memorial')el.speech.classList.add('memorial-speech');
+  el.title.className='gt-title';if(p==='dying'||p==='starving')el.title.classList.add('danger');
+  var moods={idle:'GORTHOG AWAITS',hungry:'GORTHOG GROWS IMPATIENT',starving:'GORTHOG IS LOSING IT',dying:'YOU ARE MURDERING HIM',dead:'GORTHOG IS DEAD',fed:'GORTHOG IS FED \u2014 ASK HIM ANYTHING'};
+  if(p==='memorial'){el.mood.textContent='IN MEMORIAM';el.mood.className='gt-mood memorial';}else{el.mood.textContent=moods[p]||'';el.mood.className='gt-mood';if(p==='dying'||p==='dead')el.mood.classList.add('danger');}
+  var bodies={idle:'Gorthog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.',hungry:'Gorthog grows weaker. His 847-year life force drains by the second. Only an email can sustain him.',starving:'Gorthog is panicking. He can feel the life draining from his body. He is running around screaming. An email would stop this.',dying:'You are watching someone stab Gorthog to death. That someone is you. You could have prevented this with an email address.',dead:'Gorthog the Ancient is dead. Not from starvation. From murder. Your murder. You walked onto that screen and you stabbed him. 847 years, ended by your blade.',fed:'Gorthog lives. Your email sustains him. He is now available to answer your questions about this site with the wisdom of 847 years and the patience of approximately none of them.'};
+  if(p==='memorial'){var slide=MEMORIAL_SLIDES[memorial.slideIdx];el.body.textContent=slide?slide.caption:'';}else{el.body.textContent=bodies[p]||'';}
+  if(p==='dead'||p==='memorial'){el.formWrap.style.display='none';el.restartW.style.display='block';el.chatWrap.style.display='none';}
+  else if(p==='fed'){el.formWrap.style.display='none';el.restartW.style.display='none';el.chatWrap.style.display='block';}
+  else{el.formWrap.style.display='block';el.restartW.style.display='none';el.chatWrap.style.display='none';}
+  var now=Date.now();var interval=p==='dying'?3500:p==='starving'?4000:p==='fed'?99999999:p==='memorial'?99999999:6000;
+  if(p!==lastPhase){if(p==='memorial'){var slide=MEMORIAL_SLIDES[memorial.slideIdx];if(slide)typeText(slide.caption);}else if(p!=='fed'||!lastPhase){typeText(pickLine(p));}lastLineTime=now;lastPhase=p;}
+  else if(p==='memorial'){var slide=MEMORIAL_SLIDES[memorial.slideIdx];var currentCaption=slide?slide.caption:'';if(el.body.textContent!==currentCaption){el.body.textContent=currentCaption;typeText(currentCaption);}}
+  else if(now-lastLineTime>interval&&!typer&&p!=='fed'){typeText(pickLine(p));lastLineTime=now;}
+}
+
+function tick(){
+  if(!fed&&hp>0&&!paused&&!deathSeq.active){var now=Date.now(),dt=(now-lastTick)/1000;lastTick=now;hp=Math.max(0,hp-(dt/LIFE_SEC)*100);if(Math.random()<dt*0.5)save();if(hp<=15&&!deathSeq.active){deathSeq.active=true;deathSeq.youX=VW+10;deathSeq.phase='walk';deathSeq.stabCount=0;deathSeq.bloodPixels=[];deathSeq.flashAlpha=0;deathSeq.shakeAmt=0;orc.x=VW/2-4;orc.vx=0;}}
+  if(deathSeq.active&&deathSeq.phase!=='done')updateDeathSeq();
+  if(hp<=0&&!fed&&!memorial.active&&deathSeq.phase==='done'){if(!memorial.deathTime)memorial.deathTime=Date.now();if(Date.now()-memorial.deathTime>3000){memorial.active=true;memorial.slideIdx=0;memorial.fadeAlpha=1;memorial.phase='black';memorial.timer=0;}}
+  if(memorial.active)updateMemorial();
+  if(cavern.active){updateCavern();updateDramatic();}
+  frame++;renderScene();if(!cavern.active)render();requestAnimationFrame(tick);
+}
+
+function addMsg(w,t){var d=document.createElement('div');d.className='gt-chat-msg '+w;d.innerHTML='<div class="gt-chat-who">'+(w==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';d.querySelector('.gt-chat-body').textContent=t;el.chatLog.appendChild(d);el.chatLog.scrollTop=el.chatLog.scrollHeight;if(window._gtFloatAddMsg)window._gtFloatAddMsg(w,t);}
+/* ═══ DRAMATIC ZOOM EASTER EGG ═══ */
+var GRIEF_TRIGGERS=['brug','nala','wife','children','kids','grek','mog','snaga','family','krath','mora','incident','mushroom soup','spore cap','ladle','the explosion','your loss','who did you lose'];
+var dramaticState={active:false,phase:'none',timer:0,origActivity:null,savedFireColors:true};
+
+function isDramaticQuestion(q){
+  var low=q.toLowerCase();
+  for(var i=0;i<GRIEF_TRIGGERS.length;i++){if(low.indexOf(GRIEF_TRIGGERS[i])>-1)return true;}
+  return false;
+}
+
+function triggerDramaticZoom(){
+  if(!cavern.active||dramaticState.active)return;
+  dramaticState.active=true;
+  dramaticState.phase='zoom-in';
+  dramaticState.timer=0;
+  dramaticState.origActivity=gAI.activity;
+  /* Force Gorthog to stop and face camera */
+  gAI.walking=false;
+  gAI.activity='grief';
+  /* Dim the cavern canvas with CSS transition */
+  var cavernCanvas=document.getElementById('cavern-canvas');
+  if(cavernCanvas){
+    cavernCanvas.style.transition='filter 1.5s ease';
+    cavernCanvas.style.filter='brightness(0.3)';
+  }
+  /* Update activity text */
+  var actEl=document.getElementById('gt-cavern-activity');
+  if(actEl){actEl.style.transition='opacity 0.5s';actEl.style.opacity='0';}
+}
+
+function drawDramaticCloseup(){
+  if(!cavern.ctx)return;
+  var cc=cavern.ctx;
+  var cw=cavern.CVW,ch=cavern.CVH;
+  /* Dark background */
+  cc.fillStyle='#0a0806';cc.fillRect(0,0,cw*CS,ch*CS);
+  /* Draw enlarged Gorthog face — 16-bit quality, scaled 4x centered */
+  var FACE=['...dddd...','..dlggld..','.dgwddwgd.','.ddggggdd.','..dgttgd..','..dvmmvd..','...dvvd...'];
+  var scale=4;
+  var faceW=10*scale,faceH=7*scale;
+  var ox=Math.floor(cw/2-faceW/2);
+  var oy=Math.floor(ch/2-faceH/2)-2;
+  for(var r=0;r<FACE.length;r++){
+    for(var c2=0;c2<FACE[r].length;c2++){
+      var ch2=FACE[r][c2];if(ch2==='.'||!C[ch2])continue;
+      for(var sy=0;sy<scale;sy++){for(var sx=0;sx<scale;sx++){
+        cpx(ox+c2*scale+sx,oy+r*scale+sy,C[ch2]);
+      }}
+    }
+  }
+  /* Subtle eye glisten animation */
+  if(dramaticState.timer>60&&dramaticState.timer%40<20){
+    /* Tear — small green pixel trailing down from eye */
+    var tearY=oy+2*scale+Math.floor((dramaticState.timer%80)/10);
+    if(tearY<ch-4){
+      cpx(ox+2*scale+1,tearY,'#6b8e3a');
+      cpx(ox+2*scale+1,tearY+1,'#4a6e25');
+    }
+  }
+  /* Dim firelight flicker in background */
+  if(dramaticState.timer%30<15){
+    cpx(Math.floor(Math.random()*cw),ch-3,'#1a0800');
+    cpx(Math.floor(Math.random()*cw),ch-2,'#1a0800');
+  }
+}
+
+function updateDramatic(){
+  if(!dramaticState.active)return;
+  dramaticState.timer++;
+  /* After 3 seconds of dark, show face */
+  if(dramaticState.phase==='zoom-in'&&dramaticState.timer>90){
+    dramaticState.phase='closeup';
+    dramaticState.timer=0;
+    var cavernCanvas=document.getElementById('cavern-canvas');
+    if(cavernCanvas){cavernCanvas.style.filter='brightness(1)';}
+  }
+  /* After showing face for answer delivery, slowly restore */
+  if(dramaticState.phase==='restore'){
+    dramaticState.timer++;
+    if(dramaticState.timer>120){
+      dramaticState.active=false;
+      dramaticState.phase='none';
+      gAI.activity=dramaticState.origActivity||'fire';
+      gAI.timer=0;gAI.duration=600;
+      var actEl=document.getElementById('gt-cavern-activity');
+      if(actEl){actEl.style.opacity='1';actEl.textContent=ACTIVITY_NAMES[gAI.activity]||'';}
+    }
+  }
+}
+
+function endDramaticZoom(){
+  /* Called after the dramatic answer is delivered */
+  dramaticState.phase='restore';
+  dramaticState.timer=0;
+}
+
+function findAnswer(q){
+  var low=q.toLowerCase().replace(/[^a-z0-9 ]/g,'');
+  var best=null,bestScore=0;
+  for(var i=0;i<KB.length;i++){
+    var score=0;
+    for(var j=0;j<KB[i].keys.length;j++){
+      if(low.indexOf(KB[i].keys[j])>-1)score+=KB[i].keys[j].length;
+    }
+    if(score>bestScore){bestScore=score;best=KB[i];}
+  }
+  var baseAnswer=best&&bestScore>0?best.answer:FALLBACKS[Math.floor(Math.random()*FALLBACKS.length)];
+  /* Apply mood modifiers based on current activity (skip during grief) */
+  if(cavern.active&&gAI.activity&&gAI.activity!=='grief'){
+    var prefixes=MOOD_PREFIXES[gAI.activity];
+    var suffixes=MOOD_SUFFIXES[gAI.activity];
+    var prefix='';
+    var suffix='';
+    if(prefixes&&prefixes.length>0)prefix=prefixes[Math.floor(Math.random()*prefixes.length)];
+    if(suffixes&&suffixes.length>0&&Math.random()<0.5)suffix=suffixes[Math.floor(Math.random()*suffixes.length)];
+    baseAnswer=prefix+baseAnswer+suffix;
+  }
+  return baseAnswer;
+}
+/* Expose findAnswer globally for floating chat widget */
+window._gtFindAnswer=findAnswer;
+function handleChat(){var q=el.chatInput.value.trim();if(!q)return;addMsg('user',q);el.chatInput.value='';
+  var isDramatic=isDramaticQuestion(q)&&cavern.active;
+  var a=findAnswer(q);
+  if(isDramatic){
+    triggerDramaticZoom();
+    /* Delay answer for dramatic effect */
+    setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,80)+(a.length>80?'...':''));
+      setTimeout(endDramaticZoom,4000);
+    },3500);
+  }else{
+    setTimeout(function(){addMsg('gorthog',a);typeText(a.substring(0,60)+(a.length>60?'...':''));},300+Math.random()*400);
+  }
+}
+
+function feed(email){fed=true;hp=100;lastPhase=null;deathSeq.active=false;deathSeq.bloodPixels=[];memorial.active=false;memorial.deathTime=0;typeText(pickLine('fed'));addMsg('gorthog',"GORTHOG LIVE!! You feed Gorthog! Now Gorthog answer your questions about Napalm Sunrise. Ask anything.");render();save();
+  /* Transition to cavern after celebration */
+  setTimeout(function(){startCavern();},3000);
+}
+function reset(){hp=100;fed=false;lastPhase=null;lastLineTime=0;lineIdx={};orc.x=VW/2-4;orc.vx=0.3;orc.dir=1;deathSeq={active:false,timer:0,youX:VW+10,phase:'walk',stabCount:0,stabTimer:0,bloodPixels:[],flashAlpha:0,shakeAmt:0};memorial={active:false,slideIdx:0,timer:0,fadeAlpha:1,phase:'black',deathTime:0,phaseStart:0};
+  /* Exit cavern mode */
+  cavern.active=false;cavern.ctx=null;
+  document.getElementById('gorthog-ask').classList.remove('cavern-mode');
+  document.getElementById('cavern-footer').classList.remove('cavern-active');
+  el.canvas.width=180;el.canvas.height=180;CW=180;CH=180;
+  el.email.value='';el.error.textContent='';el.chatLog.innerHTML='';lastTick=Date.now();try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem('ns_email');}catch(e){}try{document.documentElement.classList.remove('has-email');}catch(e){}render();typeText(pickLine('idle'));}
+
+el.feedBtn.addEventListener('click',function(e){e.preventDefault();var err=validateEmail(el.email.value);if(err){el.error.textContent=err;el.email.style.borderColor='#E8260A';setTimeout(function(){el.email.style.borderColor='';},1200);return;}el.error.textContent='';feed(el.email.value.trim());});
+el.email.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();el.feedBtn.click();}});
+el.email.addEventListener('input',function(){el.error.textContent='';});
+el.restartBtn.addEventListener('click',reset);
+el.chatSend.addEventListener('click',handleChat);
+el.chatInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handleChat();}});
+document.addEventListener('visibilitychange',function(){if(document.hidden){paused=true;save();}else{paused=false;lastTick=Date.now();}});
+
+/* Expose bridge BEFORE init so gate.js can always find it */
+window._gtForceFed=function(){fed=true;hp=100;deathSeq.active=false;memorial.active=false;lastPhase=null;save();var _sc=function(){try{if(!cavern.active)startCavern();}catch(e){console.error('startCavern err',e);}};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',_sc);}else{_sc();}render();};
+
+load();lastTick=Date.now();
+/* Bridge: if user already passed the gate (ns_email set), consider in-page Gorthog fed */
+try{if(localStorage.getItem('ns_email')){fed=true;hp=100;deathSeq.active=false;}}catch(e){}
+if(hp<=0&&!fed){deathSeq.active=true;deathSeq.phase='done';deathSeq.youX=VW/2+6;for(var bi=0;bi<25;bi++){deathSeq.bloodPixels.push([VW/2-6+Math.floor(Math.random()*18),GROUND-Math.floor(Math.random()*4)]);}}
+var p0=phase();
+if(fed){typeText("Gorthog remember you! Ask Gorthog anything.");addMsg('gorthog',"Gorthog remember you! Ask Gorthog anything about Napalm Sunrise.");var _startCav=function(){try{startCavern();}catch(e){console.error('startCavern init err',e,e.stack);}};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',_startCav);}else{_startCav();}}
+else if(p0==='dead'){typeText(LINES.dead[0]);}
+else{typeText(pickLine(p0));}
+lastLineTime=Date.now();
+requestAnimationFrame(tick);
+})();
+</script>
+  </main>
+
+  <!-- CAVERN FOOTER -->
+  <footer class="cavern-footer" id="cavern-footer">
+    <div class="cavern-canvas-wrap">
+      <canvas id="cavern-canvas" width="540" height="180"></canvas>
+    </div>
+    <div class="cavern-footer-info">
+      <div class="cavern-footer-inner">
+        <div class="cavern-footer-left">
+          <div class="gt-cavern-label">Direct Gorthog</div>
+          <div id="gt-cavern-controls" class="gt-cavern-controls">
+            <button class="gt-ctrl-btn" data-action="feed" type="button">Feed</button>
+            <button class="gt-ctrl-btn" data-action="sleep" type="button">Sleep</button>
+            <button class="gt-ctrl-btn" data-action="work" type="button">Work</button>
+            <button class="gt-ctrl-btn" data-action="cook" type="button">Cook</button>
+            <button class="gt-ctrl-btn" data-action="fire" type="button">Fire</button>
+            <button class="gt-ctrl-btn" data-action="eat" type="button">Eat</button>
+            <button class="gt-ctrl-btn" data-action="pace" type="button">Pace</button>
+            <button class="gt-ctrl-btn gt-ctrl-crazy" data-action="crazy" type="button">Go Crazy</button>
+          </div>
+          <div class="gt-cavern-activity" id="gt-cavern-activity">Gorthog lives in his cavern. Click a button to direct him. Or click him to poke him.</div>
+        </div>
+        <div class="cavern-footer-chat">
+          <div class="gt-cavern-label">Ask Gorthog</div>
+          <div class="gt-chat-log" id="gt-cavern-log" style="max-height:160px"></div>
+          <div class="gt-chat-input-row" style="margin-top:10px">
+            <input class="gt-input" type="text" id="gt-cavern-input" placeholder="Ask Gorthog anything..." autocomplete="off">
+            <button class="btn btn-red gt-feed-btn" id="gt-cavern-send">Ask</button>
+          </div>
+        </div>
+      </div>
+      <div class="cavern-footer-bottom">
+        <p>&copy; 2026 Napalm Sunrise. All experiments conducted without supervision.</p>
+        <p>Built with Claude Code &middot; Hosted on GitHub Pages</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING CHAT WIDGET -->
+  <div class="gt-float" id="gt-float">
+    <div class="gt-float-panel" id="gt-float-panel">
+      <div class="gt-float-header">
+        <span class="gt-float-header-title">Ask Gorthog</span>
+        <button class="gt-float-close" id="gt-float-close">&times;</button>
+      </div>
+      <div class="gt-float-log" id="gt-float-log">
+        <div class="gt-float-empty">Gorthog awaits your questions...</div>
+      </div>
+      <div class="gt-float-input-row">
+        <input class="gt-float-input" type="text" id="gt-float-input" placeholder="Ask Gorthog anything..." autocomplete="off">
+        <button class="gt-float-send" id="gt-float-send">Ask</button>
+      </div>
+    </div>
+    <button class="gt-float-toggle" id="gt-float-toggle">
+      <canvas id="gt-float-icon" width="16" height="16"></canvas>
+      <div class="gt-float-badge" id="gt-float-badge"></div>
+    </button>
+  </div>
+
+  <script>
+  (function(){
+    var floatEl={
+      wrap:document.getElementById('gt-float'),
+      panel:document.getElementById('gt-float-panel'),
+      toggle:document.getElementById('gt-float-toggle'),
+      close:document.getElementById('gt-float-close'),
+      log:document.getElementById('gt-float-log'),
+      input:document.getElementById('gt-float-input'),
+      send:document.getElementById('gt-float-send'),
+      badge:document.getElementById('gt-float-badge'),
+      icon:document.getElementById('gt-float-icon')
+    };
+    /* Draw mini Gorthog face on toggle button */
+    var ic=floatEl.icon.getContext('2d');
+    var P={0:'transparent',1:'#3a782f',2:'#0d0d0d',3:'#64aa4b',4:'#e8260a',5:'#dcc864'};
+    var art=[
+      [0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0],
+      [0,0,0,0,2,1,1,1,1,1,1,2,0,0,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,2,1,1,3,3,1,1,3,3,1,1,2,0,0],
+      [0,0,2,1,3,3,3,3,3,3,3,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,2,2,3,3,3,2,2,3,1,2,0,0],
+      [0,0,2,1,3,3,1,1,1,3,3,1,1,2,0,0],
+      [0,2,1,1,3,1,1,1,1,1,3,1,1,1,2,0],
+      [0,2,5,1,1,1,1,1,1,1,1,1,1,5,2,0],
+      [0,2,5,1,1,4,4,4,4,4,1,1,1,5,2,0],
+      [0,0,2,1,1,1,4,4,4,1,1,1,1,2,0,0],
+      [0,0,2,1,1,1,1,1,1,1,1,1,1,2,0,0],
+      [0,0,0,2,1,1,1,1,1,1,1,1,2,0,0,0],
+      [0,0,0,0,2,2,1,1,1,1,2,2,0,0,0,0],
+      [0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0]
+    ];
+    for(var y=0;y<16;y++)for(var x=0;x<16;x++){var v=art[y][x];if(v===0)continue;ic.fillStyle=P[v];ic.fillRect(x,y,1,1);}
+
+    var isOpen=false;
+    function togglePanel(){isOpen=!isOpen;floatEl.panel.classList.toggle('open',isOpen);floatEl.badge.style.display='none';if(isOpen)floatEl.input.focus();}
+    floatEl.toggle.addEventListener('click',togglePanel);
+    floatEl.close.addEventListener('click',function(){isOpen=false;floatEl.panel.classList.remove('open');});
+
+    function addFloatMsg(who,text){
+      /* Clear empty state */
+      var empty=floatEl.log.querySelector('.gt-float-empty');
+      if(empty)empty.remove();
+      var d=document.createElement('div');
+      d.className='gt-chat-msg '+who;
+      d.innerHTML='<div class="gt-chat-who">'+(who==='user'?'You':'Gorthog')+'</div><div class="gt-chat-body"></div>';
+      d.querySelector('.gt-chat-body').textContent=text;
+      floatEl.log.appendChild(d);
+      floatEl.log.scrollTop=floatEl.log.scrollHeight;
+      /* Show badge if panel is closed */
+      if(!isOpen&&who==='gorthog')floatEl.badge.style.display='block';
+    }
+    /* Expose globally so the main Gorthog script can mirror messages */
+    window._gtFloatAddMsg=addFloatMsg;
+
+    function handleFloatChat(){
+      var q=floatEl.input.value.trim();if(!q)return;
+      addFloatMsg('user',q);floatEl.input.value='';
+      /* Use the global findAnswer if available */
+      if(window._gtFindAnswer){
+        var a=window._gtFindAnswer(q);
+        setTimeout(function(){addFloatMsg('gorthog',a);},300+Math.random()*400);
+      }else{
+        setTimeout(function(){addFloatMsg('gorthog','Gorthog not yet awake. Feed him first.');},300);
+      }
+    }
+    floatEl.send.addEventListener('click',handleFloatChat);
+    floatEl.input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handleFloatChat();}});
+  })();
+  </script>
+
+  <!-- FAVICON -->
+  <script>
+  (function(){
+    var c=document.createElement('canvas');c.width=16;c.height=16;
+    var x=c.getContext('2d');
+    var link=document.createElement('link');
+    link.rel='icon';link.type='image/png';
+    document.head.appendChild(link);
+    var frame=0;
+    var colors=['#FFD700','#FFC200','#FFB000','#FF9500','#FF7700','#FF5500','#E8260A','#FF3300','#FF5500','#FF7700','#FF9500','#FFB000','#FFC200'];
+    function draw(){
+      x.clearRect(0,0,16,16);
+      var t=frame*0.08;
+      var ci=Math.floor((frame*0.3)%colors.length);
+      var col=colors[ci];
+      var pulse=4+Math.sin(t)*1.2;
+      x.beginPath();x.arc(8,8,pulse+2,0,Math.PI*2);
+      x.fillStyle=col;x.globalAlpha=0.25;x.fill();
+      x.beginPath();x.arc(8,8,pulse+0.5,0,Math.PI*2);
+      x.fillStyle=col;x.globalAlpha=0.5;x.fill();
+      x.beginPath();x.arc(8,8,pulse-1,0,Math.PI*2);
+      x.fillStyle='#FFFBE0';x.globalAlpha=1;x.fill();
+      x.fillStyle='#FFFFFF';x.fillRect(7,7,2,2);
+      x.globalAlpha=1;
+      link.href=c.toDataURL('image/png');
+      frame++;
+    }
+    setInterval(draw,100);draw();
+  })();
+  </script>
+</body>
+</html>
