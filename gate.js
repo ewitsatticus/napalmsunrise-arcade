@@ -665,12 +665,19 @@
       }
     }, 700);
 
+    // mark the document so anti-flash CSS kicks in for the cavern
+    try { document.documentElement.classList.add('has-email'); } catch (ex2) {}
+    // sync with in-page Gorthog so it transitions straight into cavern mode
+    try { if (window._gtForceFed) window._gtForceFed(); } catch (ex3) {}
+
     // fade out after 3 seconds
     setTimeout(function () {
       overlay.style.opacity = '0';
       setTimeout(function () {
         alive = false;
         overlay.remove();
+        // second attempt in case _gtForceFed wasn't ready earlier
+        try { if (window._gtForceFed) window._gtForceFed(); } catch (ex4) {}
       }, 600);
     }, 3000);
   });
