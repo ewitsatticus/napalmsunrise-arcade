@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0D0D0D">
   <title>About — Napalm Sunrise</title>
-  <meta name="description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder and operator. Gorthog, 847-year-old orc and resident advisor.">
+  <meta name="description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder and operator. Gorthothalog, 847-year-old orc and resident advisor.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="About — Napalm Sunrise">
-  <meta property="og:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthog, 847-year-old orc.">
+  <meta property="og:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthothalog, 847-year-old orc.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://napalmsunrise.com/about/">
   <meta property="og:image" content="https://napalmsunrise.com/images/og-about.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About — Napalm Sunrise">
-  <meta name="twitter:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthog, 847-year-old orc.">
+  <meta name="twitter:description" content="Meet the people behind Napalm Sunrise. Atticus Eby, founder. Gorthothalog, 847-year-old orc.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,17 +226,17 @@
           </div>
         </div>
 
-        <!-- GORTHOG -->
+        <!-- GORTHOTHALOG -->
         <div class="about-col">
           <div class="person-portrait-wrap">
             <div class="person-portrait-inner">
-              <canvas class="portrait-canvas" id="gorthog-canvas" width="192" height="192"></canvas>
+              <canvas class="portrait-canvas" id="gorthothalog-canvas" width="192" height="192"></canvas>
             </div>
           </div>
-          <div class="person-name">GORTHOG</div>
+          <div class="person-name">GORTHOTHALOG</div>
           <div class="person-role">Content Mage</div>
           <div class="person-bio">
-            <p>Gorthog (b. approx. 1179 CE, Krath'mora Swamplands, location since delisted) serves as Content Mage at Napalm Sunrise, where his responsibilities include audience engagement, conversational interface management, and the consumption of electronic mail (literal).</p>
+            <p>Gorthothalog (b. approx. 1179 CE, Krath'mora Swamplands, location since delisted) serves as Content Mage at Napalm Sunrise, where his responsibilities include audience engagement, conversational interface management, and the consumption of electronic mail (literal).</p>
             <p>Professional experience spans approximately eight centuries, with prior roles in territorial defense, raiding operations, and subsistence-level culinary arts. Transitioned to digital marketing following an extended sabbatical prompted by personal circumstances he declines to discuss in professional settings.</p>
             <p>Advisory methodology draws upon cross-cultural expertise accumulated across multiple human civilizations. Specializations include grief counseling, long-term strategic planning, email subject line optimization, and electronic correspondence ingestion. Surviving spouse of the late Brug'nala of Krath'mora. Father to Snaga (deceased). No further personal information will be provided at this time.</p>
           </div>
@@ -271,9 +271,9 @@
     }
 
     // ==============================================================
-    // GORTHOG — ugly snarling orc, blink, FREAK OUT
+    // GORTHOTHALOG — ugly snarling orc, blink, FREAK OUT
     // ==============================================================
-    var gCanvas = document.getElementById('gorthog-canvas');
+    var gCanvas = document.getElementById('gorthothalog-canvas');
     var gCtx = gCanvas.getContext('2d');
 
     var GC = {
@@ -415,7 +415,7 @@
     var gNextRage = 550 + Math.random() * 200;
     var gRageDuration = 55;
 
-    function drawGorthog() {
+    function drawGorthothalog() {
       gCtx.clearRect(0, 0, 192, 192);
       gCtx.save();
       if (gState === 'rage') {
@@ -583,7 +583,7 @@
     function tick() {
       frame++;
 
-      /* ---- Gorthog ---- */
+      /* ---- Gorthothalog ---- */
       if (gState === 'rage') {
         gRageTimer++;
         if (gRageTimer > gRageDuration) {
@@ -606,7 +606,7 @@
           if (gBlinkTimer > gNextBlink) { gBlink = true; gBlinkTimer = 0; }
         }
       }
-      drawGorthog();
+      drawGorthothalog();
 
       /* ---- Atticus smoking cycle ---- */
       smokingTimer++;

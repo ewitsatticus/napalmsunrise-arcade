@@ -581,15 +581,15 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 24px;
 }
 
-/* ── GORTHOG PROMO BAND ── */
-.gorthog-band {
+/* ── GORTHOTHALOG PROMO BAND ── */
+.gorthothalog-band {
   background: var(--black);
   color: var(--bg);
   padding: 64px 28px;
   border-bottom: 4px solid var(--red);
 }
 
-.gorthog-band-inner {
+.gorthothalog-band-inner {
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
@@ -735,19 +735,19 @@ img { max-width: 100%; height: auto; }
   text-align: right;
 }
 
-/* ── GORTHOG PAGE ── */
-.gorthog-hdr {
+/* ── GORTHOTHALOG PAGE ── */
+.gorthothalog-hdr {
   background: var(--black);
   color: var(--bg);
   padding: 72px 28px;
 }
 
-.gorthog-hdr-inner {
+.gorthothalog-hdr-inner {
   max-width: 1440px;
   margin: 0 auto;
 }
 
-.gorthog-hdr h1 {
+.gorthothalog-hdr h1 {
   font-family: var(--font-display);
   font-size: 112px;
   line-height: 0.85;
@@ -755,14 +755,14 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 28px;
 }
 
-.gorthog-hdr p {
+.gorthothalog-hdr p {
   font-size: 16px;
   color: rgba(243,237,224,0.55);
   line-height: 1.75;
   max-width: 640px;
 }
 
-.gorthog-layout {
+.gorthothalog-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
   gap: 64px;
@@ -1035,11 +1035,11 @@ img { max-width: 100%; height: auto; }
   .home-tri { grid-template-columns: 1fr; }
   .tri-col { border-right: none; border-bottom: var(--border); }
   .tri-col:last-child { border-bottom: none; }
-  .gorthog-band-inner { grid-template-columns: 1fr; }
+  .gorthothalog-band-inner { grid-template-columns: 1fr; }
   .blog-grid, .shop-grid { grid-template-columns: repeat(2,1fr); }
   .exp-layout { grid-template-columns: 1fr; }
   .exp-sidebar { border-right: none; border-bottom: var(--border); }
-  .gorthog-layout { grid-template-columns: 1fr; }
+  .gorthothalog-layout { grid-template-columns: 1fr; }
   .about-layout { grid-template-columns: 1fr; }
   .author-hdr-inner { grid-template-columns: 1fr; }
   .exp-card { grid-template-columns: 100px 1fr; }
@@ -1053,7 +1053,7 @@ img { max-width: 100%; height: auto; }
   .page-hdr h1 { font-size: 56px; }
   .hero-name, .hero-site { font-size: 64px; }
   .gb-title { font-size: 56px; }
-  .gorthog-hdr h1 { font-size: 72px; }
+  .gorthothalog-hdr h1 { font-size: 72px; }
   .about-main h1 { font-size: 56px; }
   .author-info h1 { font-size: 48px; }
   .author-contrib { grid-template-columns: 1fr; }
@@ -1292,7 +1292,7 @@ img { max-width: 100%; height: auto; }
 
 .ed-email-block-dark .ed-email-fineprint { color: rgba(243,237,224,0.4); }
 
-/* Inline Ask Gorthog callout block */
+/* Inline Ask Gorthothalog callout block */
 .ed-callout {
   border: var(--border);
   padding: 40px 36px;
@@ -1736,8 +1736,8 @@ img { max-width: 100%; height: auto; }
 .ed-post-card:hover .ed-post-title { color: var(--bg); }
 .ed-post-card:hover .ed-post-excerpt { color: rgba(243,237,224,0.6); }
 
-/* ── ARCADE REMIX: GORTHOG BAND CTA ALIGN ── */
-.gorthog-band-inner .cta-row { margin-top: 0; }
+/* ── ARCADE REMIX: GORTHOTHALOG BAND CTA ALIGN ── */
+.gorthothalog-band-inner .cta-row { margin-top: 0; }
 
 /* ── ARCADE REMIX: TRI-COL EDITORIAL VARIANT ── */
 .home-tri.tri-three { grid-template-columns: 1fr 1fr 1fr; }

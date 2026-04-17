@@ -209,12 +209,12 @@ img { max-width: 100%; height: auto; }
   letter-spacing: 0.03em; margin-bottom: 24px;
 }
 
-/* -- GORTHOG BAND -- */
-.gorthog-band {
+/* -- GORTHOTHALOG BAND -- */
+.gorthothalog-band {
   background: var(--black); color: var(--bg); padding: 64px 28px;
   border-bottom: 4px solid var(--red);
 }
-.gorthog-band-inner {
+.gorthothalog-band-inner {
   max-width: 1440px; margin: 0 auto;
   display: grid; grid-template-columns: 1fr 380px; gap: 72px; align-items: center;
 }
@@ -254,7 +254,7 @@ img { max-width: 100%; height: auto; }
   .home-tri { grid-template-columns: 1fr; }
   .tri-col { border-right: none; border-bottom: var(--border); }
   .tri-col:last-child { border-bottom: none; }
-  .gorthog-band-inner { grid-template-columns: 1fr; }
+  .gorthothalog-band-inner { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {

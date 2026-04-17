@@ -78,7 +78,7 @@
       <nav style="display:flex;align-items:stretch;justify-content:center;gap:0;">
         <a href="index.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Home</a>
         <a href="blog.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Blog</a>
-        <a href="ask-gorthog.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Ask Gorthog</a>
+        <a href="ask-gorthothalog.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">Ask Gorthothalog</a>
         <a href="about.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#F3EDE0;background:var(--red);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">About</a>
         <a href="faq.html" style="font-family:var(--font-ui);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(243,237,224,0.55);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-left:1px solid rgba(255,255,255,0.08);">FAQ</a>
       </nav>
@@ -99,7 +99,7 @@
 
         <p>The editorial approach is straightforward: pick a subject, commit to it fully, and follow the logic wherever it leads. Sometimes that logic leads to a rigorous survival analysis of the Wu-Tang Clan on the Oregon Trail. Sometimes it leads to a papal ranking system based on historical evidence. The methodology is consistent even when the subject matter is not.</p>
 
-        <p>The publication also houses <a href="ask-gorthog.html">Ask Gorthog</a>, an advice column written by an 847-year-old orc whose credentials include several centuries of conflict resolution, three failed marriages, and the successful governance of a mid-sized territorial holding.</p>
+        <p>The publication also houses <a href="ask-gorthothalog.html">Ask Gorthothalog</a>, an advice column written by an 847-year-old orc whose credentials include several centuries of conflict resolution, three failed marriages, and the successful governance of a mid-sized territorial holding.</p>
 
         <p>New content publishes weekly.</p>
       </div>
@@ -126,14 +126,14 @@
       <div class="ed-bio">
         <div class="ed-portrait-wrap">
           <div class="ed-portrait-inner">
-            <canvas class="ed-portrait-canvas" id="gorthog-canvas" width="192" height="192"></canvas>
+            <canvas class="ed-portrait-canvas" id="gorthothalog-canvas" width="192" height="192"></canvas>
           </div>
         </div>
         <div class="ed-bio-role">Advice columnist</div>
-        <h3>Gorthog</h3>
-        <p>Gorthog has been dispensing wisdom since the fall of the Second Orcish Confederacy, which predates most of your cultural reference points by several hundred years. He specializes in career transitions, interpersonal conflict, and the quiet desperation of modern existence. His methods are direct. His advice is practical. His patience for follow-up questions is limited.</p>
+        <h3>Gorthothalog</h3>
+        <p>Gorthothalog has been dispensing wisdom since the fall of the Second Orcish Confederacy, which predates most of your cultural reference points by several hundred years. He specializes in career transitions, interpersonal conflict, and the quiet desperation of modern existence. His methods are direct. His advice is practical. His patience for follow-up questions is limited.</p>
         <div class="ed-bio-links">
-          <a href="ask-gorthog.html">Read Ask Gorthog</a>
+          <a href="ask-gorthothalog.html">Read Ask Gorthothalog</a>
           <a href="contact.html">Submit a question</a>
         </div>
       </div>
@@ -143,7 +143,7 @@
         <p>Two regular contributors. Weekly publishing schedule. No promotional emails, no sponsored content, no banner ads.</p>
         <div class="ed-callout-actions">
           <a href="blog.html" class="btn btn-fill">Latest posts</a>
-          <a href="ask-gorthog.html" class="btn btn-outline">Ask Gorthog</a>
+          <a href="ask-gorthothalog.html" class="btn btn-outline">Ask Gorthothalog</a>
         </div>
       </section>
 
@@ -190,8 +190,8 @@
       }
     }
 
-    /* ---- GORTHOG ---- */
-    var gCanvas = document.getElementById('gorthog-canvas');
+    /* ---- GORTHOTHALOG ---- */
+    var gCanvas = document.getElementById('gorthothalog-canvas');
     if (!gCanvas) return;
     var gCtx = gCanvas.getContext('2d');
     var GC = {'.':'transparent','o':'#0d0d0d','g':'#3a782f','G':'#4e9638','L':'#64aa4b','s':'#2d5a24','R':'#8b2010','r':'#e8260a','T':'#dcc864','t':'#c4b050','e':'#4a2810','E':'#3a1c08','W':'#cccc44','w':'#998822','p':'#1a0a00','B':'#2a2a2a','n':'#2d4a22','F':'#e8ddc0','f':'#c8c0a0','S':'#7a5e2a','b':'#332e20','X':'#ff0000'};
@@ -206,7 +206,7 @@
     var gRageTimer = 0, gNextRage = 550 + Math.random() * 200, gRageDuration = 55;
     var origBorder = 'rgba(13,13,13,1)';
 
-    function drawGorthog() {
+    function drawGorthothalog() {
       gCtx.clearRect(0, 0, 192, 192);
       gCtx.save();
       if (gState === 'rage') {
@@ -287,7 +287,7 @@
         if (gBlink) { if (gBlinkTimer > 6) { gBlink = false; gBlinkTimer = 0; gNextBlink = 100 + Math.random() * 250; } }
         else { if (gBlinkTimer > gNextBlink) { gBlink = true; gBlinkTimer = 0; } }
       }
-      drawGorthog();
+      drawGorthothalog();
 
       smokingTimer++;
       switch (smokingState) {

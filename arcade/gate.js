@@ -1,7 +1,7 @@
 /**
- * NAPALM SUNRISE — Email Gate: Feed Gorthog or He Dies
+ * NAPALM SUNRISE — Email Gate: Feed Gorthothalog or He Dies
  *
- * Full tamagotchi/chatbot experience. Gorthog's hunger depletes over 120
+ * Full tamagotchi/chatbot experience. Gorthothalog's hunger depletes over 120
  * seconds. The visitor must feed him an email address to save his life.
  * Once fed, the email is stored in localStorage and the gate dismisses.
  *
@@ -55,19 +55,19 @@
 
   // ─── DIALOGUE ───
   var LINES = {
-    idle: ["Gorthog smell fresh visitor... you got email?", "Me Gorthog. Me hungry. You feed email now.", "Gorthog no bite... maybe. Give email.", "Why you stare? Gorthog need email to live.", "You look like you got email. Gorthog can tell."],
-    hungry: ["Gorthog getting VERY hungry now...", "You not gonna let Gorthog starve right?", "PLEASE. Gorthog NEED email. Is not asking much.", "Why you do this?? Just one email!!", "Gorthog knees weak... arms heavy... need email..."],
-    starving: ["G-Gorthog... can barely... type...", "PLEASE!! GORTHOG BEGGING!! EMAIL!! NOW!!", "Gorthog see tunnel of light... it have no emails...", "This... this is how Gorthog dies? No email?", "GORTHOG CHILDREN WILL GROW UP WITHOUT FATHER"],
-    dying: ["...gorthog...can't...see...", "NO... NO PLEASE... PUT THAT DOWN...", "STOP!! STOP!! WHAT IS WRONG WITH YOU??", "*screaming*", "...please... gorthog has children..."],
-    dead: ["...", "Gorthog is dead. You murdered him.", "You didn't just let him die. You stabbed him.", "847 years. Ended by violence.", "Are you proud of yourself?"],
-    fed: ["YAAAAAAAGH!! EMAIL!! GORTHOG FEAST!!", "GLORIOUS!! GORTHOG BELLY FULL OF EMAIL!!", "YOU... YOU GREATEST HUMAN EVER LIVE!!", "Gorthog weep tears of joy!!", "GORTHOG LIVE ANOTHER DAY!!"]
+    idle: ["Gorthothalog smell fresh visitor... you got email?", "Me Gorthothalog. Me hungry. You feed email now.", "Gorthothalog no bite... maybe. Give email.", "Why you stare? Gorthothalog need email to live.", "You look like you got email. Gorthothalog can tell."],
+    hungry: ["Gorthothalog getting VERY hungry now...", "You not gonna let Gorthothalog starve right?", "PLEASE. Gorthothalog NEED email. Is not asking much.", "Why you do this?? Just one email!!", "Gorthothalog knees weak... arms heavy... need email..."],
+    starving: ["G-Gorthothalog... can barely... type...", "PLEASE!! GORTHOTHALOG BEGGING!! EMAIL!! NOW!!", "Gorthothalog see tunnel of light... it have no emails...", "This... this is how Gorthothalog dies? No email?", "GORTHOTHALOG CHILDREN WILL GROW UP WITHOUT FATHER"],
+    dying: ["...gorthothalog...can't...see...", "NO... NO PLEASE... PUT THAT DOWN...", "STOP!! STOP!! WHAT IS WRONG WITH YOU??", "*screaming*", "...please... gorthothalog has children..."],
+    dead: ["...", "Gorthothalog is dead. You murdered him.", "You didn't just let him die. You stabbed him.", "847 years. Ended by violence.", "Are you proud of yourself?"],
+    fed: ["YAAAAAAAGH!! EMAIL!! GORTHOTHALOG FEAST!!", "GLORIOUS!! GORTHOTHALOG BELLY FULL OF EMAIL!!", "YOU... YOU GREATEST HUMAN EVER LIVE!!", "Gorthothalog weep tears of joy!!", "GORTHOTHALOG LIVE ANOTHER DAY!!"]
   };
 
   var VALIDATION_ERRORS = [
-    'GORTHOG NEED EMAIL, NOT EMPTY AIR',
-    'THAT NOT REAL EMAIL. GORTHOG NOT STUPID.',
-    'GORTHOG KNOW FAKE EMAIL WHEN SEE ONE. TRY AGAIN.',
-    'EMAIL LOOK WRONG. GORTHOG SEEN BETTER EMAILS FROM GOBLINS.'
+    'GORTHOTHALOG NEED EMAIL, NOT EMPTY AIR',
+    'THAT NOT REAL EMAIL. GORTHOTHALOG NOT STUPID.',
+    'GORTHOTHALOG KNOW FAKE EMAIL WHEN SEE ONE. TRY AGAIN.',
+    'EMAIL LOOK WRONG. GORTHOTHALOG SEEN BETTER EMAILS FROM GOBLINS.'
   ];
 
   var FAKE_DOMAINS = ['test.com', 'example.com', 'fake.com', 'asdf.com', 'mailinator.com', 'guerrillamail.com', 'tempmail.com', 'throwaway.email', 'yopmail.com', 'sharklasers.com'];
@@ -206,8 +206,8 @@
   overlay.innerHTML =
     '<div class="nsg-wrap">' +
       '<div class="nsg-left">' +
-        '<div class="nsg-title" id="nsg-title">FEED<br>GORTHOG</div>' +
-        '<p class="nsg-desc" id="nsg-desc">Gorthog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.</p>' +
+        '<div class="nsg-title" id="nsg-title">FEED<br>GORTHOTHALOG</div>' +
+        '<p class="nsg-desc" id="nsg-desc">Gorthothalog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.</p>' +
         '<div id="nsg-form-wrap">' +
           '<label class="nsg-form-label">Your email (his food)</label>' +
           '<form id="nsg-form" autocomplete="on">' +
@@ -219,7 +219,7 @@
           '</form>' +
         '</div>' +
         '<div class="nsg-restart-wrap" id="nsg-restart-wrap">' +
-          '<button class="nsg-restart-btn" id="nsg-restart">RESURRECT GORTHOG</button>' +
+          '<button class="nsg-restart-btn" id="nsg-restart">RESURRECT GORTHOTHALOG</button>' +
         '</div>' +
         '<p class="nsg-note">One email. That is all he asks. He will not spam you. He cannot. He is an orc.</p>' +
       '</div>' +
@@ -228,7 +228,7 @@
         '<div class="nsg-bar-pct" id="nsg-pct">100%</div>' +
         '<div class="nsg-screen" id="nsg-screen"><canvas id="nsg-canvas"></canvas></div>' +
         '<div class="nsg-speech" id="nsg-speech"><span id="nsg-speech-text"></span><span class="nsg-cursor" id="nsg-cursor"></span></div>' +
-        '<div class="nsg-mood" id="nsg-mood">GORTHOG AWAITS</div>' +
+        '<div class="nsg-mood" id="nsg-mood">GORTHOTHALOG AWAITS</div>' +
       '</div>' +
     '</div>';
 
@@ -549,12 +549,12 @@
 
     // mood
     var moods = {
-      idle: 'GORTHOG AWAITS',
-      hungry: 'GORTHOG HUNGRY',
-      starving: 'GORTHOG DESPERATE',
-      dying: 'GORTHOG DYING',
-      dead: 'GORTHOG IS DEAD',
-      fed: 'GORTHOG IS FED'
+      idle: 'GORTHOTHALOG AWAITS',
+      hungry: 'GORTHOTHALOG HUNGRY',
+      starving: 'GORTHOTHALOG DESPERATE',
+      dying: 'GORTHOTHALOG DYING',
+      dead: 'GORTHOTHALOG IS DEAD',
+      fed: 'GORTHOTHALOG IS FED'
     };
     el.mood.textContent = moods[p] || '';
     el.mood.className = 'nsg-mood';
@@ -562,12 +562,12 @@
 
     // description text
     var descs = {
-      idle: 'Gorthog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.',
-      hungry: 'Gorthog grows weaker. His 847-year life force drains by the second. Only an email can sustain him.',
-      starving: 'Gorthog is panicking. He can feel the life draining from his body. He is running around screaming. An email would stop this.',
-      dying: 'You are watching someone stab Gorthog to death. That someone is you. You could have prevented this with an email address.',
-      dead: 'Gorthog the Ancient is dead. Not from starvation. From murder. Your murder. 847 years, ended by your blade.',
-      fed: 'Gorthog lives. Your email sustains him. He is eternally grateful. Well, for about three seconds.'
+      idle: 'Gorthothalog has not eaten in some time. He sustains himself on email addresses. If you do not feed him, he will die. This is not a metaphor.',
+      hungry: 'Gorthothalog grows weaker. His 847-year life force drains by the second. Only an email can sustain him.',
+      starving: 'Gorthothalog is panicking. He can feel the life draining from his body. He is running around screaming. An email would stop this.',
+      dying: 'You are watching someone stab Gorthothalog to death. That someone is you. You could have prevented this with an email address.',
+      dead: 'Gorthothalog the Ancient is dead. Not from starvation. From murder. Your murder. 847 years, ended by your blade.',
+      fed: 'Gorthothalog lives. Your email sustains him. He is eternally grateful. Well, for about three seconds.'
     };
     el.desc.textContent = descs[p] || '';
 
@@ -639,7 +639,7 @@
       setTimeout(function () { el.email.style.borderColor = ''; }, 1200);
       return;
     }
-    // SUCCESS — feed Gorthog
+    // SUCCESS — feed Gorthothalog
     var email = el.email.value.trim();
     try {
       localStorage.setItem('ns_email', email);
@@ -667,7 +667,7 @@
 
     // mark the document so anti-flash CSS kicks in for the cavern
     try { document.documentElement.classList.add('has-email'); } catch (ex2) {}
-    // sync with in-page Gorthog so it transitions straight into cavern mode
+    // sync with in-page Gorthothalog so it transitions straight into cavern mode
     try { if (window._gtForceFed) window._gtForceFed(); } catch (ex3) {}
 
     // fade out after 3 seconds
